@@ -22,7 +22,10 @@ The following **required** functionality is completed:
 
 
 * [ ] User can **sign in to the app** using OAuth login
-* [ ] User has his own profiles with his used/favorite sitters
+* [ ] User can configure a profile
+ * [ ] Pet owner can configure his profile with full name, location/address, contact information (phone, email, etc) and at least one pet
+ * [ ] Pet owner can add pets to his profile type (dog/cat/etc), name, picture, breed, emergency contact, special needs, etc
+ * [ ] Pet sitter can configure his profile full name, specialties (dogs, cats, etc), services provided
 * [ ] User can search applying a filter and get results 
   * [ ] Results will Picture, name, contain ratings, reviews count.
 * [ ] User can view petsitters profiles from the search results by clicking on the result
@@ -35,13 +38,11 @@ The following **required** functionality is completed:
 * [ ] Improve the user interface
 * [ ] All separate functionalities are build using modal overlay
 
-
-
-
 The following **optional** features are implemented:
 
-
-* [ ] User can login with fb/google
+* [ ] User can sign-in with 3rd party OAuth providers
+ * [ ] User can login with fb
+ * [ ] User can login with google
 * [ ] User can tap a review to **open a detailed review view**
 * [ ] User can see embedded image media within any direct messages
 * [ ] When a user leaves the contact view without sending the message and there is existing text, prompt to save or delete the draft.  The draft can be resumed from the compose view.
@@ -88,7 +89,7 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 ## License
 
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright 2016 [name of copyright owner]
 
 
     Licensed under the Apache License, Version 2.0 (the "License");
