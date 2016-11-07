@@ -6,17 +6,29 @@
 
 **Activities overview:**
 1. Login activity: 3rd party OAuth authentication
+
 2. Sign-up activity: Allows users to create a profile as pet owner, sitter or both
+
 3. Home Screen activity: Stream with recent activities, searches, ...
+
 4. Search filter activity: Take parameters "when" "where" and "pet type"(predefined drop down).  
+
 5. Search results
+
  5.1. Search Results Map: shows a map with sitters available accordingly to the search filter/criteria
+ 
  5.2. Search Results List: shows a list of sitters with profile image, services accordingly to the search filter/criteria
+ 
 6. Pet Sitter detail
+
 	6.1 Sitter profile information
+	
 	6.2 Services provided
+	
 	6.3 Schedule/Availability
+	
 	6.4. Owner can request service from sitter
+	
  
 Time spent: **** hours spent in total
 
