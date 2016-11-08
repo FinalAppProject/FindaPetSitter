@@ -1,94 +1,83 @@
 # *Find a PetSitter*
 
 
-**Find a PetSitter** is an android app that allows a user to find pet sitter around his area who can take care of his pets whom he can find based on location and dates. Any kind of pet (legal) can find a pet sitter through here. A user can be a pet sitter and a pet owber both.
+**Find a PetSitter** is an android application that allows users to find pet sitter around an area to take care of their pets. Pet sitters can be searched based on location and date/schedulle availability. Any kind of pet (legal) can find a pet sitter through here. A user can be a pet owner, a pet sitter or both.
 
 
-Activities overview:
-1. Login activity: login [Take in name, and zip code](additional: login with fb)
-2. Search activity: Take parameters "when" "where" and "pet type"(predefined drop down).  
-3. Petsitter info activity: There will be "Host a pet" button on the search activity which will take us to this page. Details such as "About me, location(not exact of course), my pets, profile picture, "pets I am experienced with".
-4. Profile activity: Shows picture, ratings, number of reviews. Tabs with "Info", "Review details"
-5. Payment activity: (do you want to make this a part of optionals?)
+**Activities overview:**
+1. Login activity: 3rd party OAuth authentication
 
+2. Sign-up activity: Allows users to create a profile as pet owner, sitter or both
 
+3. Home Screen activity: Stream with recent activities, searches, ...
+
+4. Search filter activity: Take parameters "when" "where" and "pet type"(predefined drop down).  
+
+5. Search results
+
+ 5.1. Search Results Map: shows a map with sitters available accordingly to the search filter/criteria
+ 
+ 5.2. Search Results List: shows a list of sitters with profile image, services accordingly to the search filter/criteria
+ 
+6. Pet Sitter detail
+
+	6.1 Sitter profile information
+	
+	6.2 Services provided
+	
+	6.3 Schedule/Availability
+	
+	6.4. Owner can request service from sitter
+	
+ 
 Time spent: **** hours spent in total
-
 
 ## User Stories
 
-
 The following **required** functionality is completed:
 
-
-* [ ] User can **sign in to the app** using OAuth login
-* [ ] User has his own profiles with his used/favorite sitters
+* [ ] User can **sign in to the app** using 3rd party OAuth authentication providers
+* [ ] User must configure a profile
+ * [ ] Pet owner can configure his profile with full name, location/address, contact information (phone, email, etc) and at least one pet
+ * [ ] Pet owner can add pets to his profile type (dog/cat/etc), name, picture, breed, emergency contact, special needs, etc
+ * [ ] Pet sitter can configure his profile full name, specialties (dogs, cats, etc), services provided
 * [ ] User can search applying a filter and get results 
-  * [ ] Results will Picture, name, contain ratings, reviews count.
-* [ ] User can view petsitters profiles from the search results by clicking on the result
-* [ ] User can **Contact a sitter** from the search results that he likes. 
+  * [ ] Results will show map with pet sitters that match the search filter
+  * [ ] Results will show a list with pet sitters that match the search filter (profile, name, stars, likes count, services, ...)
+  * [ ] Results will allow the user to view the pet sitter details
+  * [ ] User can use **pull down to refresh ** the results
+* [ ] Owner can **request a sitter** from the pet sitter details page 
   * [ ] User can click a “Contact sitter”
-  * [ ] User can send a note along with the filter criteria (fragment)
-  * [ ] User has a history of messages has sent and received and it appears in that.
-* [ ] User can use **pull down to refresh **
-* [ ] User can **open the app offline and see last loaded ......**. Persisted in SQLite data is refreshed on every application launch. 
-* [ ] Improve the user interface
-* [ ] All separate functionalities are build using modal overlay
-
-
-
-
-The following **optional** features are implemented:
-
-
-* [ ] User can login with fb/google
-* [ ] User can tap a review to **open a detailed review view**
-* [ ] User can see embedded image media within any direct messages
-* [ ] When a user leaves the contact view without sending the message and there is existing text, prompt to save or delete the draft.  The draft can be resumed from the compose view.
-
-
-
-
-The following **bonus** features are implemented:
-
-
-
+* [ ] Sitter can accept a service request
+* [ ] User can **open the app offline and see most recent persisted data**.
 
 The following **additional** features are implemented:
 
-
-* [ ] List anything else that you can get done to improve the app functionality!
-
+* [ ] User can sign-in with email/password
+* [ ] User can tap a review to **open a detailed review view**
+* [ ] User can view a list with detailed reviews about other users (sitters/owners)
+* [ ] User can post a general request for any Pet Sitters in case he doesn't find a sitter with his search criterea
+* [ ] User can see embedded image media within any direct messages
+* [ ] When a user leaves the contact view without sending the message and there is existing text, prompt to save or delete the draft.  The draft can be resumed from the compose view.
 
 ## Video Walkthrough
 
-
 Here's a walkthrough of implemented user stories:
-
 
 <img src='http://i.imgur.com/2OxSEhv.gifv' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
-
 Link: http://i.imgur.com/2OxSEhv.gifv
-
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
-
 ## Notes
 
-
-
-
 ## Open-source libraries used
-
-
-
 
 ## License
 
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright 2016 [name of copyright owner]
 
 
     Licensed under the Apache License, Version 2.0 (the "License");
