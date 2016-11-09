@@ -3,6 +3,21 @@
 
 **Find a PetSitter** is an android app that allows a user to find pet sitter around his area who can take care of his pets whom he can find based on location and dates. Any kind of pet (legal) can find a pet sitter through here. A user can be a pet sitter and a pet owber both.
 
+**IMPORTANT:**
+In order to use the application, developer needs to create a secrets.xml file accordingly to the["Secrets in resource files" codepath.com guide](http://guides.codepath.com/android/Storing-Secret-Keys-in-Android#secrets-in-resource-files) and store the following strings:
+
+* **parse_app_id** : Parse App Id
+* **parse_server_url** : Parse Server URL
+
+**secrets.xml** sample:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="parse_server_url"> </string>
+    <string name="parse_app_id"> </string>
+</resources>
+```
 
 Activities overview:
 1. Login activity: login [Take in name, and zip code](additional: login with fb)

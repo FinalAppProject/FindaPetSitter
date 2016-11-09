@@ -1,3 +1,20 @@
 <resources>
-    <string name="app_name">FindaPetSitter</string>
+    <string name="app_name">Find a Pet Sitter</string>
+
+    <!-- Login Activity strings -->
+    <string name="email_text_view">Email Address</string>
+    <string name="password_text_view">Password</string>
+    <string name="login_button">Login</string>
+    <string name="sign_up_button">Sign Up</string>
+    <string name="error_authentication">Authentication failure</string>
+
+    <!-- SingUp Activity strings -->
+    <string name="repeat_password_text_view">Repeat Password</string>
+    <string name="full_name_text_view">Full Name</string>
+    <string name="save_button">Save</string>
+    <string name="error_validation">Validation error</string>
+    <string name="error_sign_up">Failed to sign up</string>
+    <string name="error_save_profile">Failed to save user profile</string>
+
+
 </resources>
