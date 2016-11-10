@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvTitleSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:textSize="40sp"
+        tools:text="Plan your visit" />
+
+    <TextView
+        android:id="@+id/tvCheckIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/tvTitleSearch"
+        android:layout_marginTop="24dp"
+        android:text="@string/check_in" />
+
+    <TextView
+        android:id="@+id/tvCheckOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:text="@string/check_out"
+        android:layout_alignBaseline="@+id/tvCheckIn"
+        android:layout_alignBottom="@+id/tvCheckIn"
+        android:layout_alignEnd="@+id/tvTitleSearch" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:ems="3"
+        android:hint="date"
+        android:id="@+id/editText"
+        android:layout_alignTop="@+id/tvCheckIn"
+        android:layout_toEndOf="@+id/tvCheckIn"
+        android:layout_marginStart="18dp" />
+
+    <TextView
+        tools:text="@string/visitor_title"
+        android:textSize="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp"
+        android:id="@+id/tvVisiterInfoTitle" />
+
+    <TextView
+        android:text="@string/pet_name_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvVisiterInfoTitle"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="12dp"
+        android:id="@+id/tvPetNameFilter" />
+
+    <TextView
+        android:text="@string/pet_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvPetNameFilter"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="15dp"
+        android:id="@+id/tvPetTypeFilter" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner"
+        android:layout_alignBottom="@+id/tvPetTypeFilter"
+        android:layout_alignParentEnd="true"
+        android:layout_alignStart="@+id/editText" />
+
+    <TextView
+        tools:text="@string/filter_opeiton"
+        android:textSize="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvPetTypeFilter"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp"
+        android:id="@+id/tvOptionFilter" />
+
+    <CheckBox
+        android:text="CheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvOptionFilter"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="14dp"
+        android:id="@+id/checkBox" />
+
+    <CheckBox
+        android:text="CheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/checkBox"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="15dp"
+        android:id="@+id/checkBox2" />
+
+    <CheckBox
+        android:text="CheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/checkBox2"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="16dp"
+        android:id="@+id/checkBox3" />
+
+    <CheckBox
+        android:text="CheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/checkBox2"
+        android:layout_alignStart="@+id/checkBox4"
+        android:id="@+id/checkBox5" />
+
+    <CheckBox
+        android:text="CheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/checkBox3"
+        android:layout_alignStart="@+id/checkBox5"
+        android:id="@+id/checkBox6" />
+
+    <CheckBox
+        android:text="CheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBox4"
+        android:layout_alignBaseline="@+id/checkBox"
+        android:layout_alignBottom="@+id/checkBox"
+        android:layout_alignStart="@+id/tvCheckOut" />
+</RelativeLayout>

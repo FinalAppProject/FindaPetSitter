@@ -37,4 +37,8 @@ dependencies {
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     apt 'org.parceler:parceler:1.1.1'
     testCompile 'junit:junit:4.12'
+
+    // Recycler view
+    compile 'com.android.support:support-v4:25.0.0'
+    compile 'com.android.support:recyclerview-v7:25.0.0'
 }

@@ -5,7 +5,7 @@
     <string name="email_text_view">Email Address</string>
     <string name="password_text_view">Password</string>
     <string name="login_button">Login</string>
-    <string name="sign_up_button">Sign Up</string>
+    <string name="sign_up_text_view"><u>Sign Up</u></string>
     <string name="error_authentication">Authentication failure</string>
 
     <!-- SingUp Activity strings -->
@@ -16,5 +16,13 @@
     <string name="error_sign_up">Failed to sign up</string>
     <string name="error_save_profile">Failed to save user profile</string>
 
+    <!-- Home Activity strings -->
+    <string name="recent_visit_text_view">Recently Visited</string>
+    <string name="check_in">check in</string>
+    <string name="check_out">check out</string>
+    <string name="visitor_title"><u>Visitor Information</u></string>
+    <string name="pet_name_title">Animal name</string>
+    <string name="pet_type">Pet type</string>
+    <string name="filter_opeiton">Options</string>
 
 </resources>

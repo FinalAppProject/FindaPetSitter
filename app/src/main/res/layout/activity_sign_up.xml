@@ -75,6 +75,8 @@
         android:id="@+id/btSave"
         android:layout_marginBottom="19dp"
         android:layout_alignParentBottom="true"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/colorPrimary"
         android:layout_centerHorizontal="true" />
 
     <TextView

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.LogInCallback;
@@ -31,8 +32,8 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.btLogin)
     Button btLogin;
 
-    @BindView(R.id.btSignUp)
-    Button btSignUp;
+    @BindView(R.id.tvSignUp)
+    TextView ivSignUp;
 
 
     @Override
@@ -81,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void setupSignUpButton() {
-        btSignUp.setOnClickListener(new View.OnClickListener() {
+        ivSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent signUpActivity = new Intent(LoginActivity.this, SignUpActivity.class);
