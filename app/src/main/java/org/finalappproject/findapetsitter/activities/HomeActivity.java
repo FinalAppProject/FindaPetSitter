@@ -39,13 +39,21 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.R.attr.id;
 import static org.finalappproject.findapetsitter.R.id.rvRecentVisit;
 import static org.finalappproject.findapetsitter.R.id.tvHelloWorld;
+import static org.finalappproject.findapetsitter.R.id.vpPager;
 
 public class HomeActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = "HomeActivity";
-    FragmentPagerAdapter adapterViewPager;
+    public static final int HOME_NUM_TABS = 2;
+
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.vpPager) ViewPager vpPager;
+    @BindView(R.id.fab) FloatingActionButton fab;
+
+    FragmentPagerAdapter mAdapterViewPager;
 
     //TODO: is this the favorties section? If yes let me know and I will update
     //@BindView(R.id.rvRecentVisit)
@@ -53,17 +61,13 @@ public class HomeActivity extends AppCompatActivity {
     //private ArrayList<House> houses;
 
     void setUpViews(){
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         //TODO: setUpDrawer();
 
         //associate ViewPager with a new instance of our adapter:
-        ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
-        adapterViewPager = new HomePagerAdapter(getSupportFragmentManager());
-        vpPager.setAdapter(adapterViewPager);
+        mAdapterViewPager = new HomePagerAdapter(getSupportFragmentManager());
+        vpPager.setAdapter(mAdapterViewPager);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,14 +117,13 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        // Bind views
+        //
+        ButterKnife.bind(this);
 
         setUpViews();
-
         //setUpHouses();
 
-        // Bind views
-        ButterKnife.bind(this);
-        //
         Parcelable userProfileParcel = getIntent().getParcelableExtra(AppConstants.EXTRA_USER_PROFILE);
 
         String fullName = "Unknown!";

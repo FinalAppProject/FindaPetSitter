@@ -1,4 +1,4 @@
-package org.finalappproject.findapetsitter.adapters;
+package org.finalappproject.findapetsitter.util.recyclerview;
 
 import android.support.v7.widget.RecyclerView;
 import android.content.Context;
