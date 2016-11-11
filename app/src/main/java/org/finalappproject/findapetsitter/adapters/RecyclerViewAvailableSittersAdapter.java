@@ -18,7 +18,7 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class RecyclerViewAvailableSittersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private static List<Sitter> availablSitters;
+    private static List<Sitter> mAvailableSitters;
     private static Context mContext;
 
     // Usually involves inflating a layout from XML and returning the holder
@@ -26,8 +26,8 @@ public class RecyclerViewAvailableSittersAdapter extends RecyclerView.Adapter<Re
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v1 = inflater.inflate(R.layout.item_sitter, parent, false);
-        viewHolder = new UserViewHolder(mContext, v1, availablSitters);
+        View view = inflater.inflate(R.layout.item_sitter, parent, false);
+        viewHolder = new UserViewHolder(mContext, view, mAvailableSitters);
         return viewHolder;
     }
 
@@ -35,7 +35,7 @@ public class RecyclerViewAvailableSittersAdapter extends RecyclerView.Adapter<Re
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         UserViewHolder vh = (UserViewHolder) holder;
-        Sitter sitter = availablSitters.get(position);
+        Sitter sitter = mAvailableSitters.get(position);
         vh.tvItemFirstName.setText(sitter.getFirstName());
         vh.tvItemLastName.setText(sitter.getLastName());
         vh.tvTagline.setText(sitter.getTagLine());
@@ -50,12 +50,12 @@ public class RecyclerViewAvailableSittersAdapter extends RecyclerView.Adapter<Re
     // Returns the total count of items in the list
     @Override
     public int getItemCount() {
-        return this.availablSitters.size();
+        return this.mAvailableSitters.size();
     }
 
     // Suitable constructor depending on the kind of dataset
     public RecyclerViewAvailableSittersAdapter(Context context, LinkedList<Sitter> availablSitters) {
-        this.availablSitters = availablSitters;
+        this.mAvailableSitters = availablSitters;
         mContext = context;
     }
 
