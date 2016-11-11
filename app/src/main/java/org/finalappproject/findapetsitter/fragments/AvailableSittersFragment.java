@@ -25,7 +25,7 @@ public class AvailableSittersFragment extends UserListFragment {
 
     private LinearLayoutManager mAvailableSittersLinearlayout;
     private LinkedList<Sitter> mAvailableSitters;  //TODO: if we want to display search results based on distance, do we need linkedlist or arraylist is ok?
-    private SittersAdapter mRecyclerViewAvailableSittersAdapter;
+    private SittersAdapter mSittersAdapter;
 
     @BindView(R.id.rvAvailableSitters)
     RecyclerView mRecyclerViewAvailableSitters;
@@ -55,7 +55,7 @@ public class AvailableSittersFragment extends UserListFragment {
         View availableSittersView = inflater.inflate(R.layout.fragment_available_sitters, parent, false);
         ButterKnife.bind(this, availableSittersView);
 
-        mRecyclerViewAvailableSitters.setAdapter(mRecyclerViewAvailableSittersAdapter);
+        mRecyclerViewAvailableSitters.setAdapter(mSittersAdapter);
 
 
         RecyclerView.ItemDecoration itemDecoration = new
