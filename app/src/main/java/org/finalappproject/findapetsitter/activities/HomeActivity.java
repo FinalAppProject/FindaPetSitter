@@ -1,53 +1,39 @@
 package org.finalappproject.findapetsitter.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.adapters.HomePagerAdapter;
-import org.finalappproject.findapetsitter.adapters.HouseListAdapter;
-import org.finalappproject.findapetsitter.application.AppConstants;
 import org.finalappproject.findapetsitter.fragments.FilterFragment;
-import org.finalappproject.findapetsitter.model.House;
 import org.finalappproject.findapetsitter.model.User;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static android.R.attr.id;
-import static org.finalappproject.findapetsitter.R.id.rvRecentVisit;
-import static org.finalappproject.findapetsitter.R.id.tvHelloWorld;
-import static org.finalappproject.findapetsitter.R.id.vpPager;
 
 public class HomeActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = "HomeActivity";
     public static final int HOME_NUM_TABS = 2;
 
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.vpPager) ViewPager vpPager;
-    @BindView(R.id.fab) FloatingActionButton fab;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.vpPager)
+    ViewPager vpPager;
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
 
     FragmentPagerAdapter mAdapterViewPager;
 
@@ -56,7 +42,7 @@ public class HomeActivity extends AppCompatActivity {
     //RecyclerView rvRecentVisit;
     //private ArrayList<House> houses;
 
-    void setUpViews(){
+    void setUpViews() {
         setSupportActionBar(toolbar);
         //TODO: setUpDrawer();
 
