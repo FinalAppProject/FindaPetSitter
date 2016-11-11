@@ -19,9 +19,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import org.finalappproject.findapetsitter.R;
@@ -30,11 +28,9 @@ import org.finalappproject.findapetsitter.adapters.HouseListAdapter;
 import org.finalappproject.findapetsitter.application.AppConstants;
 import org.finalappproject.findapetsitter.fragments.FilterFragment;
 import org.finalappproject.findapetsitter.model.House;
-import org.finalappproject.findapetsitter.model.UserProfile;
-import org.parceler.Parcels;
+import org.finalappproject.findapetsitter.model.User;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -123,35 +119,10 @@ public class HomeActivity extends AppCompatActivity {
 
         setUpViews();
         //setUpHouses();
+        User user = (User) ParseUser.getCurrentUser();
+        String fullName = user.getFullName();
 
-        Parcelable userProfileParcel = getIntent().getParcelableExtra(AppConstants.EXTRA_USER_PROFILE);
-
-        String fullName = "Unknown!";
-        if (userProfileParcel != null) {
-
-            // TODO TODO TODO this doesn't seem to be working (Investigate issues with Parceler and ParseObjects)
-            UserProfile userProfile = (UserProfile) Parcels.unwrap(userProfileParcel);
-            fullName = userProfile.getFullName();
-
-            showHelloMessage(fullName);
-        } else {
-            ParseQuery<UserProfile> query = ParseQuery.getQuery("UserProfile");
-            query.whereEqualTo("userId", ParseUser.getCurrentUser().getObjectId());
-            // TODO check how to query single object
-            query.findInBackground(new FindCallback<UserProfile>() {
-                public void done(List<UserProfile> userProfiles, ParseException e) {
-                    if (e == null) {
-                        String fullName = "unknown";
-                        if (userProfiles.size() > 0) {
-                            fullName = userProfiles.get(0).getFullName();
-                        }
-                        showHelloMessage(fullName);
-                    } else {
-                        Log.d(LOG_TAG, "Error: " + e.getMessage(), e);
-                    }
-                }
-            });
-        }
+        showHelloMessage(fullName);
     }
 
     private void showHelloMessage(String fullName) {
