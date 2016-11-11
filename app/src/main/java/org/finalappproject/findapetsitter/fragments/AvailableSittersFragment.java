@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.finalappproject.findapetsitter.R;
-import org.finalappproject.findapetsitter.adapters.DividerItemDecoration;
-import org.finalappproject.findapetsitter.adapters.RecyclerViewAvailableSittersAdapter;
+import org.finalappproject.findapetsitter.util.recyclerview.DividerItemDecoration;
+import org.finalappproject.findapetsitter.adapters.SittersAdapter;
 import org.finalappproject.findapetsitter.model.Sitter;
 
 import java.util.LinkedList;
@@ -25,7 +25,7 @@ public class AvailableSittersFragment extends UserListFragment {
 
     private LinearLayoutManager mAvailableSittersLinearlayout;
     private LinkedList<Sitter> mAvailableSitters;  //TODO: if we want to display search results based on distance, do we need linkedlist or arraylist is ok?
-    private RecyclerViewAvailableSittersAdapter mRecyclerViewAvailableSittersAdapter;
+    private SittersAdapter mRecyclerViewAvailableSittersAdapter;
 
     @BindView(R.id.rvAvailableSitters)
     RecyclerView mRecyclerViewAvailableSitters;

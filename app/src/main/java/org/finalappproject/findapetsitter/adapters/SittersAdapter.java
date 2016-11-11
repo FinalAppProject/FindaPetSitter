@@ -16,7 +16,7 @@ import java.util.List;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
-public class RecyclerViewAvailableSittersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class SittersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private static List<Sitter> mAvailableSitters;
     private static Context mContext;
@@ -54,7 +54,7 @@ public class RecyclerViewAvailableSittersAdapter extends RecyclerView.Adapter<Re
     }
 
     // Suitable constructor depending on the kind of dataset
-    public RecyclerViewAvailableSittersAdapter(Context context, LinkedList<Sitter> availablSitters) {
+    public SittersAdapter(Context context, LinkedList<Sitter> availablSitters) {
         this.mAvailableSitters = availablSitters;
         mContext = context;
     }
