@@ -42,7 +42,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        houses = new ArrayList<>();
         // Bind views
         ButterKnife.bind(this);
 
@@ -81,10 +81,7 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 }
             });
-            //
         }
-
-
     }
 
     private void showHelloMessage(String fullName) {
