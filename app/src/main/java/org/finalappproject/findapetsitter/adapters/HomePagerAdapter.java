@@ -4,11 +4,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import org.finalappproject.findapetsitter.activities.HomeActivity;
 import org.finalappproject.findapetsitter.application.AppConstants;
 import org.finalappproject.findapetsitter.fragments.AvailableSittersFragment;
 import org.finalappproject.findapetsitter.fragments.FavoriteSittersFragment;
 
 import java.util.ArrayList;
+
+import static org.finalappproject.findapetsitter.activities.HomeActivity.HOME_NUM_TABS;
 
 public class HomePagerAdapter extends FragmentPagerAdapter {
 
@@ -24,7 +27,7 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
     // Returns total number of pages
     @Override
     public int getCount() {
-        return AppConstants.HOME_NUM_TABS;
+        return HomeActivity.HOME_NUM_TABS;
     }
 
     // Returns the fragment to display for that page
