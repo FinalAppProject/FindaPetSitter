@@ -20,7 +20,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.SignUpActivity" />
-        <activity android:name=".activities.HomeActivity"></activity>
+        <activity android:name=".activities.HomeActivity" />
+        <activity android:name=".activities.UserProfileActivity" />
+        <activity android:name=".activities.PetProfileActivity"></activity>
     </application>
 
 </manifest>

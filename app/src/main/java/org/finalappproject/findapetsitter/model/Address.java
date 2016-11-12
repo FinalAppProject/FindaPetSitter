@@ -8,26 +8,17 @@ import com.parse.ParseObject;
  */
 @ParseClassName("Address")
 public class Address extends ParseObject {
-    private static final String KEY_LINE1 = "line1";
-    private static final String KEY_LINE2 = "line2";
+    private static final String KEY_ADDRESS = "address";
     private static final String KEY_CITY = "city";
     private static final String KEY_STATE = "state";
     private static final String KEY_ZIP_CODE = "zipCode";
 
-    public String getLine1() {
-        return getString(KEY_LINE1);
+    public String getAddress() {
+        return getString(KEY_ADDRESS);
     }
 
-    public void setLine1(String line1) {
-        put(KEY_LINE1, line1);
-    }
-
-    public String getLine2() {
-        return getString(KEY_LINE2);
-    }
-
-    public void setLine2(String line2) {
-        put(KEY_LINE2, line2);
+    public void setAddress(String address) {
+        put(KEY_ADDRESS, address);
     }
 
     public String getCity() {
