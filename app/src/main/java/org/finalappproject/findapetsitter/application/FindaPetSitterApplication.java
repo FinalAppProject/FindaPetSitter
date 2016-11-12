@@ -3,10 +3,14 @@ package org.finalappproject.findapetsitter.application;
 import android.app.Application;
 
 import com.parse.Parse;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.interceptors.ParseLogInterceptor;
 
 import org.finalappproject.findapetsitter.R;
+import org.finalappproject.findapetsitter.model.Address;
+import org.finalappproject.findapetsitter.model.EmergencyContact;
+import org.finalappproject.findapetsitter.model.Pet;
 import org.finalappproject.findapetsitter.model.User;
 
 /**
@@ -17,8 +21,12 @@ public class FindaPetSitterApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        // Register Parse classes
+        // Register Parse sub-classes
         ParseUser.registerSubclass(User.class);
+        // ParseObject sub-classes
+        ParseObject.registerSubclass(Address.class);
+        ParseObject.registerSubclass(EmergencyContact.class);
+        ParseObject.registerSubclass(Pet.class);
 
         // Initialize Parse
         Parse.initialize(new Parse.Configuration.Builder(this)
