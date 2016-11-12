@@ -16,6 +16,20 @@
     <string name="error_sign_up">Failed to sign up</string>
     <string name="error_save_profile">Failed to save user profile</string>
 
+    <!-- User Profile Activity -->
+    <string name="can_host_pet_checkbox">Can Host a Pet ?</string>
+    <string name="nick_name_text_view">Nick name</string>
+    <string name="description_text_view">Description</string>
+    <string name="phone_number_text_view">Phone Number</string>
+    <string name="address_text_view">Address</string>
+    <string name="zip_code_text_view">Zip Code</string>
+    <string name="city_text_view">City</string>
+    <string name="state_text_view">State</string>
+    <string name="add_pet_button">Add Pet</string>
+
+    <!-- Pet Profile Activity -->
+
+
     <!-- Home Activity strings -->
     <string name="recent_visit_text_view">Recently Visited</string>
     <string name="check_in">check in</string>
@@ -24,5 +38,8 @@
     <string name="pet_name_title">Animal name</string>
     <string name="pet_type">Pet type</string>
     <string name="filter_opeiton">Options</string>
+
+    <!-- Home Menu -->
+    <string name="user_profile_title">User Profile</string>
 
 </resources>
