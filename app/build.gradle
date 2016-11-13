@@ -51,4 +51,7 @@ dependencies {
 
     //gson
     compile 'com.google.code.gson:gson:2.6.2'
+
+    // PageSlidingTabStrip
+    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
 }

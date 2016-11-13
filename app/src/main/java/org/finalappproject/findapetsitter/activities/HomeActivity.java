@@ -26,9 +26,8 @@ import butterknife.ButterKnife;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private static final String LOG_TAG = "HomeActivity";
     public static final int HOME_NUM_TABS = 2;
-
+    private static final String LOG_TAG = "HomeActivity";
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.vpPager)
@@ -43,6 +42,21 @@ public class HomeActivity extends AppCompatActivity {
     //RecyclerView rvRecentVisit;
     //private ArrayList<House> houses;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
+        // Bind views
+        //
+        ButterKnife.bind(this);
+
+        setUpViews();
+        //setUpHouses();
+        User user = (User) ParseUser.getCurrentUser();
+        String fullName = user.getFullName();
+
+        showHelloMessage(fullName);
+    }
     void setUpViews() {
         setSupportActionBar(toolbar);
         //TODO: setUpDrawer();
@@ -77,6 +91,10 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.miUserProfile:
                 startUserProfileActivity();
                 return true;
+            // TEST purpose
+            case R.id.miSitterHome:
+                startSitterHomeActivity();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -93,6 +111,12 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(userProfileIntent);
     }
 
+    private void startSitterHomeActivity() {
+        Intent intentSitterHome = new Intent(this, SitterHomeActivity.class);
+        startActivity(intentSitterHome);
+    }
+
+
 
     /*public void setUpHouses() {
         houses = new ArrayList<>();
@@ -103,22 +127,6 @@ public class HomeActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         rvRecentVisit.setLayoutManager(linearLayoutManager);
     }*/
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-        // Bind views
-        //
-        ButterKnife.bind(this);
-
-        setUpViews();
-        //setUpHouses();
-        User user = (User) ParseUser.getCurrentUser();
-        String fullName = user.getFullName();
-
-        showHelloMessage(fullName);
-    }
 
     private void showHelloMessage(String fullName) {
         Toast.makeText(getApplicationContext(), "Hi " + fullName, Toast.LENGTH_LONG).show();
