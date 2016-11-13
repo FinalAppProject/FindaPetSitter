@@ -47,11 +47,10 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void setupSaveButton() {
-        btAddPet.setOnClickListener(new View.OnClickListener() {
+        btSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO save UserProfile parse object, which will contain the pets information
-
             }
         });
     }

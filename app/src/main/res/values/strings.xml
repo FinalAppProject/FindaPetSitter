@@ -42,4 +42,8 @@
     <!-- Home Menu -->
     <string name="user_profile_title">User Profile</string>
 
+    <!-- Navigation drawer -->
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
 </resources>
