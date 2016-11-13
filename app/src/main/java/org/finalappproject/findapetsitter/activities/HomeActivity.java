@@ -25,12 +25,17 @@ import com.parse.ParseUser;
 
 import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.adapters.HomePagerAdapter;
+import org.finalappproject.findapetsitter.fragments.AvailableSittersFragment;
+import org.finalappproject.findapetsitter.fragments.FavoriteSittersFragment;
 import org.finalappproject.findapetsitter.fragments.FilterFragment;
 import org.finalappproject.findapetsitter.fragments.MyPetsFragment;
 import org.finalappproject.findapetsitter.model.User;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
+import static org.finalappproject.findapetsitter.R.id.vpPager;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -40,14 +45,13 @@ public class HomeActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.vpPager)
-    ViewPager vpPager;
+    //@BindView(R.id.vpPager) ViewPager vpPager;
     @BindView(R.id.fab)
     FloatingActionButton fab;
     @BindView(R.id.drawer_layout) DrawerLayout mDrawer;
     @BindView(R.id.nvView) NavigationView nvDrawer;
 
-    FragmentPagerAdapter mAdapterViewPager;
+    //FragmentPagerAdapter mAdapterViewPager;
 
     //TODO: is this the favorties section? If yes let me know and I will update
     //@BindView(R.id.rvRecentVisit)
@@ -63,8 +67,8 @@ public class HomeActivity extends AppCompatActivity {
         mDrawer.addDrawerListener(drawerToggle);
 
         //associate ViewPager with a new instance of our adapter:
-        mAdapterViewPager = new HomePagerAdapter(getSupportFragmentManager());
-        vpPager.setAdapter(mAdapterViewPager);
+        //mAdapterViewPager = new HomePagerAdapter(getSupportFragmentManager());
+        //vpPager.setAdapter(mAdapterViewPager);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,15 +173,18 @@ public class HomeActivity extends AppCompatActivity {
         Fragment fragment = null;
         Class fragmentClass;
         switch(menuItem.getItemId()) {
-            case R.id.nav_home_fragment:
+            case R.id.nav_sittersList_fragment:
+                fragmentClass = AvailableSittersFragment.class;
+                break;
+            case R.id.nav_favSittersList_fragment:
+                fragmentClass = FavoriteSittersFragment.class;
+                break;
+            case R.id.nav_profile_fragment:
                 fragmentClass = MyPetsFragment.class;
                 break;
-/* //TODO add fragments for other options
-            case R.id.nav_second_fragment:
-                fragmentClass = SecondFragment.class;
-                break;
-            case R.id.nav_third_fragment:
-                fragmentClass = ThirdFragment.class;
+/*
+            case R.id.nav_logout_fragment:
+                fragmentClass = Logout.class;
                 break;
 */
             default:

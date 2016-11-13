@@ -2,16 +2,25 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home_fragment"
+            android:id="@+id/nav_sittersList_fragment"
             android:icon="@drawable/one"
             android:checked="true"
-            android:title="Home" />
+            android:title="Search" />
         <item
-            android:id="@+id/nav_second_fragment"
+            android:id="@+id/nav_favSittersList_fragment"
+            android:icon="@drawable/two"
+            android:title="Recents" />
+        <item
+            android:id="@+id/nav_profile_fragment"
             android:icon="@drawable/two"
             android:title="My Profile" />
         <item
-            android:id="@+id/nav_third_fragment"
+            android:id="@+id/nav_sitterTab_fragment"
+            android:icon="@drawable/two"
+            android:title="Switch to host" />
+
+        <item
+            android:id="@+id/nav_logout_fragment"
             android:icon="@drawable/three"
             android:title="Logout" />
     </group>
