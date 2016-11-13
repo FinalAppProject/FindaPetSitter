@@ -43,7 +43,7 @@
         </LinearLayout>
 
         <!--TODO: This also needs to be changes so its selectable by the drawer-->
-        <include layout="@layout/content_home" />
+        <!--include layout="@layout/content_home" /-->
 
     </android.support.design.widget.CoordinatorLayout>
 
