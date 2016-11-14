@@ -1,9 +1,18 @@
 package org.finalappproject.findapetsitter.model;
 
-import com.parse.ParseClassName;
-import com.parse.ParseUser;
+import android.nfc.Tag;
 
+import com.parse.ParseClassName;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseRelation;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import java.util.ArrayList;
 import java.util.List;
+
+import static android.R.attr.tag;
 
 /**
  * Custom ParseUser implementation
@@ -43,11 +52,11 @@ public class User extends ParseUser {
         return getString(KEY_NICK_NAME);
     }
 
-    public String getProfileImage() {
-        return getString(KEY_PROFILE_IMAGE);
+    public ParseFile getProfileImage() {
+        return getParseFile(KEY_PROFILE_IMAGE);
     }
 
-    public void setProfileImage(String profileImage) {
+    public void setProfileImage(ParseFile profileImage) {
         put(KEY_PROFILE_IMAGE, profileImage);
     }
 
@@ -76,11 +85,38 @@ public class User extends ParseUser {
     }
 
     public List<Pet> getPets() {
-        return getList(KEY_PETS);
+        List<Pet> pets = getList(KEY_PETS);
+
+        if (pets == null) {
+            pets = new ArrayList<>();
+            setPets(pets);
+        }
+
+        return pets;
     }
 
     public void setPets(List<Pet> pets) {
         put(KEY_PETS, pets);
+    }
+
+    public void addPet(Pet pet) {
+        getPets().add(pet);
+        saveInBackground();
+    }
+
+    public void addPet(Pet pet, SaveCallback saveCallback) {
+        getPets().add(pet);
+        saveInBackground(saveCallback);
+    }
+
+    public void removePet(Pet pet) {
+        getPets().remove(pet);
+        saveInBackground();
+    }
+
+    public void removePet(Pet pet, SaveCallback saveCallback) {
+        getPets().remove(pet);
+        saveInBackground(saveCallback);
     }
 
     public boolean isPetSitter() {
