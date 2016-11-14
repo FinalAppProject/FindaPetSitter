@@ -28,7 +28,11 @@
     <string name="add_pet_button">Add Pet</string>
 
     <!-- Pet Profile Activity -->
-
+    <string name="name_text_view">Name</string>
+    <string name="dog_radio_button">Dog</string>
+    <string name="cat_radio_button">Cat</string>
+    <string name="breed_text_view">Breed</string>
+    <string name="special_needs_text_view">Special Needs</string>
 
     <!-- Home Activity strings -->
     <string name="recent_visit_text_view">Recently Visited</string>
@@ -41,5 +45,9 @@
 
     <!-- Home Menu -->
     <string name="user_profile_title">User Profile</string>
+
+    <!-- Navigation drawer -->
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 
 </resources>

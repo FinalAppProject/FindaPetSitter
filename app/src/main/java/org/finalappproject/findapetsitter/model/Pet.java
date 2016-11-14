@@ -1,6 +1,10 @@
 package org.finalappproject.findapetsitter.model;
 
+import android.util.Log;
+
 import com.parse.ParseClassName;
+import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 
 /**
@@ -8,6 +12,7 @@ import com.parse.ParseObject;
  */
 @ParseClassName("Pet")
 public class Pet extends ParseObject {
+    private static final String LOG_TAG = "Pet";
     private static final String KEY_TYPE = "type";
     private static final String KEY_BREED = "breed";
     private static final String KEY_NAME = "name";
@@ -16,12 +21,19 @@ public class Pet extends ParseObject {
     private static final String KEY_SPECIAL_NEEDS = "specialNeeds";
     private static final String KEY_EMERGENCY_CONTANT = "emergencyContact";
 
-    public PetTypes getType() {
-        return PetTypes.valueOf(getString(KEY_TYPE));
+    public PetType getType() {
+        String type = getString(KEY_TYPE);
+        if (type != null)
+        {
+            return PetType.valueOf(type);
+        }
+        return null;
     }
 
-    public void setType(PetTypes type) {
-        put(KEY_TYPE, type.name());
+    public void setType(PetType type) {
+        if (type != null) {
+            put(KEY_TYPE, type.name());
+        }
     }
 
     public String getBreed() {
@@ -40,11 +52,17 @@ public class Pet extends ParseObject {
         put(KEY_NAME, name);
     }
 
-    public String getProfileImage() {
-        return getString(KEY_PROFILE_IMAGE);
+    public ParseFile getProfileImage() {
+        ParseFile profileImage = null;
+        try {
+            profileImage = fetchIfNeeded().getParseFile(KEY_PROFILE_IMAGE);
+        } catch (ParseException e) {
+            Log.e(LOG_TAG, "Failed to fetch profile image file", e);
+        }
+        return profileImage;
     }
 
-    public void setProfileImage(String profileImage) {
+    public void setProfileImage(ParseFile profileImage) {
         put(KEY_PROFILE_IMAGE, profileImage);
     }
 
