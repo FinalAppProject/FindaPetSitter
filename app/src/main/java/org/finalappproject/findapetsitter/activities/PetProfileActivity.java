@@ -190,17 +190,6 @@ public class PetProfileActivity extends AppCompatActivity implements GetCallback
             // for more info: https://github.com/bumptech/glide/issues/1083
             // TODO look for a better solution
             Glide.with(this).fromUri().asBitmap().load(data.getData()).placeholder(R.drawable.cat).into(ivProfileImage);
-
-/*
-            try {
-                Uri photoUri = data.getData();
-                Bitmap selectedImage = MediaStore.Images.Media.get(this.getContentResolver(), photoUri);
-                ivProfileImage.setImageBitmap(selectedImage);
-            } catch (IOException e) {
-                Log.e(LOG_TAG, "Failed to set profile image", e);
-                Toast.makeText(this, "Failed to set profile image", Toast.LENGTH_LONG).show();
-            }
-        */
         }
     }
 
