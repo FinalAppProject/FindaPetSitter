@@ -11,7 +11,7 @@
 
     <item
         android:id="@+id/miUserProfile"
-        android:icon="@android:drawable/picture_frame"
+        android:icon="@drawable/account_card_details"
         app:showAsAction="ifRoom|withText"
         android:title="@string/user_profile_title">
     </item>
