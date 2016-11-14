@@ -8,9 +8,6 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,28 +15,23 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.ParseUser;
 
 import org.finalappproject.findapetsitter.R;
-import org.finalappproject.findapetsitter.adapters.HomePagerAdapter;
 import org.finalappproject.findapetsitter.fragments.AvailableSittersFragment;
 import org.finalappproject.findapetsitter.fragments.FavoriteSittersFragment;
 import org.finalappproject.findapetsitter.fragments.FilterFragment;
 import org.finalappproject.findapetsitter.fragments.MyPetsFragment;
+import org.finalappproject.findapetsitter.fragments.SitterHomeFragment;
 import org.finalappproject.findapetsitter.model.User;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
-import static org.finalappproject.findapetsitter.R.id.vpPager;
-
 public class HomeActivity extends AppCompatActivity {
 
-    public static final int HOME_NUM_TABS = 2;
     private static final String LOG_TAG = "HomeActivity";
     public static final int HOME_NUM_TABS = 2;
     private ActionBarDrawerToggle drawerToggle;
@@ -76,7 +68,6 @@ public class HomeActivity extends AppCompatActivity {
     }
     void setUpViews() {
         setSupportActionBar(toolbar);
-
         drawerToggle = setupDrawerToggle();
         // Tie DrawerLayout events to the ActionBarToggle
         mDrawer.addDrawerListener(drawerToggle);
@@ -100,7 +91,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_home, menu);
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -119,10 +110,6 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.miUserProfile:
                 startUserProfileActivity();
                 return true;
-            // TEST purpose
-            case R.id.miSitterHome:
-                startSitterHomeActivity();
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -138,13 +125,6 @@ public class HomeActivity extends AppCompatActivity {
         Intent userProfileIntent = new Intent(this, UserProfileActivity.class);
         startActivity(userProfileIntent);
     }
-
-    private void startSitterHomeActivity() {
-        Intent intentSitterHome = new Intent(this, SitterHomeActivity.class);
-        startActivity(intentSitterHome);
-    }
-
-
 
     /*public void setUpHouses() {
         houses = new ArrayList<>();
@@ -188,11 +168,9 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.nav_profile_fragment:
                 fragmentClass = MyPetsFragment.class;
                 break;
-/*
-            case R.id.nav_logout_fragment:
-                fragmentClass = Logout.class;
+            case R.id.nav_switch_owner_sitter:
+                fragmentClass = SitterHomeFragment.class;
                 break;
-*/
             default:
                 fragmentClass = MyPetsFragment.class;
         }

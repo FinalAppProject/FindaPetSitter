@@ -23,7 +23,6 @@
         <activity android:name=".activities.HomeActivity" />
         <activity android:name=".activities.UserProfileActivity" />
         <activity android:name=".activities.PetProfileActivity"></activity>
-        <activity android:name=".activities.SitterHomeActivity"/>
     </application>
 
 </manifest>
