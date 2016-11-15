@@ -14,10 +14,11 @@
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:layout_height="wrap_content">
 
-            <include layout="@layout/toolbar" />
+            <include
+                layout="@layout/toolbar"
+                android:id="@+id/toolbar" />
 
         </android.support.design.widget.AppBarLayout>
 
@@ -56,6 +57,6 @@
         android:layout_gravity="start"
         android:background="@android:color/white"
         app:headerLayout="@layout/nav_header_home"
-        app:menu="@menu/drawer_view" />
+        app:menu="@menu/menu_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

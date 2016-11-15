@@ -16,11 +16,4 @@
         android:title="@string/user_profile_title">
     </item>
 
-    <item
-        android:id="@+id/miSitterHome"
-        android:icon="@mipmap/ic_launcher"
-        app:showAsAction="ifRoom|withText"
-        android:title="Sitter home test" >
-    </item>
-
 </menu>
