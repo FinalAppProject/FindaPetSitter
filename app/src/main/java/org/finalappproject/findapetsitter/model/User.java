@@ -1,18 +1,12 @@
 package org.finalappproject.findapetsitter.model;
 
-import android.nfc.Tag;
-
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
-import com.parse.ParseObject;
-import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.R.attr.tag;
 
 /**
  * Custom ParseUser implementation
@@ -130,5 +124,19 @@ public class User extends ParseUser {
 
     public void setPetSitter(boolean petSitter) {
         put(KEY_PET_SITTER, petSitter);
+    }
+
+    public static User fromParseGetSitter(ParseUser object){
+        User user = new User();
+
+        if(object.has(KEY_FULL_NAME)) {
+            user.setFullName(object.get(KEY_FULL_NAME).toString());
+        }
+
+        if(object.has(KEY_PROFILE_IMAGE)) {
+            user.setFullName(object.get(KEY_PROFILE_IMAGE).toString());
+        }
+
+        return user;
     }
 }
