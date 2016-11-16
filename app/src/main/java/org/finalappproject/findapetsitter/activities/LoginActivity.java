@@ -15,6 +15,7 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import org.finalappproject.findapetsitter.R;
+import org.finalappproject.findapetsitter.model.User;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.tvSignUp)
     TextView ivSignUp;
 
+    User mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +49,12 @@ public class LoginActivity extends AppCompatActivity {
         // Initialize views
         ButterKnife.bind(this);
 
-        if (ParseUser.getCurrentUser() != null) {
+        if(getIntent().getBooleanExtra("logout", false)) {
+            mUser = (User)User.getCurrentUser();
+            etEmail.setText(mUser.getEmail());
+            setupLoginButton();
+            setupSignUpButton();
+        } else if ((ParseUser.getCurrentUser() != null)) {
             startHomeActivity();
             // Causes the activity to close if the user returns to it
             finish();
