@@ -25,7 +25,7 @@
         <activity android:name=".activities.PetProfileActivity" />
         <activity android:name=".activities.NearbySittersActivity"></activity>
 
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyDmRUXZji8MnULapDQGrPQ9A-oEUpKXAtg"/>
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="@string/api_key_google_maps"/>
 
     </application>
 
