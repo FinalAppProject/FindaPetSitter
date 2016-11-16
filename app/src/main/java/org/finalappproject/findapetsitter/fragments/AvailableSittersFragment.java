@@ -27,6 +27,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static org.finalappproject.findapetsitter.model.User.fromParseGetSittersList;
+
 public class AvailableSittersFragment extends UserListFragment {
 
     private static final String LOG_TAG = "AvailableSittersFrag";
@@ -48,7 +50,8 @@ public class AvailableSittersFragment extends UserListFragment {
             query.findInBackground(new FindCallback<ParseUser>() {
                 public void done(List<ParseUser> objects, ParseException e) {
                     if (e == null) {
-                        fromParseGetSitterList(objects);
+                        mAvailableSittersList.addAll(User.fromParseGetSittersList(objects));
+                        mAvailableSittersAdapter.notifyDataSetChanged();
                     } else {
                         Log.e(LOG_TAG, "Failed to signup", e);
                         Toast.makeText(getContext(), "Query erroe", Toast.LENGTH_LONG).show();
@@ -99,12 +102,4 @@ public class AvailableSittersFragment extends UserListFragment {
         return availableSittersView;
     }
 
-    void fromParseGetSitterList(List<ParseUser> objects){
-        for (ParseUser parseUser : objects) {
-            User sitter = User.fromParseGetSitter(parseUser);
-            mAvailableSittersList.add(sitter);
-        }
-
-        mAvailableSittersAdapter.notifyDataSetChanged();
-    }
 }

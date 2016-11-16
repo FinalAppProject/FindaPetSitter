@@ -10,6 +10,7 @@ import com.parse.SaveCallback;
 
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -159,4 +160,14 @@ public class User extends ParseUser {
 
         return user;
     }
+
+    public static LinkedList<User> fromParseGetSittersList(List<ParseUser> objects){
+        LinkedList<User> sitterList = new LinkedList<>();
+        for (ParseUser parseUser : objects) {
+            User sitter = User.fromParseGetSitter(parseUser);
+            sitterList.add(sitter);
+        }
+        return sitterList;
+    }
+
 }
