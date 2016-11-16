@@ -9,11 +9,21 @@
         android:title="Filter">
     </item>
 
+
+    <item
+        android:id="@+id/miMap"
+        android:icon="@drawable/google_maps"
+        app:showAsAction="ifRoom|withText"
+        android:title="@string/nearby_users_title">
+    </item>
+
     <item
         android:id="@+id/miUserProfile"
         android:icon="@drawable/account_card_details"
         app:showAsAction="ifRoom|withText"
         android:title="@string/user_profile_title">
     </item>
+
+
 
 </menu>

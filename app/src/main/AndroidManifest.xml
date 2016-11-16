@@ -22,7 +22,11 @@
         <activity android:name=".activities.SignUpActivity" />
         <activity android:name=".activities.HomeActivity" />
         <activity android:name=".activities.UserProfileActivity" />
-        <activity android:name=".activities.PetProfileActivity"></activity>
+        <activity android:name=".activities.PetProfileActivity" />
+        <activity android:name=".activities.NearbySittersActivity"></activity>
+
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyDmRUXZji8MnULapDQGrPQ9A-oEUpKXAtg"/>
+
     </application>
 
 </manifest>
