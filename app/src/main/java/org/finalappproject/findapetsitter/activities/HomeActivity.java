@@ -190,12 +190,13 @@ public class HomeActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
 
-        menuItem.setChecked(true);
-        setTitle(menuItem.getTitle());
-        mDrawer.closeDrawers();
+            menuItem.setChecked(true);
+            setTitle(menuItem.getTitle());
+            mDrawer.closeDrawers();
+        }
     }
 
     private ActionBarDrawerToggle setupDrawerToggle() {
