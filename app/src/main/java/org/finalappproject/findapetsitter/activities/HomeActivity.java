@@ -25,6 +25,7 @@ import org.finalappproject.findapetsitter.fragments.FavoriteSittersFragment;
 import org.finalappproject.findapetsitter.fragments.FilterFragment;
 import org.finalappproject.findapetsitter.fragments.MyPetsFragment;
 import org.finalappproject.findapetsitter.fragments.SitterHomeFragment;
+import org.finalappproject.findapetsitter.fragments.UserProfileFragment;
 import org.finalappproject.findapetsitter.model.User;
 
 import butterknife.BindView;
@@ -159,15 +160,19 @@ public class HomeActivity extends AppCompatActivity {
         Fragment fragment = null;
         Class fragmentClass;
         switch(menuItem.getItemId()) {
+            case R.id.nav_home_fragment:
+                fragmentClass = MyPetsFragment.class;
+                break;
+            case R.id.nav_profile_fragment:
+                fragmentClass = UserProfileFragment.class;
+                break;
             case R.id.nav_sittersList_fragment:
                 fragmentClass = AvailableSittersFragment.class;
                 break;
             case R.id.nav_favSittersList_fragment:
                 fragmentClass = FavoriteSittersFragment.class;
                 break;
-            case R.id.nav_profile_fragment:
-                fragmentClass = MyPetsFragment.class;
-                break;
+
             case R.id.nav_switch_owner_sitter:
                 fragmentClass = SitterHomeFragment.class;
                 break;
