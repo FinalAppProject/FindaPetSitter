@@ -9,9 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.parse.ParseException;
-
 import org.finalappproject.findapetsitter.R;
+import org.finalappproject.findapetsitter.model.Address;
 import org.finalappproject.findapetsitter.model.User;
 import org.finalappproject.findapetsitter.util.ImageHelper;
 
@@ -64,11 +63,7 @@ public class UserProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
         ButterKnife.bind(this, view);
 
-        try {
-            mUser = (User)User.getCurrentUser().fetchIfNeeded();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        mUser = (User)User.getCurrentUser();
         loadData();
         return view;
     }
@@ -80,8 +75,16 @@ public class UserProfileFragment extends Fragment {
         tvUserNickname.setText(mUser.getNickName());
         tvUserDescription.setText(mUser.getDescription());
         tvUserPhoneNumber.setText(String.format("Phone number: %s", mUser.getPhone()));
-        tvUserAddress.setText(String.format("Live in: %s, %s", mUser.getAddress().getCity(), mUser.getAddress().getState()));
+        //tvUserAddress.setText(String.format("Live in: %s, %s", mUser.getAddress().getCity(), mUser.getAddress().getState()));
 
+        try {
+            Address userAddress = mUser.getAddress().fetchIfNeeded();
+            if (userAddress != null) {
+                tvUserAddress.setText(String.format("Live in: %s, %s", mUser.getAddress().getCity(), mUser.getAddress().getState()));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         // TODO again, should be recyclerview later
         ImageHelper.loadImage(getContext(), mUser.getProfileImage(), R.mipmap.ic_launcher, ivUserProfileImage);
         ImageHelper.loadImage(getContext(), mUser.getPets().get(0).getProfileImage(), R.drawable.cat, ivUserPet1);
