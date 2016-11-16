@@ -88,6 +88,6 @@ public class UserProfileFragment extends Fragment {
         // TODO again, should be recyclerview later
         ImageHelper.loadImage(getContext(), mUser.getProfileImage(), R.mipmap.ic_launcher, ivUserProfileImage);
         ImageHelper.loadImage(getContext(), mUser.getPets().get(0).getProfileImage(), R.drawable.cat, ivUserPet1);
-        ImageHelper.loadImage(getContext(), mUser.getPets().get(1).getProfileImage(), R.drawable.cat, ivUserPet2);
+        //ImageHelper.loadImage(getContext(), mUser.getPets().get(1).getProfileImage(), R.drawable.cat, ivUserPet2);
     }
 }
