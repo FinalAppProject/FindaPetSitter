@@ -1,18 +1,26 @@
 package org.finalappproject.findapetsitter.model;
 
+import android.util.Log;
+
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Custom ParseUser implementation
  */
+
 @ParseClassName("_User")
 public class User extends ParseUser {
+
+    private static final String LOG_TAG = "User";
 
     private static final String KEY_FULL_NAME = "fullName";
 
@@ -29,6 +37,7 @@ public class User extends ParseUser {
     private static final String KEY_PETS = "pets";
 
     private static final String KEY_PET_SITTER = "petSitter";
+
 
     public void setFullName(String fullName) {
         put(KEY_FULL_NAME, fullName);
@@ -47,7 +56,14 @@ public class User extends ParseUser {
     }
 
     public ParseFile getProfileImage() {
-        return getParseFile(KEY_PROFILE_IMAGE);
+
+        ParseFile profileImage = null;
+        try {
+            profileImage = fetchIfNeeded().getParseFile(KEY_PROFILE_IMAGE);
+        } catch (ParseException e) {
+            Log.e(LOG_TAG, "Failed to fetch profile image file", e);
+        }
+        return profileImage;
     }
 
     public void setProfileImage(ParseFile profileImage) {
@@ -83,6 +99,7 @@ public class User extends ParseUser {
         put(KEY_PHONE, phone);
     }
 
+
     public List<Pet> getPets() {
         List<Pet> pets = getList(KEY_PETS);
 
@@ -90,7 +107,6 @@ public class User extends ParseUser {
             pets = new ArrayList<>();
             setPets(pets);
         }
-
         return pets;
     }
 
@@ -133,8 +149,13 @@ public class User extends ParseUser {
             user.setFullName(object.get(KEY_FULL_NAME).toString());
         }
 
+        if(object.has(KEY_DESCRIPTION)) {
+            user.setDescription(object.get(KEY_DESCRIPTION).toString());
+        }
+
+
         if(object.has(KEY_PROFILE_IMAGE)) {
-            user.setFullName(object.get(KEY_PROFILE_IMAGE).toString());
+            user.setProfileImage(object.getParseFile(KEY_PROFILE_IMAGE));
         }
 
         return user;

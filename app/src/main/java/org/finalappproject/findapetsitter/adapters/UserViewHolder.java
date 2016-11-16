@@ -14,6 +14,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class UserViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -35,8 +36,13 @@ public class UserViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         ButterKnife.bind(this, itemView);
     }
 
+    @OnClick(R.id.ivItemProfileImage)
+    void openUserProfile(){
+        Toast.makeText(context, "Will open user profile", Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     public void onClick(View v) {
-        Toast.makeText(context, "CLICKED", Toast.LENGTH_SHORT).show();
+        openUserProfile();
     }
 }

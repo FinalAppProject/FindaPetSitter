@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide;
 
 import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.model.User;
+import org.finalappproject.findapetsitter.util.ImageHelper;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -37,11 +38,17 @@ public class SittersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         UserViewHolder vh = (UserViewHolder) holder;
         User sitter = mAvailableSitters.get(position);
         vh.tvItemFirstName.setText(sitter.getFullName());
-        vh.tvTagline.setText("Tagline" /*sitter.getTagLine()*/);
+        //vh.tvTagline.setText(sitter.getDescription());
+        vh.tvTagline.setText("Description/Tagline" /*sitter.getTagLine()*/);
 
-        Glide.with(mContext).load(sitter.getProfileImage())
+        ImageHelper.loadImage(mContext, sitter.getProfileImage(), R.drawable.cat, vh.ivItemProfilePic);
+
+        //TODO: need to figure this out, on how to use it
+        /*Glide.with(mContext).load(sitter.getProfileImage())
                 .bitmapTransform(new RoundedCornersTransformation(mContext, 10, 0))
+                .placeholder(R.drawable.cat)
                 .override(150, 150).into(vh.ivItemProfilePic);
+        */
 
         vh.tvNumReviews.setText("45");
         vh.tvRatings.setText("4.8");

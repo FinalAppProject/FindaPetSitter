@@ -92,6 +92,7 @@ public class AvailableSittersFragment extends UserListFragment {
             @Override
             public void onRefresh() {
                 mAvailableSittersList.clear();
+                mAvailableSittersAdapter.notifyDataSetChanged();
                 populateList();
                 mAvailableSittersSwipeRefreshLayout.setRefreshing(false);
             }
