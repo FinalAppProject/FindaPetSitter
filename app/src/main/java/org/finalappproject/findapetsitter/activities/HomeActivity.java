@@ -158,7 +158,7 @@ public class HomeActivity extends AppCompatActivity {
     public void selectDrawerItem(MenuItem menuItem) {
         // Create a new fragment and specify the fragment to show based on nav item clicked
         Fragment fragment = null;
-        Class fragmentClass;
+        Class fragmentClass = null;
         switch(menuItem.getItemId()) {
             case R.id.nav_home_fragment:
                 fragmentClass = MyPetsFragment.class;
@@ -172,30 +172,37 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.nav_favSittersList_fragment:
                 fragmentClass = FavoriteSittersFragment.class;
                 break;
-
             case R.id.nav_switch_owner_sitter:
                 fragmentClass = SitterHomeFragment.class;
+                break;
+            case R.id.nav_logout_fragment:
+                Intent intent = new Intent(this, LoginActivity.class);
+                boolean isLogout = true;
+                intent.putExtra("logout", isLogout);
+                startActivity(intent);
                 break;
             default:
                 fragmentClass = MyPetsFragment.class;
         }
 
-        try {
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (fragmentClass != null) {
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            // Insert the fragment by replacing any existing fragment
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+
+            // Highlight the selected item has been done by NavigationView
+            menuItem.setChecked(true);
+            // Set action bar title
+            setTitle(menuItem.getTitle());
+            // Close the navigation drawer
+            mDrawer.closeDrawers();
         }
-
-        // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-
-        // Highlight the selected item has been done by NavigationView
-        menuItem.setChecked(true);
-        // Set action bar title
-        setTitle(menuItem.getTitle());
-        // Close the navigation drawer
-        mDrawer.closeDrawers();
     }
 
     private ActionBarDrawerToggle setupDrawerToggle() {
