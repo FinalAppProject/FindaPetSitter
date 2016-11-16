@@ -113,6 +113,9 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.miUserProfile:
                 startUserProfileActivity();
                 return true;
+            case R.id.miMap:
+                startNearbySittersActivity();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -127,6 +130,11 @@ public class HomeActivity extends AppCompatActivity {
     private void startUserProfileActivity() {
         Intent userProfileIntent = new Intent(this, UserProfileActivity.class);
         startActivity(userProfileIntent);
+    }
+
+    private void startNearbySittersActivity() {
+        Intent nearbySittersIntent = new Intent(this, NearbySittersActivity.class);
+        startActivity(nearbySittersIntent);
     }
 
     private void showHelloMessage(String fullName) {
