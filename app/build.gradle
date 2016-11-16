@@ -27,6 +27,9 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    // https://github.com/googlemaps/google-maps-services-java
+    compile 'com.google.maps:google-maps-services:0.1.16'
+
     // ButterKnife
     compile 'com.jakewharton:butterknife:8.4.0'
     // Parse

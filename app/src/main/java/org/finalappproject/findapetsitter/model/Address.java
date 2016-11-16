@@ -1,6 +1,7 @@
 package org.finalappproject.findapetsitter.model;
 
 import com.parse.ParseClassName;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 
 /**
@@ -12,6 +13,7 @@ public class Address extends ParseObject {
     private static final String KEY_CITY = "city";
     private static final String KEY_STATE = "state";
     private static final String KEY_ZIP_CODE = "zipCode";
+    private static final String KEY_GEO_POINT = "geoPoint";
 
     public String getAddress() {
         return getString(KEY_ADDRESS);
@@ -43,6 +45,14 @@ public class Address extends ParseObject {
 
     public void setZipCode(String zipCode) {
         put(KEY_ZIP_CODE, zipCode);
+    }
+
+    public ParseGeoPoint getGeoPoint() {
+        return getParseGeoPoint(KEY_GEO_POINT);
+    }
+
+    public void setGeoPoint(ParseGeoPoint geoPoint) {
+        put(KEY_GEO_POINT, geoPoint);
     }
 
 }
