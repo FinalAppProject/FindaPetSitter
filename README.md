@@ -16,6 +16,7 @@ In order to use the application, developer needs to create a secrets.xml file ac
 <resources>
     <string name="parse_server_url"> </string>
     <string name="parse_app_id"> </string>
+    <string name="api_key_google_maps"> </string>
 </resources>
 ```
 
@@ -46,6 +47,7 @@ The following **required** functionality is completed:
 * [x] User can edit his **profile** information
   * [x] User can add a **profile image** to his profile
   * [x] User can configure his profile with full name, location/address, contact information (phone, email, etc)
+  * [x] App uses the **Google Maps Geocoding API** to retrieve/save the user geolocation
 * [x] Pet owner can add/modify **pets** under its profile
   * [x] Pet owner can add a **pet profile image** to the pet profile information
   * [x] Pet owner can add pet type (dog/cat/etc), name, picture, breed, emergency contact, special needs, etc
@@ -90,6 +92,7 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Open-source libraries used
 
+- [Java Client for Google Maps API](https://github.com/googlemaps/google-maps-services-java) - This library brings the Google Maps API Web Services to your Java application.
 - [Parse SDK for Android](https://github.com/ParsePlatform/Parse-SDK-Android) - A library that gives you access to the powerful Parse cloud platform from your Android app.
 - [Glide](https://github.com/bumptech/glide) - Image loading and caching library for Android
 
