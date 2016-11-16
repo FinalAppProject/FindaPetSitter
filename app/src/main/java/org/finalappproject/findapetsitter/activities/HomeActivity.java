@@ -8,6 +8,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -39,38 +40,42 @@ public class HomeActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    //@BindView(R.id.vpPager) ViewPager vpPager;
-    @BindView(R.id.fab)
-    FloatingActionButton fab;
-    @BindView(R.id.drawer_layout) DrawerLayout mDrawer;
-    @BindView(R.id.nvView) NavigationView nvDrawer;
 
+    //@BindView(R.id.vpPager) ViewPager vpPager;
     //FragmentPagerAdapter mAdapterViewPager;
 
-    //TODO: is this the favorties section? If yes let me know and I will update
-    //@BindView(R.id.rvRecentVisit)
-    //RecyclerView rvRecentVisit;
-    //private ArrayList<House> houses;
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
+
+    @BindView(R.id.drawer_layout)
+    DrawerLayout mDrawer;
+
+    @BindView(R.id.nvView)
+    NavigationView nvDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        // Bind views
-        //
         ButterKnife.bind(this);
 
         setUpViews();
-        //setUpHouses();
         User user = (User) ParseUser.getCurrentUser();
         String fullName = user.getFullName();
 
         showHelloMessage(fullName);
+        callDefaultFragment();
     }
+
+    void callDefaultFragment(){
+        FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
+        tx.replace(R.id.flContent, new AvailableSittersFragment());
+        tx.commit();
+    }
+
     void setUpViews() {
         setSupportActionBar(toolbar);
         drawerToggle = setupDrawerToggle();
-        // Tie DrawerLayout events to the ActionBarToggle
         mDrawer.addDrawerListener(drawerToggle);
 
         //associate ViewPager with a new instance of our adapter:
@@ -84,14 +89,12 @@ public class HomeActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        // Setup drawer view
         setupDrawerContent(nvDrawer);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
         return super.onCreateOptionsMenu(menu);
     }
@@ -104,12 +107,14 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         switch (item.getItemId()) {
-            // This is the up button
             case R.id.miFilter:
                 showFilterDialog();
                 return true;
             case R.id.miUserProfile:
                 startUserProfileActivity();
+                return true;
+            case R.id.miMap:
+                startNearbySittersActivity();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -127,15 +132,10 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(userProfileIntent);
     }
 
-    /*public void setUpHouses() {
-        houses = new ArrayList<>();
-        // RecyclerView
-        // TODO Get Houses
-        HouseListAdapter adapter = new HouseListAdapter(this, houses);
-        rvRecentVisit.setAdapter(adapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        rvRecentVisit.setLayoutManager(linearLayoutManager);
-    }*/
+    private void startNearbySittersActivity() {
+        Intent nearbySittersIntent = new Intent(this, NearbySittersActivity.class);
+        startActivity(nearbySittersIntent);
+    }
 
     private void showHelloMessage(String fullName) {
         Toast.makeText(getApplicationContext(), "Hi " + fullName, Toast.LENGTH_LONG).show();
@@ -143,7 +143,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     //--------------- Navigation drawer ------------------------//
-
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -156,7 +155,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void selectDrawerItem(MenuItem menuItem) {
-        // Create a new fragment and specify the fragment to show based on nav item clicked
         Fragment fragment = null;
         Class fragmentClass = null;
         switch(menuItem.getItemId()) {
@@ -182,7 +180,7 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             default:
-                fragmentClass = MyPetsFragment.class;
+                fragmentClass = AvailableSittersFragment.class;
         }
 
         if (fragmentClass != null) {
@@ -192,40 +190,27 @@ public class HomeActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            // Insert the fragment by replacing any existing fragment
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
 
-            // Highlight the selected item has been done by NavigationView
-            menuItem.setChecked(true);
-            // Set action bar title
-            setTitle(menuItem.getTitle());
-            // Close the navigation drawer
-            mDrawer.closeDrawers();
-        }
+        menuItem.setChecked(true);
+        setTitle(menuItem.getTitle());
+        mDrawer.closeDrawers();
     }
 
     private ActionBarDrawerToggle setupDrawerToggle() {
-        // NOTE: Make sure you pass in a valid toolbar reference.  ActionBarDrawToggle() does not require it
-        // and will not render the hamburger icon without it.
         return new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open,  R.string.drawer_close);
     }
 
-    // `onPostCreate` called when activity start-up is complete after `onStart()`
-    // NOTE 1: Make sure to override the method with only a single `Bundle` argument
-    // Note 2: Make sure you implement the correct `onPostCreate(Bundle savedInstanceState)` method.
-    // There are 2 signatures and only `onPostCreate(Bundle state)` shows the hamburger icon.
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
         drawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        // Pass any configuration change to the drawer toggles
         drawerToggle.onConfigurationChanged(newConfig);
     }
 }

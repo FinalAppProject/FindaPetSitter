@@ -8,26 +8,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.finalappproject.findapetsitter.R;
-import org.finalappproject.findapetsitter.model.Sitter;
+import org.finalappproject.findapetsitter.model.User;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class UserViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    private List<Sitter> sitterlist;
+    private List<User> sitterlist;
     private Context context;
 
-    @BindView(R.id.tvItemFirstName) TextView tvItemFirstName;
-    @BindView(R.id.tvItemLastName) TextView tvItemLastName;
+    @BindView(R.id.tvItemName) TextView tvItemFirstName;
     @BindView(R.id.ivItemProfileImage) ImageView ivItemProfilePic;
-    @BindView(R.id.tvItemAmountCharged) TextView tvAmountCharged;
     @BindView(R.id.tvItemTagline) TextView tvTagline;
+    @BindView(R.id.tvNumReviews) TextView tvNumReviews;
+    @BindView(R.id.tvRatings) TextView tvRatings;
 
-    public UserViewHolder(Context context, View itemView, List<Sitter> sitterlist) {
+    public UserViewHolder(Context context, View itemView, List<User> sitterlist) {
         super(itemView);
         this.sitterlist = sitterlist;
         this.context = context;
@@ -35,8 +36,13 @@ public class UserViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         ButterKnife.bind(this, itemView);
     }
 
+    @OnClick(R.id.ivItemProfileImage)
+    void openUserProfile(){
+        Toast.makeText(context, "Will open user profile", Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     public void onClick(View v) {
-        Toast.makeText(context, "CLICKED", Toast.LENGTH_SHORT).show();
+        openUserProfile();
     }
 }
