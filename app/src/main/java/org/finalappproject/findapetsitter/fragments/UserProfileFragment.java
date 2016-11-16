@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.parse.ParseException;
+
 import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.model.User;
 import org.finalappproject.findapetsitter.util.ImageHelper;
@@ -62,7 +64,11 @@ public class UserProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
         ButterKnife.bind(this, view);
 
-        mUser = (User)User.getCurrentUser();
+        try {
+            mUser = (User)User.getCurrentUser().fetchIfNeeded();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         loadData();
         return view;
     }
@@ -74,7 +80,7 @@ public class UserProfileFragment extends Fragment {
         tvUserNickname.setText(mUser.getNickName());
         tvUserDescription.setText(mUser.getDescription());
         tvUserPhoneNumber.setText(String.format("Phone number: %s", mUser.getPhone()));
-        tvUserAddress.setText(String.format("Live in %s, %s", mUser.getAddress().getCity(), mUser.getAddress().getState()));
+        tvUserAddress.setText(String.format("Live in: %s, %s", mUser.getAddress().getCity(), mUser.getAddress().getState()));
 
         // TODO again, should be recyclerview later
         ImageHelper.loadImage(getContext(), mUser.getProfileImage(), R.mipmap.ic_launcher, ivUserProfileImage);
