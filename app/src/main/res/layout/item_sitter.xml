@@ -22,20 +22,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="First"
-        android:inputType="textPersonName"
-        android:id="@+id/tvItemFirstName"
+        android:text="FullName"
+        android:id="@+id/tvItemName"
         android:layout_toRightOf="@+id/ivItemProfileImage" />
 
-    <TextView
-        android:id="@+id/tvItemLastName"
-        android:text="Last"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/tvItemFirstName"
-        android:gravity="center"
-        android:layout_marginLeft="5dp"/>
-
+<!-- For future
     <TextView
         android:id="@+id/tvItemAmountCharged"
         android:text="$20"
@@ -44,23 +35,35 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_toRightOf="@id/tvItemLastName" />
+-->
 
     <TextView
         android:text="Tagline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvItemTagline"
-        android:layout_below="@+id/tvItemLastName"
+        android:layout_below="@+id/tvItemName"
         android:layout_toRightOf="@+id/ivItemProfileImage"
         android:layout_toEndOf="@+id/ivItemProfileImage" />
 
     <TextView
-        android:text="Reviews"
+        android:text="#Reviews"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tvReviews"
+        android:id="@+id/tvNumReviews"
         android:layout_below="@+id/tvItemTagline"
         android:layout_toRightOf="@+id/ivItemProfileImage"
         android:layout_toEndOf="@+id/ivItemProfileImage" />
+
+    <TextView
+        android:text="Rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvRatings"
+        android:layout_marginLeft="5dp"
+        android:layout_below="@+id/tvItemTagline"
+        android:layout_toRightOf="@+id/tvNumReviews"
+        android:layout_toEndOf="@+id/tvNumReviews" />
+
 
 </RelativeLayout>

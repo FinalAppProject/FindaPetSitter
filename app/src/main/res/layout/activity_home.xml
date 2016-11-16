@@ -30,10 +30,12 @@
             android:layout_margin="@dimen/fab_margin"
             app:srcCompat="@android:drawable/ic_dialog_email" />
 
+        <!--TODO How to find the exact height?-->
         <!-- This LinearLayout represents the contents of the screen  -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="600dp"
+            android:layout_gravity="bottom|end"
             android:orientation="vertical">
 
             <!-- The main content view where fragments are loaded -->
