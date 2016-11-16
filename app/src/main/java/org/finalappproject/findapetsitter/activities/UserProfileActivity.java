@@ -43,7 +43,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 import static org.finalappproject.findapetsitter.activities.PetProfileActivity.EXTRA_PET_OBJECT_ID;
 import static org.finalappproject.findapetsitter.activities.PetProfileActivity.EXTRA_PET_POSITION;
 import static org.finalappproject.findapetsitter.activities.PetProfileActivity.REQUEST_CODE_ADD_PET;
