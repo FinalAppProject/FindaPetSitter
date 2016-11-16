@@ -17,9 +17,13 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.maps.GeoApiContext;
+import com.google.maps.GeocodingApi;
+import com.google.maps.model.GeocodingResult;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
@@ -195,19 +199,24 @@ public class UserProfileActivity extends AppCompatActivity implements SaveCallba
         etDescription.setText(mUser.getDescription());
         etPhoneNumber.setText(mUser.getPhone());
 
-        try {
-            Address userAddress = mUser.getAddress().fetchIfNeeded();
-            if (userAddress != null) {
-                etAddress.setText(userAddress.getAddress());
-                etZipCode.setText(userAddress.getZipCode());
-                etCity.setText(userAddress.getCity());
-                etState.setText(userAddress.getState());
+        mUser.getAddress().fetchIfNeededInBackground(new GetCallback<Address>() {
+            @Override
+            public void done(Address address, ParseException e) {
+                if (e == null) {
+                    setupAddressViews(address);
+                } else {
+                    Log.e(LOG_TAG, "Failed to fetch user address data", e);
+                    Toast.makeText(UserProfileActivity.this, "Failed to fetch user address", Toast.LENGTH_LONG).show();
+                }
             }
-        } catch (Exception e) {
-            Log.e(LOG_TAG, "Failed to fetch address", e);
-        }
+        });
+    }
 
-
+    void setupAddressViews(Address address) {
+        etAddress.setText(address.getAddress());
+        etZipCode.setText(address.getZipCode());
+        etCity.setText(address.getCity());
+        etState.setText(address.getState());
     }
 
     void setProfileImage(Intent data) {
@@ -230,10 +239,6 @@ public class UserProfileActivity extends AppCompatActivity implements SaveCallba
     private void startPetProfileActivity() {
         Intent petProfileIntent = new Intent(this, PetProfileActivity.class);
         startActivityForResult(petProfileIntent, REQUEST_CODE_ADD_PET);
-
-        // TODO when the pet profile activity returns, get the pet parse object
-        // TODO add the pet parse object to the user object
-        // TODO add the pet parse object to the list of pets and display in the recycler view
     }
 
     void onPetAdded(int resultCode, Intent data) {
@@ -322,13 +327,30 @@ public class UserProfileActivity extends AppCompatActivity implements SaveCallba
         userAddress.setCity(city);
         userAddress.setState(state);
 
+        // Retrieve the address geolocation and save the user
+        String formattedAddress = String.format("%s, %s, %s, %s", address, city, state, zipCode);
+        GeoApiContext context = new GeoApiContext().setApiKey(getString(R.string.api_key_google_maps));
+        try {
+            // TODO await/synchronous, is this a bad practice ?
+            GeocodingResult[] results = GeocodingApi.geocode(context, formattedAddress).await();
+
+            if (results != null) {
+                ParseGeoPoint geoPoint = new ParseGeoPoint();
+                geoPoint.setLatitude(results[0].geometry.location.lat);
+                geoPoint.setLongitude(results[0].geometry.location.lng);
+                userAddress.setGeoPoint(geoPoint);
+            }
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "Failed to retrieve user's address geo location", e);
+        }
+
         mUser.saveInBackground(this);
     }
 
     @Override
     public void done(ParseException e) {
         if (e == null) {
-            // TODO return result ? see pet profile
+            // TODO return result ?
         } else {
             Log.e(LOG_TAG, "Failed to save user", e);
             // TODO return result ?
