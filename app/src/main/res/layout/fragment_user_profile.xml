@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        tools:src="@mipmap/ic_launcher"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="66dp"
+        android:id="@+id/ivUserProfileImage" />
+
+    <TextView
+        tools:text="Katy Smith"
+        android:textSize="40sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivUserProfileImage"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:id="@+id/tvUserName" />
+
+    <TextView
+        tools:text="(Kat)"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvUserName"
+        android:textSize="30sp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/tvUserNickname" />
+
+    <TextView
+        tools:text="This is description of the user or tagline. Use can introduce themselves in short sentences."
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvUserNickname"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="11dp"
+        android:id="@+id/tvUserDescription" />
+
+    <TextView
+        android:text="Contact:"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvUserDescription"
+        android:layout_alignStart="@+id/tvUserDescription"
+        android:layout_marginTop="26dp"
+        android:id="@+id/tvContact" />
+
+    <TextView
+        tools:text="Phone Number: 123-456-7890"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvContact"
+        android:layout_alignStart="@+id/tvContact"
+        android:layout_marginTop="10dp"
+        android:id="@+id/tvUserPhoneNumber" />
+
+    <TextView
+        tools:text="Lives in: Santa Clara, CA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvUserPhoneNumber"
+        android:layout_alignStart="@+id/tvUserPhoneNumber"
+        android:layout_marginTop="10dp"
+        android:id="@+id/tvUserAddress" />
+
+    <TextView
+        android:text="Pet:"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvUserAddress"
+        android:layout_alignStart="@+id/tvUserAddress"
+        android:layout_marginTop="20dp"
+        android:id="@+id/tvUserPets" />
+
+    <!-- TODO this should be recycler view instead (horizontal list of pet picture and name)-->
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:srcCompat="@drawable/cat"
+        android:layout_marginTop="10dp"
+        android:id="@+id/ivUserPet1"
+        android:layout_below="@+id/tvUserPets"
+        android:layout_alignStart="@+id/tvUserPets" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:srcCompat="@drawable/cat"
+        android:id="@+id/ivUserPet2"
+        android:layout_alignTop="@+id/ivUserPet1"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/ivUserPet1" />
+</RelativeLayout>
