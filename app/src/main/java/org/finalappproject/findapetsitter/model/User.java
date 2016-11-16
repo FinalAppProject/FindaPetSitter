@@ -153,7 +153,6 @@ public class User extends ParseUser {
             user.setDescription(object.get(KEY_DESCRIPTION).toString());
         }
 
-
         if(object.has(KEY_PROFILE_IMAGE)) {
             user.setProfileImage(object.getParseFile(KEY_PROFILE_IMAGE));
         }

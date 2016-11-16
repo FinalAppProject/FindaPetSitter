@@ -29,7 +29,6 @@ import butterknife.ButterKnife;
 
 public class AvailableSittersFragment extends UserListFragment {
 
-    private boolean isDebug = true;
     private static final String LOG_TAG = "AvailableSittersFrag";
 
     private LinearLayoutManager mAvailableSittersLinearlayout;
@@ -64,8 +63,6 @@ public class AvailableSittersFragment extends UserListFragment {
         populateList();
     }
 
-    // The onCreateView method is called when Fragment should create its View object hierarchy,
-    // either dynamically or via XML layout inflation.
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
