@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,20 +33,17 @@ import org.finalappproject.findapetsitter.model.User;
 import org.finalappproject.findapetsitter.util.ImageHelper;
 import org.finalappproject.findapetsitter.util.recyclerview.ItemClickSupport;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static android.R.attr.data;
 import static org.finalappproject.findapetsitter.activities.PetProfileActivity.EXTRA_PET_OBJECT_ID;
 import static org.finalappproject.findapetsitter.activities.PetProfileActivity.EXTRA_PET_POSITION;
 import static org.finalappproject.findapetsitter.activities.PetProfileActivity.REQUEST_CODE_ADD_PET;
 import static org.finalappproject.findapetsitter.activities.PetProfileActivity.REQUEST_CODE_EDIT_PET;
 import static org.finalappproject.findapetsitter.activities.PetProfileActivity.RESULT_CODE_SAVE_FAILURE;
-import static org.finalappproject.findapetsitter.activities.PetProfileActivity.RESULT_CODE_SAVE_SUCCESS;
 
 /**
  * User profile activity
@@ -200,13 +195,18 @@ public class UserProfileActivity extends AppCompatActivity implements SaveCallba
         etDescription.setText(mUser.getDescription());
         etPhoneNumber.setText(mUser.getPhone());
 
-        Address userAddress = mUser.getAddress();
-        if (userAddress != null) {
-            etAddress.setText(userAddress.getAddress());
-            etZipCode.setText(userAddress.getZipCode());
-            etCity.setText(userAddress.getCity());
-            etState.setText(userAddress.getState());
+        try {
+            Address userAddress = mUser.getAddress().fetchIfNeeded();
+            if (userAddress != null) {
+                etAddress.setText(userAddress.getAddress());
+                etZipCode.setText(userAddress.getZipCode());
+                etCity.setText(userAddress.getCity());
+                etState.setText(userAddress.getState());
+            }
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "Failed to fetch address", e);
         }
+
 
     }
 
@@ -311,13 +311,16 @@ public class UserProfileActivity extends AppCompatActivity implements SaveCallba
 
         // User address
         Address userAddress = mUser.getAddress();
-        if (userAddress == null) {
-            userAddress = new Address();
-        }
-        userAddress.setAddress(etAddress.getText().toString());
-        userAddress.setZipCode(etZipCode.getText().toString());
-        userAddress.setCity(etCity.getText().toString());
-        userAddress.setState(etState.getText().toString());
+
+        String address = etAddress.getText().toString();
+        String city = etCity.getText().toString();
+        String state = etState.getText().toString();
+        String zipCode = etZipCode.getText().toString();
+
+        userAddress.setAddress(address);
+        userAddress.setZipCode(zipCode);
+        userAddress.setCity(city);
+        userAddress.setState(state);
 
         mUser.saveInBackground(this);
     }

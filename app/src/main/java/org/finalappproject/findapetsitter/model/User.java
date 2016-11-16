@@ -69,7 +69,12 @@ public class User extends ParseUser {
     }
 
     public Address getAddress() {
-        return (Address) getParseObject(KEY_ADDRESS);
+        Address address = (Address) getParseObject(KEY_ADDRESS);
+        if (address == null) {
+            address = new Address();
+            setAddress(address);
+        }
+        return address;
     }
 
     public void setAddress(Address address) {
