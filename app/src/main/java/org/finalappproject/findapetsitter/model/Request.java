@@ -1,77 +1,89 @@
 package org.finalappproject.findapetsitter.model;
 
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+
 import java.util.Date;
 
-public class Request {
+@ParseClassName("Request")
+public class Request extends ParseObject{
 
-    private Date beginDate;
-    private Date endDate;
-    private PetType type;
-    private String note;
-    private User sender;
-    private User receiver;
-    private int status;
+    private static final String LOG_TAG = "Request";
 
-    //These should maybe go in the utils contants folder
-    public static final int REQUEST_PENDING=0, REQUEST_REJECTED=1, REQUEST_ACCEPTED=2;
+    private static final String KEY_BEGIN_DATE = "begin_date";
+    private static final String KEY_END_DATE = "end_date";
+
+    //TODO replace by list of pets owned
+    private static final String KEY_PET_TYPE = "pet_type";
+    private static final String KEY_NOTE = "note";
+    private static final String KEY_SENDER = "sender";
+    private static final String KEY_RECEIVER = "receiver";
+    private static final String KEY_STATUS = "status";
 
     public Date getBeginDate() {
-        return beginDate;
+        Date date = getDate(KEY_BEGIN_DATE);
+        return date;
     }
 
-    public void setBeginDate(Date beginDate) {
-        this.beginDate = beginDate;
+    public void setBeginDate(Date date) {
+        put(KEY_BEGIN_DATE, date);
     }
 
     public Date getEndDate() {
-        return endDate;
+        Date date = getDate(KEY_END_DATE);
+        return date;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setEndDate(Date date) {
+        put(KEY_END_DATE, date);
     }
 
     public PetType getType() {
-        return type;
+        String type = getString(KEY_PET_TYPE);
+        if (type != null) {
+            return PetType.valueOf(type);
+        }
+        return null;
     }
 
     public void setType(PetType type) {
-        this.type = type;
+        if (type != null) {
+            put(KEY_PET_TYPE, type.name());
+        }
     }
 
     public String getNote() {
-        return note;
+        return getString(KEY_NOTE);
     }
 
-    public void setNote(String note) {
-        this.note = note;
+    public void setNote(String breed) {
+        put(KEY_NOTE, breed);
     }
 
-    public User getSender() {
-        return sender;
+    public User getSender()  {
+        return (User)getParseUser(KEY_SENDER);
     }
 
     public void setSender(User sender) {
-        this.sender = sender;
+        put(KEY_SENDER, sender);
     }
 
-    public User getReceiver() {
-        return receiver;
+    public User getReceiver()  {
+        return (User)getParseUser(KEY_RECEIVER);
     }
 
     public void setReceiver(User receiver) {
-        this.receiver = receiver;
+        put(KEY_RECEIVER, receiver);
     }
 
-    public int getStatus() {
-        return status;
+    public int getStatus(){
+        return getInt(KEY_STATUS);
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setStatus(int status){
+        put (KEY_STATUS, status);
     }
 
-    @Override
     public String toString() {
         return "PetType: " + this.getType() + "\nNote : " + this.getNote()  + "\nDate: " + this.getBeginDate().toString() + " ---- " + this.getEndDate().toString();
     }

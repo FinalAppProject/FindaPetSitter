@@ -1,6 +1,5 @@
 package org.finalappproject.findapetsitter.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -14,16 +13,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.model.PetType;
 import org.finalappproject.findapetsitter.model.Request;
-import org.finalappproject.findapetsitter.model.RequestParseObject;
 import org.finalappproject.findapetsitter.model.User;
 
 import java.util.ArrayList;
@@ -38,6 +34,9 @@ import butterknife.OnClick;
 import static org.finalappproject.findapetsitter.R.id.etSelectDates;
 
 public class RequestFragment extends DialogFragment implements CalendarPickerDialogFragment.OnDatesSelectedListener, GetCallback<User> {
+
+    //These should maybe go in the utils contants folder
+    public static final int REQUEST_PENDING=0, REQUEST_REJECTED=1, REQUEST_ACCEPTED=2;
 
     @BindView(R.id.spPetType)
     Spinner spinnerPetType;
@@ -109,34 +108,23 @@ public class RequestFragment extends DialogFragment implements CalendarPickerDia
         dismiss();
     }
 
+    void storeInParse() {
+        newRequest.saveInBackground();
+        Log.d(LOG_TAG, "Storing fields: " + newRequest.toString());
+        Toast.makeText(getActivity(), "Fields: " + newRequest.toString(),
+                Toast.LENGTH_LONG).show();
+    }
+
     void getRequestFromView(){
         newRequest.setNote(noteEditText.getText().toString());
         newRequest.setType(PetType.valueOf(spinnerPetType.getSelectedItem().toString()));
-        newRequest.setStatus(Request.REQUEST_PENDING);
+        newRequest.setStatus(REQUEST_PENDING);
         setUserNames();
     }
 
     void setUserNames(){
         ParseUser user = ParseUser.getCurrentUser();
         newRequest.setSender((User)user);
-    }
-
-    void storeInParse(){
-
-        RequestParseObject requestParseObject = new RequestParseObject();
-        requestParseObject.setBeginDate(newRequest.getBeginDate());
-        requestParseObject.setEndDate(newRequest.getEndDate());
-        requestParseObject.setType(newRequest.getType());
-        requestParseObject.setNote(newRequest.getNote());
-        requestParseObject.setStatus(newRequest.getStatus());
-        requestParseObject.setSender(newRequest.getSender());
-        requestParseObject.setReceiver(newRequest.getReceiver());
-        requestParseObject.saveInBackground();
-
-        Log.d(LOG_TAG, "Storing fields: " + newRequest.toString());
-        Toast.makeText(getActivity(), "Fields: " + newRequest.toString(),
-                Toast.LENGTH_LONG).show();
-
     }
 
     @OnClick(etSelectDates)
