@@ -111,11 +111,11 @@ public class UserProfileActivity extends AppCompatActivity implements SaveCallba
         setContentView(R.layout.activity_user_profile);
         // Bind views
         ButterKnife.bind(this);
+        setupPetsRecyclerView();
         retrieveUserExtra();
         setupProfileImage();
         setupAddPetButton();
         setupSaveButton();
-        setupPetsRecyclerView();
     }
 
     @Override
@@ -183,9 +183,10 @@ public class UserProfileActivity extends AppCompatActivity implements SaveCallba
 
     void retrieveUserExtra() {
         mUser = null;
-        Intent userProfileIntent = getIntent();
 
+        Intent userProfileIntent = getIntent();
         String userObjectId = userProfileIntent.getStringExtra(EXTRA_USER_OBJECT_ID);
+
         if (userObjectId != null && !userObjectId.isEmpty()) {
             queryUser(userObjectId, this);
         } else {
