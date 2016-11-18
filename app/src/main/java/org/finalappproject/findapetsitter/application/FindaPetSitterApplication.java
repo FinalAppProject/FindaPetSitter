@@ -11,6 +11,7 @@ import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.model.Address;
 import org.finalappproject.findapetsitter.model.EmergencyContact;
 import org.finalappproject.findapetsitter.model.Pet;
+import org.finalappproject.findapetsitter.model.RequestParseObject;
 import org.finalappproject.findapetsitter.model.User;
 
 /**
@@ -27,6 +28,7 @@ public class FindaPetSitterApplication extends Application {
         ParseObject.registerSubclass(Address.class);
         ParseObject.registerSubclass(EmergencyContact.class);
         ParseObject.registerSubclass(Pet.class);
+        ParseObject.registerSubclass(RequestParseObject.class);
 
         // Initialize Parse
         Parse.initialize(new Parse.Configuration.Builder(this)
