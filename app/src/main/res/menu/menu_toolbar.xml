@@ -9,7 +9,6 @@
         android:title="Filter">
     </item>
 
-
     <item
         android:id="@+id/miMap"
         android:icon="@drawable/google_maps"
@@ -23,7 +22,5 @@
         app:showAsAction="ifRoom|withText"
         android:title="@string/user_profile_title">
     </item>
-
-
 
 </menu>
