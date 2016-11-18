@@ -2,9 +2,12 @@ package org.finalappproject.findapetsitter.model;
 
 import android.util.Log;
 
+import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -170,4 +173,15 @@ public class User extends ParseUser {
         return sitterList;
     }
 
+    public static void queryPetSitters(FindCallback<User> findCallback) {
+        ParseQuery<User> petSittersQuery = ParseQuery.getQuery(User.class).whereEqualTo(KEY_PET_SITTER, true);
+        petSittersQuery.findInBackground(findCallback);
+    }
+
+    public static void queryUser(String objectId, GetCallback<User> findCallback) {
+        // TODO verify/validate cache policy
+        ParseQuery<User> userQuery = ParseQuery.getQuery(User.class);
+        userQuery.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
+        userQuery.getInBackground(objectId, findCallback);
+    }
 }

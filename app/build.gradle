@@ -56,4 +56,7 @@ dependencies {
 
     // PageSlidingTabStrip
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+
+    //Calendar picker
+    compile 'com.squareup:android-times-square:1.6.5@aar'
 }
