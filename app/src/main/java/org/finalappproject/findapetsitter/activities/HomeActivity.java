@@ -156,7 +156,7 @@ public class HomeActivity extends AppCompatActivity {
 
     public void selectDrawerItem(MenuItem menuItem) {
         Fragment fragment = null;
-        Class fragmentClass;
+        Class fragmentClass = null;
         switch(menuItem.getItemId()) {
             case R.id.nav_home_fragment:
                 fragmentClass = MyPetsFragment.class;
@@ -170,26 +170,33 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.nav_favSittersList_fragment:
                 fragmentClass = FavoriteSittersFragment.class;
                 break;
-
             case R.id.nav_switch_owner_sitter:
                 fragmentClass = SitterHomeFragment.class;
+                break;
+            case R.id.nav_logout_fragment:
+                Intent intent = new Intent(this, LoginActivity.class);
+                boolean isLogout = true;
+                intent.putExtra("logout", isLogout);
+                startActivity(intent);
                 break;
             default:
                 fragmentClass = AvailableSittersFragment.class;
         }
 
-        try {
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (fragmentClass != null) {
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+
+            menuItem.setChecked(true);
+            setTitle(menuItem.getTitle());
+            mDrawer.closeDrawers();
         }
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-
-        menuItem.setChecked(true);
-        setTitle(menuItem.getTitle());
-        mDrawer.closeDrawers();
     }
 
     private ActionBarDrawerToggle setupDrawerToggle() {

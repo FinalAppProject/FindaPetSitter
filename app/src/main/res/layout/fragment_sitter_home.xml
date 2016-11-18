@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <include layout="@layout/toolbar"/>
+
 
         <com.astuetz.PagerSlidingTabStrip
             android:id="@+id/tabsSitterHome"
