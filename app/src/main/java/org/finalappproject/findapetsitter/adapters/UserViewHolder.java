@@ -29,7 +29,6 @@ public class UserViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     @BindView(R.id.tvItemTagline) TextView tvTagline;
     @BindView(R.id.tvNumReviews) TextView tvNumReviews;
     @BindView(R.id.tvRatings) TextView tvRatings;
-    @BindView(R.id.tvSitterUserName) TextView sitterUserName;
 
     public UserViewHolder(Context context, View itemView, List<User> sitterlist) {
         super(itemView);
