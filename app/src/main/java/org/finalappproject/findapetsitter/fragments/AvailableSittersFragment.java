@@ -13,21 +13,17 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
 import org.finalappproject.findapetsitter.R;
+import org.finalappproject.findapetsitter.adapters.SittersAdapter;
 import org.finalappproject.findapetsitter.model.User;
 import org.finalappproject.findapetsitter.util.recyclerview.DividerItemDecoration;
-import org.finalappproject.findapetsitter.adapters.SittersAdapter;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static org.finalappproject.findapetsitter.model.User.fromParseGetSittersList;
 
 public class AvailableSittersFragment extends UserListFragment {
 
@@ -44,20 +40,17 @@ public class AvailableSittersFragment extends UserListFragment {
 
     @Override
     void populateList() {
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
-            //ParseUser currentUser = ParseUser.getCurrentUser();
-            //query.whereGreaterThan("age", 20); //TODO area query: http://parseplatform.github.io/docs/android/guide/#query-constraints
-            query.findInBackground(new FindCallback<ParseUser>() {
-                public void done(List<ParseUser> objects, ParseException e) {
-                    if (e == null) {
-                        mAvailableSittersList.addAll(User.fromParseGetSittersList(objects));
-                        mAvailableSittersAdapter.notifyDataSetChanged();
-                    } else {
-                        Log.e(LOG_TAG, "Failed to signup", e);
-                        Toast.makeText(getContext(), "Query erroe", Toast.LENGTH_LONG).show();
-                    }
+        User.queryPetSitters(new FindCallback<User>() {
+            public void done(List<User> petSitters, ParseException e) {
+                if (e == null) {
+                    mAvailableSittersList.addAll(petSitters);
+                    mAvailableSittersAdapter.notifyDataSetChanged();
+                } else {
+                    Log.e(LOG_TAG, "Failed to fetch pet sitters", e);
+                    Toast.makeText(getContext(), "Failed to fetch pet sitters", Toast.LENGTH_LONG).show();
                 }
-            });
+            }
+        });
     }
 
     @Override

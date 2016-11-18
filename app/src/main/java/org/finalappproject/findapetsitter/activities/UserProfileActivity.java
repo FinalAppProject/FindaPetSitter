@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -48,15 +49,19 @@ import static org.finalappproject.findapetsitter.activities.PetProfileActivity.E
 import static org.finalappproject.findapetsitter.activities.PetProfileActivity.REQUEST_CODE_ADD_PET;
 import static org.finalappproject.findapetsitter.activities.PetProfileActivity.REQUEST_CODE_EDIT_PET;
 import static org.finalappproject.findapetsitter.activities.PetProfileActivity.RESULT_CODE_SAVE_FAILURE;
+import static org.finalappproject.findapetsitter.model.User.queryUser;
 
 /**
  * User profile activity
  */
-public class UserProfileActivity extends AppCompatActivity implements SaveCallback {
+public class UserProfileActivity extends AppCompatActivity implements SaveCallback, GetCallback<User> {
 
     private static final String LOG_TAG = "UserProfileActivity";
 
     public static final String EXTRA_USER_OBJECT_ID = "EXTRA_USER_OBJECT_ID";
+
+    @BindView(R.id.cbPetSitter)
+    CheckBox cbPetSitter;
 
     @BindView(R.id.ivProfileImage)
     ImageView ivProfileImage;
@@ -159,7 +164,7 @@ public class UserProfileActivity extends AppCompatActivity implements SaveCallba
     }
 
     private void setupPetsRecyclerView() {
-        mPets = new ArrayList<>(mUser.getPets());
+        mPets = new ArrayList<>();
         mPetsAdapter = new PetsAdapter(this, mPets);
         rvPets.setAdapter(mPetsAdapter);
         LinearLayoutManager linerLayoutManager = new LinearLayoutManager(this);
@@ -181,19 +186,31 @@ public class UserProfileActivity extends AppCompatActivity implements SaveCallba
         Intent userProfileIntent = getIntent();
 
         String userObjectId = userProfileIntent.getStringExtra(EXTRA_USER_OBJECT_ID);
-        if (userObjectId != null && userObjectId.isEmpty()) {
-            // TODO loadUser(userObjectId);
+        if (userObjectId != null && !userObjectId.isEmpty()) {
+            queryUser(userObjectId, this);
         } else {
             mUser = (User) User.getCurrentUser();
+            loadUser();
         }
-
-        loadUser();
     }
+
+    @Override
+    public void done(User user, ParseException e) {
+        if (e == null) {
+            mUser = user;
+            loadUser();
+        } else {
+            Log.e(LOG_TAG, "Failed to fetch user", e);
+            Toast.makeText(this, "Failed to fetch user", Toast.LENGTH_LONG).show();
+        }
+    }
+
 
     void loadUser() {
 
         ImageHelper.loadImage(this, mUser.getProfileImage(), R.drawable.account_plus, ivProfileImage);
 
+        cbPetSitter.setChecked(mUser.isPetSitter());
         etFullName.setText(mUser.getFullName());
         etNickName.setText(mUser.getNickName());
         etDescription.setText(mUser.getDescription());
@@ -210,6 +227,13 @@ public class UserProfileActivity extends AppCompatActivity implements SaveCallba
                 }
             }
         });
+
+        List<Pet> userPets = mUser.getPets();
+        if (userPets != null) {
+            mPets.addAll(userPets);
+            mPetsAdapter.notifyItemRangeInserted(0, userPets.size());
+        }
+
     }
 
     void setupAddressViews(Address address) {
@@ -309,6 +333,7 @@ public class UserProfileActivity extends AppCompatActivity implements SaveCallba
             // TODO handle failure to retrieve profile image from drawable
         }
 
+        mUser.setPetSitter(cbPetSitter.isChecked());
         mUser.setFullName(etFullName.getText().toString());
         mUser.setNickName(etNickName.getText().toString());
         mUser.setDescription(etDescription.getText().toString());

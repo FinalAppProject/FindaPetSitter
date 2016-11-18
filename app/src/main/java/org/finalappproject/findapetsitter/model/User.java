@@ -2,9 +2,14 @@ package org.finalappproject.findapetsitter.model;
 
 import android.util.Log;
 
+import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -143,31 +148,23 @@ public class User extends ParseUser {
         put(KEY_PET_SITTER, petSitter);
     }
 
-    public static User fromParseGetSitter(ParseUser object){
-        User user = new User();
-
-        if(object.has(KEY_FULL_NAME)) {
-            user.setFullName(object.get(KEY_FULL_NAME).toString());
-        }
-
-        if(object.has(KEY_DESCRIPTION)) {
-            user.setDescription(object.get(KEY_DESCRIPTION).toString());
-        }
-
-        if(object.has(KEY_PROFILE_IMAGE)) {
-            user.setProfileImage(object.getParseFile(KEY_PROFILE_IMAGE));
-        }
-
-        return user;
+    public static void queryUser(String objectId, GetCallback<User> findCallback) {
+        // TODO verify/validate cache policy
+        ParseQuery<User> userQuery = ParseQuery.getQuery(User.class);
+        userQuery.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
+        userQuery.getInBackground(objectId, findCallback);
     }
 
-    public static LinkedList<User> fromParseGetSittersList(List<ParseUser> objects){
-        LinkedList<User> sitterList = new LinkedList<>();
-        for (ParseUser parseUser : objects) {
-            User sitter = User.fromParseGetSitter(parseUser);
-            sitterList.add(sitter);
-        }
-        return sitterList;
+    public static void queryPetSittersWithinMiles(ParseGeoPoint point, long miles, FindCallback<User> findCallback)
+    {
+        ParseQuery<Address> nearbyAddressesQuery = ParseQuery.getQuery(Address.class).whereWithinMiles(Address.KEY_GEO_POINT, point, miles);
+        ParseQuery<User> nearbyUsersQuery = ParseQuery.getQuery(User.class).whereEqualTo(KEY_PET_SITTER, true).whereMatchesQuery(KEY_ADDRESS, nearbyAddressesQuery);
+        nearbyUsersQuery.findInBackground(findCallback);
     }
 
+    public static void queryPetSitters(FindCallback<User> findCallback)
+    {
+        ParseQuery<User> petSittersQuery = ParseQuery.getQuery(User.class).whereEqualTo(KEY_PET_SITTER, true);
+        petSittersQuery.findInBackground(findCallback);
+    }
 }
