@@ -9,11 +9,11 @@ import com.parse.ParseObject;
  */
 @ParseClassName("Address")
 public class Address extends ParseObject {
-    private static final String KEY_ADDRESS = "address";
-    private static final String KEY_CITY = "city";
-    private static final String KEY_STATE = "state";
-    private static final String KEY_ZIP_CODE = "zipCode";
-    private static final String KEY_GEO_POINT = "geoPoint";
+    static final String KEY_ADDRESS = "address";
+    static final String KEY_CITY = "city";
+    static final String KEY_STATE = "state";
+    static final String KEY_ZIP_CODE = "zipCode";
+    static final String KEY_GEO_POINT = "geoPoint";
 
     public String getAddress() {
         return getString(KEY_ADDRESS);
