@@ -1,12 +1,15 @@
 package org.finalappproject.findapetsitter.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.finalappproject.findapetsitter.R;
+import org.finalappproject.findapetsitter.activities.UserProfileActivity;
+import org.finalappproject.findapetsitter.model.Address;
 import org.finalappproject.findapetsitter.model.User;
 import org.finalappproject.findapetsitter.util.ImageHelper;
 
@@ -29,9 +32,9 @@ public class SittersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     // Involves populating data into the item through holder
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         UserViewHolder vh = (UserViewHolder) holder;
-        User sitter = mAvailableSitters.get(position);
+        final User sitter = mAvailableSitters.get(position);
         vh.tvItemFirstName.setText(sitter.getFullName());
         //vh.tvTagline.setText(sitter.getDescription());
         vh.tvTagline.setText("Description/Tagline" /*sitter.getTagLine()*/);
@@ -40,6 +43,29 @@ public class SittersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         vh.tvNumReviews.setText("45");
         vh.tvRatings.setText("4.8");
+
+        vh.RlSitterItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentProfile = new Intent(getContext(), UserProfileActivity.class);
+                intentProfile.putExtra("profile_pic", sitter.getProfileImageUrl());
+                intentProfile.putExtra("full_name", sitter.getFullName());
+                intentProfile.putExtra("nickname", sitter.getNickName());
+                intentProfile.putExtra("tagline", sitter.getDescription());
+                intentProfile.putExtra("phoneNumber", sitter.getPhone());
+                try {
+                    Address userAddress = sitter.getAddress().fetchIfNeeded();
+                    if (userAddress != null) {
+                        intentProfile.putExtra("city", sitter.getAddress().getCity());
+                        intentProfile.putExtra("state", sitter.getAddress().getState());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                getContext().startActivity(intentProfile);
+
+            }
+        });
     }
 
     @Override

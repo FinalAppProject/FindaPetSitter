@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,7 +17,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 
 public class UserViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -29,6 +29,7 @@ public class UserViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     @BindView(R.id.tvItemTagline) TextView tvTagline;
     @BindView(R.id.tvNumReviews) TextView tvNumReviews;
     @BindView(R.id.tvRatings) TextView tvRatings;
+    @BindView(R.id.RlSitterItem) RelativeLayout RlSitterItem;
 
     public UserViewHolder(Context context, View itemView, List<User> sitterlist) {
         super(itemView);
@@ -36,11 +37,6 @@ public class UserViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         this.context = context;
         itemView.setOnClickListener(this);
         ButterKnife.bind(this, itemView);
-    }
-
-    @OnClick(R.id.ivItemProfileImage)
-    void openUserProfile(){
-        Toast.makeText(context, "Will open user profile", Toast.LENGTH_SHORT).show();
     }
 
     @Override
