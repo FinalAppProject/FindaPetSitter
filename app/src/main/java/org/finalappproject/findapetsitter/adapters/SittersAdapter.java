@@ -6,6 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.activities.UserProfileActivity;
@@ -15,6 +18,9 @@ import org.finalappproject.findapetsitter.util.ImageHelper;
 import java.util.LinkedList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static org.finalappproject.findapetsitter.activities.UserProfileEditActivity.EXTRA_USER_OBJECT_ID;
 
 public class SittersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
@@ -22,12 +28,38 @@ public class SittersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static List<User> mAvailableSitters;
     private static Context mContext;
 
+    public class UserViewHolder extends RecyclerView.ViewHolder {
+
+        private List<User> sitterlist;
+        private Context context;
+
+        @BindView(R.id.tvItemName)
+        TextView tvItemFirstName;
+        @BindView(R.id.ivItemProfileImage)
+        ImageView ivItemProfilePic;
+        @BindView(R.id.tvItemTagline)
+        TextView tvTagline;
+        @BindView(R.id.tvNumReviews)
+        TextView tvNumReviews;
+        @BindView(R.id.tvRatings)
+        TextView tvRatings;
+        @BindView(R.id.RlSitterItem)
+        RelativeLayout RlSitterItem;
+
+        public UserViewHolder(View view) {
+            super(view);
+            this.sitterlist = sitterlist;
+            this.context = context;
+            ButterKnife.bind(this, view);
+        }
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.item_sitter, parent, false);
-        viewHolder = new UserViewHolder(mContext, view, mAvailableSitters);
+        viewHolder = new UserViewHolder(view);
         return viewHolder;
     }
 
