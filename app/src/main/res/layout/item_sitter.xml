@@ -17,7 +17,6 @@
         tools:src="@mipmap/ic_launcher"
         android:id="@+id/ivItemProfileImage"
         android:layout_marginRight="5dp"
-        android:onClick="viewClickedUserProfile"
         android:padding="3dp" />
 
     <TextView
