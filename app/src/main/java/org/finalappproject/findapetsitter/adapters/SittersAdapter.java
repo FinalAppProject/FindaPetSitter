@@ -9,12 +9,13 @@ import android.view.ViewGroup;
 
 import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.activities.UserProfileActivity;
-import org.finalappproject.findapetsitter.model.Address;
 import org.finalappproject.findapetsitter.model.User;
 import org.finalappproject.findapetsitter.util.ImageHelper;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import static org.finalappproject.findapetsitter.activities.UserProfileEditActivity.EXTRA_USER_OBJECT_ID;
 
 public class SittersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
@@ -47,22 +48,9 @@ public class SittersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         vh.RlSitterItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentProfile = new Intent(getContext(), UserProfileActivity.class);
-                intentProfile.putExtra("profile_pic", sitter.getProfileImageUrl());
-                intentProfile.putExtra("full_name", sitter.getFullName());
-                intentProfile.putExtra("nickname", sitter.getNickName());
-                intentProfile.putExtra("tagline", sitter.getDescription());
-                intentProfile.putExtra("phoneNumber", sitter.getPhone());
-                try {
-                    Address userAddress = sitter.getAddress().fetchIfNeeded();
-                    if (userAddress != null) {
-                        intentProfile.putExtra("city", sitter.getAddress().getCity());
-                        intentProfile.putExtra("state", sitter.getAddress().getState());
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                getContext().startActivity(intentProfile);
+                Intent userProfileIntent = new Intent(getContext(), UserProfileActivity.class);
+                userProfileIntent.putExtra(EXTRA_USER_OBJECT_ID, sitter.getObjectId());
+                getContext().startActivity(userProfileIntent);
 
             }
         });
