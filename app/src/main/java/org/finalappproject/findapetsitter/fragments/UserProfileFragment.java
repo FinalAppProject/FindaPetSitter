@@ -57,6 +57,7 @@ public class UserProfileFragment extends Fragment {
 
     }
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -70,7 +71,6 @@ public class UserProfileFragment extends Fragment {
 
 
     private void loadData() {
-
         tvUserName.setText(mUser.getFullName());
         tvUserNickname.setText(mUser.getNickName());
         tvUserDescription.setText(mUser.getDescription());

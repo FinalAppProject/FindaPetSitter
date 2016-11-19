@@ -18,8 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.parse.ParseUser;
-
 import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.fragments.AvailableSittersFragment;
 import org.finalappproject.findapetsitter.fragments.FavoriteSittersFragment;
@@ -27,10 +25,13 @@ import org.finalappproject.findapetsitter.fragments.FilterFragment;
 import org.finalappproject.findapetsitter.fragments.MyPetsFragment;
 import org.finalappproject.findapetsitter.fragments.SitterHomeFragment;
 import org.finalappproject.findapetsitter.fragments.UserProfileFragment;
+import org.finalappproject.findapetsitter.model.Address;
 import org.finalappproject.findapetsitter.model.User;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.parse.ParseUser.getCurrentUser;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -60,7 +61,7 @@ public class HomeActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setUpViews();
-        User user = (User) ParseUser.getCurrentUser();
+        User user = (User) getCurrentUser();
         String fullName = user.getFullName();
 
         showHelloMessage(fullName);
@@ -128,7 +129,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void startUserProfileActivity() {
-        Intent userProfileIntent = new Intent(this, UserProfileActivity.class);
+        Intent userProfileIntent = new Intent(this, UserProfileEditActivity.class);
         startActivity(userProfileIntent);
     }
 
@@ -157,11 +158,28 @@ public class HomeActivity extends AppCompatActivity {
     public void selectDrawerItem(MenuItem menuItem) {
         Fragment fragment = null;
         Class fragmentClass = null;
+        User user = (User)User.getCurrentUser();
         switch(menuItem.getItemId()) {
             case R.id.nav_home_fragment:
                 fragmentClass = MyPetsFragment.class;
                 break;
             case R.id.nav_profile_fragment:
+                Intent intentProfile = new Intent(this, UserProfileActivity.class);
+                intentProfile.putExtra("profile_pic", user.getProfileImageUrl());
+                intentProfile.putExtra("full_name", user.getFullName());
+                intentProfile.putExtra("nickname", user.getNickName());
+                intentProfile.putExtra("tagline", user.getDescription());
+                intentProfile.putExtra("phoneNumber", user.getPhone());
+                try {
+                    Address userAddress = user.getAddress().fetchIfNeeded();
+                    if (userAddress != null) {
+                        intentProfile.putExtra("city", user.getAddress().getCity());
+                        intentProfile.putExtra("state", user.getAddress().getState());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                startActivity(intentProfile);
                 fragmentClass = UserProfileFragment.class;
                 break;
             case R.id.nav_sittersList_fragment:
@@ -174,10 +192,10 @@ public class HomeActivity extends AppCompatActivity {
                 fragmentClass = SitterHomeFragment.class;
                 break;
             case R.id.nav_logout_fragment:
-                Intent intent = new Intent(this, LoginActivity.class);
+                Intent intentLogout = new Intent(this, LoginActivity.class);
                 boolean isLogout = true;
-                intent.putExtra("logout", isLogout);
-                startActivity(intent);
+                intentLogout.putExtra("logout", isLogout);
+                startActivity(intentLogout);
                 break;
             default:
                 fragmentClass = AvailableSittersFragment.class;

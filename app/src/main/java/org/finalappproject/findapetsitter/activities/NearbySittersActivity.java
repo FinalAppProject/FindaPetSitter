@@ -1,7 +1,6 @@
 package org.finalappproject.findapetsitter.activities;
 
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -20,20 +19,16 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
 import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.model.Address;
 import org.finalappproject.findapetsitter.model.User;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import static org.finalappproject.findapetsitter.activities.UserProfileActivity.EXTRA_USER_OBJECT_ID;
+import static org.finalappproject.findapetsitter.activities.UserProfileEditActivity.EXTRA_USER_OBJECT_ID;
 
 /**
  * Nearby Sitters Activity uses a GoogleMap fragment to show pet sitter near a location
@@ -157,7 +152,7 @@ public class NearbySittersActivity extends AppCompatActivity implements GoogleMa
     }
 
     private void startUserProfileActivity(User petSitter) {
-        Intent userProfileIntent = new Intent(this, UserProfileActivity.class);
+        Intent userProfileIntent = new Intent(this, UserProfileEditActivity.class);
         userProfileIntent.putExtra(EXTRA_USER_OBJECT_ID, petSitter.getObjectId());
         startActivity(userProfileIntent);
     }

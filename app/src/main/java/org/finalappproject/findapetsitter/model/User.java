@@ -8,14 +8,11 @@ import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 
@@ -70,6 +67,10 @@ public class User extends ParseUser {
             Log.e(LOG_TAG, "Failed to fetch profile image file", e);
         }
         return profileImage;
+    }
+
+    public String getProfileImageUrl() {
+        return getProfileImage().getUrl();
     }
 
     public void setProfileImage(ParseFile profileImage) {
