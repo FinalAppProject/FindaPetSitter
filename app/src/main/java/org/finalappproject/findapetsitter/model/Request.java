@@ -1,7 +1,10 @@
 package org.finalappproject.findapetsitter.model;
 
+import com.parse.FindCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.Date;
 
@@ -86,5 +89,10 @@ public class Request extends ParseObject{
 
     public String toString() {
         return "PetType: " + this.getType() + "\nNote : " + this.getNote()  + "\nDate: " + this.getBeginDate().toString() + " ---- " + this.getEndDate().toString();
+    }
+
+    public static void queryReceiver(ParseUser user, FindCallback<Request> findCallback) {
+        ParseQuery<Request> requestQuery = ParseQuery.getQuery(Request.class).whereEqualTo(KEY_RECEIVER, user);
+        requestQuery.findInBackground(findCallback);
     }
 }

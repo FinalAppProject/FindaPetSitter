@@ -6,27 +6,58 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.activities.UserProfileActivity;
-import org.finalappproject.findapetsitter.model.Address;
 import org.finalappproject.findapetsitter.model.User;
 import org.finalappproject.findapetsitter.util.ImageHelper;
 
 import java.util.LinkedList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+import static org.finalappproject.findapetsitter.activities.UserProfileEditActivity.EXTRA_USER_OBJECT_ID;
+
 public class SittersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private static List<User> mAvailableSitters;
     private static Context mContext;
 
+    private Context getContext() {
+        return mContext;
+    }
+
+    public class UserViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.tvItemName)
+        TextView tvItemFirstName;
+        @BindView(R.id.ivItemProfileImage)
+        ImageView ivItemProfilePic;
+        @BindView(R.id.tvItemTagline)
+        TextView tvTagline;
+        @BindView(R.id.tvNumReviews)
+        TextView tvNumReviews;
+        @BindView(R.id.tvRatings)
+        TextView tvRatings;
+        @BindView(R.id.RlSitterItem)
+        RelativeLayout RlSitterItem;
+
+        public UserViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        RecyclerView.ViewHolder viewHolder;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.item_sitter, parent, false);
-        viewHolder = new UserViewHolder(mContext, view, mAvailableSitters);
+        RecyclerView.ViewHolder viewHolder = new UserViewHolder(view);
         return viewHolder;
     }
 
@@ -47,22 +78,9 @@ public class SittersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         vh.RlSitterItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentProfile = new Intent(getContext(), UserProfileActivity.class);
-                intentProfile.putExtra("profile_pic", sitter.getProfileImageUrl());
-                intentProfile.putExtra("full_name", sitter.getFullName());
-                intentProfile.putExtra("nickname", sitter.getNickName());
-                intentProfile.putExtra("tagline", sitter.getDescription());
-                intentProfile.putExtra("phoneNumber", sitter.getPhone());
-                try {
-                    Address userAddress = sitter.getAddress().fetchIfNeeded();
-                    if (userAddress != null) {
-                        intentProfile.putExtra("city", sitter.getAddress().getCity());
-                        intentProfile.putExtra("state", sitter.getAddress().getState());
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                getContext().startActivity(intentProfile);
+                Intent userProfileIntent = new Intent(getContext(), UserProfileActivity.class);
+                userProfileIntent.putExtra(EXTRA_USER_OBJECT_ID, sitter.getObjectId());
+                getContext().startActivity(userProfileIntent);
 
             }
         });
@@ -78,7 +96,5 @@ public class SittersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         mContext = context;
     }
 
-    private Context getContext() {
-        return mContext;
-    }
+
 }

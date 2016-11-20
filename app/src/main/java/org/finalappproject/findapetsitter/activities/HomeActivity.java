@@ -24,8 +24,6 @@ import org.finalappproject.findapetsitter.fragments.FavoriteSittersFragment;
 import org.finalappproject.findapetsitter.fragments.FilterFragment;
 import org.finalappproject.findapetsitter.fragments.MyPetsFragment;
 import org.finalappproject.findapetsitter.fragments.SitterHomeFragment;
-import org.finalappproject.findapetsitter.fragments.UserProfileFragment;
-import org.finalappproject.findapetsitter.model.Address;
 import org.finalappproject.findapetsitter.model.User;
 
 import butterknife.BindView;
@@ -165,22 +163,7 @@ public class HomeActivity extends AppCompatActivity {
                 break;
             case R.id.nav_profile_fragment:
                 Intent intentProfile = new Intent(this, UserProfileActivity.class);
-                intentProfile.putExtra("profile_pic", user.getProfileImageUrl());
-                intentProfile.putExtra("full_name", user.getFullName());
-                intentProfile.putExtra("nickname", user.getNickName());
-                intentProfile.putExtra("tagline", user.getDescription());
-                intentProfile.putExtra("phoneNumber", user.getPhone());
-                try {
-                    Address userAddress = user.getAddress().fetchIfNeeded();
-                    if (userAddress != null) {
-                        intentProfile.putExtra("city", user.getAddress().getCity());
-                        intentProfile.putExtra("state", user.getAddress().getState());
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
                 startActivity(intentProfile);
-                fragmentClass = UserProfileFragment.class;
                 break;
             case R.id.nav_sittersList_fragment:
                 fragmentClass = AvailableSittersFragment.class;

@@ -12,8 +12,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-
-
         <com.astuetz.PagerSlidingTabStrip
             android:id="@+id/tabsSitterHome"
             app:pstsShouldExpand="true"
