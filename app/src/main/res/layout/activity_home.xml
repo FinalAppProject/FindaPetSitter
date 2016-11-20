@@ -15,6 +15,16 @@
         <!-- Toolbar -->
         <include layout="@layout/toolbar" />
 
+        <!-- Home Activity content -->
+        <FrameLayout
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:id="@+id/flContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!-- Floating action button -->
+        <!--
+        TODO we are planning on using it to add search capabilities
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
@@ -22,32 +32,11 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
             app:srcCompat="@android:drawable/ic_dialog_email" />
-
-        <!--TODO How to find the exact height?-->
-        <!-- This LinearLayout represents the contents of the screen  -->
-        <LinearLayout
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|start"
-            android:orientation="vertical">
-
-
-
-            <!-- The main content view where fragments are loaded -->
-            <FrameLayout
-                android:id="@+id/flContent"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-
-        <!--TODO: This also needs to be changes so its selectable by the drawer-->
-        <!--include layout="@layout/content_home" /-->
+        -->
 
     </android.support.design.widget.CoordinatorLayout>
 
-    <!-- The navigation drawer that comes from the left -->
-    <!-- Note that `android:layout_gravity` needs to be set to 'start' -->
+    <!-- Drawer layout navigation view, comes from the left -->
     <android.support.design.widget.NavigationView
         android:id="@+id/nvView"
         android:layout_width="wrap_content"

@@ -5,21 +5,10 @@
             android:id="@+id/nav_home_fragment"
             android:icon="@drawable/one"
             android:title="Home" />
-
         <item
             android:id="@+id/nav_profile_fragment"
             android:icon="@drawable/one"
             android:title="My Profile" />
-
-        <item
-            android:id="@+id/nav_sittersList_fragment"
-            android:icon="@drawable/one"
-            android:checked="true"
-            android:title="Search" />
-        <item
-            android:id="@+id/nav_favSittersList_fragment"
-            android:icon="@drawable/two"
-            android:title="Recents" />
         <item
             android:id="@+id/nav_switch_owner_sitter"
             android:icon="@drawable/two"
