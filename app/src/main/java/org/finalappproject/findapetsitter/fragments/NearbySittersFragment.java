@@ -193,21 +193,23 @@ public class NearbySittersFragment extends Fragment implements GoogleMap.OnMarke
 
     private void searchNearbySitters() {
         final ParseGeoPoint currentLocationGeoPoint = new ParseGeoPoint();
-        currentLocationGeoPoint.setLatitude(mCurrentLocation.latitude);
-        currentLocationGeoPoint.setLongitude(mCurrentLocation.longitude);
+        if (mCurrentLocation != null) {
+            currentLocationGeoPoint.setLatitude(mCurrentLocation.latitude);
+            currentLocationGeoPoint.setLongitude(mCurrentLocation.longitude);
 
-        User.queryPetSittersWithinMiles(currentLocationGeoPoint, 10, new FindCallback<User>() {
-            @Override
-            public void done(List<User> petSitters, ParseException e) {
-                if (e == null) {
-                    mNearbyPetSitterMarkers.clear();
-                    addNearbySitterMarkers(petSitters);
-                } else {
-                    Log.e(TAG, "Failed to retrieve users", e);
-                    Toast.makeText(getContext(), "Failed to query nearby users", Toast.LENGTH_LONG).show();
+            User.queryPetSittersWithinMiles(currentLocationGeoPoint, 10, new FindCallback<User>() {
+                @Override
+                public void done(List<User> petSitters, ParseException e) {
+                    if (e == null) {
+                        mNearbyPetSitterMarkers.clear();
+                        addNearbySitterMarkers(petSitters);
+                    } else {
+                        Log.e(TAG, "Failed to retrieve users", e);
+                        Toast.makeText(getContext(), "Failed to query nearby users", Toast.LENGTH_LONG).show();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     private void addNearbySitterMarkers(List<User> petSitters) {
