@@ -50,6 +50,30 @@ public class UserProfileFragment extends Fragment {
 
     User mUser;
 
+    /**
+     * Required empty public constructor,
+     * use newInstance() factory method instead
+     */
+    @Deprecated
+    public UserProfileFragment() {
+        // Required empty public constructor
+    }
+
+    /**
+     * Factory method used to create SitterHomeFragment
+     * with parameters, use this method instead of
+     * new SitterHomeFragment()
+     *
+     * @return A new instance of fragment SitterHomeFragment.
+     */
+    public static UserProfileFragment newInstance() {
+        UserProfileFragment fragment = new UserProfileFragment();
+        // Currently this fragment doesn't require parameters, in the future we may want to
+        return fragment;
+    }
+
+
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
