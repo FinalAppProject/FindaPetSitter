@@ -28,10 +28,11 @@ public class SittersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static List<User> mAvailableSitters;
     private static Context mContext;
 
-    public class UserViewHolder extends RecyclerView.ViewHolder {
+    private Context getContext() {
+        return mContext;
+    }
 
-        private List<User> sitterlist;
-        private Context context;
+    public class UserViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.tvItemName)
         TextView tvItemFirstName;
@@ -46,20 +47,17 @@ public class SittersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         @BindView(R.id.RlSitterItem)
         RelativeLayout RlSitterItem;
 
-        public UserViewHolder(View view) {
-            super(view);
-            this.sitterlist = sitterlist;
-            this.context = context;
-            ButterKnife.bind(this, view);
+        public UserViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        RecyclerView.ViewHolder viewHolder;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.item_sitter, parent, false);
-        viewHolder = new UserViewHolder(view);
+        RecyclerView.ViewHolder viewHolder = new UserViewHolder(view);
         return viewHolder;
     }
 
@@ -98,7 +96,5 @@ public class SittersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         mContext = context;
     }
 
-    private Context getContext() {
-        return mContext;
-    }
+
 }
