@@ -43,7 +43,13 @@ public class AvailableSittersFragment extends UserListFragment {
         User.queryPetSitters(new FindCallback<User>() {
             public void done(List<User> petSitters, ParseException e) {
                 if (e == null) {
-                    mAvailableSittersList.addAll(petSitters);
+                    User curUser = (User) User.getCurrentUser();
+                    for (User u : petSitters) {
+                        if (u.getObjectId().equals(curUser.getObjectId())) {
+                            continue;
+                        }
+                        mAvailableSittersList.add(u);
+                    }
                     mAvailableSittersAdapter.notifyDataSetChanged();
                 } else {
                     Log.e(LOG_TAG, "Failed to fetch pet sitters", e);
@@ -94,5 +100,4 @@ public class AvailableSittersFragment extends UserListFragment {
         mAvailableSittersList.clear();
         return availableSittersView;
     }
-
 }
