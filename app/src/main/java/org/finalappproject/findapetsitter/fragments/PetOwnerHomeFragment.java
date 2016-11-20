@@ -1,13 +1,10 @@
 package org.finalappproject.findapetsitter.fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +13,6 @@ import android.view.ViewGroup;
 import com.astuetz.PagerSlidingTabStrip;
 
 import org.finalappproject.findapetsitter.R;
-import org.finalappproject.findapetsitter.adapters.HomePagerAdapter;
 import org.finalappproject.findapetsitter.model.User;
 
 import butterknife.BindView;
