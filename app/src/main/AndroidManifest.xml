@@ -23,7 +23,6 @@
         <activity android:name=".activities.HomeActivity" />
         <activity android:name=".activities.UserProfileEditActivity" />
         <activity android:name=".activities.PetProfileActivity" />
-        <activity android:name=".activities.NearbySittersActivity"></activity>
         <activity android:name=".activities.UserProfileActivity"></activity>
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="@string/api_key_google_maps"/>
 
