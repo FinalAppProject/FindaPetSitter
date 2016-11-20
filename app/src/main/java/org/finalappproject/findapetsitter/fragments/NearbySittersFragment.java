@@ -2,12 +2,9 @@ package org.finalappproject.findapetsitter.fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +17,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -32,8 +27,7 @@ import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 
 import org.finalappproject.findapetsitter.R;
-import org.finalappproject.findapetsitter.activities.NearbySittersActivity;
-import org.finalappproject.findapetsitter.activities.UserProfileEditActivity;
+import org.finalappproject.findapetsitter.activities.UserProfileActivity;
 import org.finalappproject.findapetsitter.model.Address;
 import org.finalappproject.findapetsitter.model.User;
 
@@ -45,7 +39,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static org.finalappproject.findapetsitter.R.id.map;
 import static org.finalappproject.findapetsitter.activities.UserProfileEditActivity.EXTRA_USER_OBJECT_ID;
 
 
@@ -257,12 +250,15 @@ public class NearbySittersFragment extends Fragment implements GoogleMap.OnMarke
     @Override
     public boolean onMarkerClick(Marker marker) {
         User petSitter = mNearbyPetSitterMarkers.get(marker.getId());
-        startUserProfileActivity(petSitter);
+        // Sitter will be null if the user clicks on its own marker
+        if (petSitter != null) {
+            startUserProfileActivity(petSitter);
+        }
         return true;
     }
 
     private void startUserProfileActivity(User petSitter) {
-        Intent userProfileIntent = new Intent(getContext(), UserProfileEditActivity.class);
+        Intent userProfileIntent = new Intent(getContext(), UserProfileActivity.class);
         userProfileIntent.putExtra(EXTRA_USER_OBJECT_ID, petSitter.getObjectId());
         startActivity(userProfileIntent);
     }

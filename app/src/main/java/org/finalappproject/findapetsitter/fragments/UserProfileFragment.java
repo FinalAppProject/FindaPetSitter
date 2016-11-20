@@ -11,8 +11,11 @@ import android.widget.TextView;
 
 import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.model.Address;
+import org.finalappproject.findapetsitter.model.Pet;
 import org.finalappproject.findapetsitter.model.User;
 import org.finalappproject.findapetsitter.util.ImageHelper;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -111,7 +114,9 @@ public class UserProfileFragment extends Fragment {
         }
         // TODO again, should be recyclerview later
         ImageHelper.loadImage(getContext(), mUser.getProfileImage(), R.mipmap.ic_launcher, ivUserProfileImage);
-        ImageHelper.loadImage(getContext(), mUser.getPets().get(0).getProfileImage(), R.drawable.cat, ivUserPet1);
-        //ImageHelper.loadImage(getContext(), mUser.getPets().get(1).getProfileImage(), R.drawable.cat, ivUserPet2);
+        List<Pet> userPets = mUser.getPets();
+        if (userPets != null && !userPets.isEmpty()) {
+            ImageHelper.loadImage(getContext(), userPets.get(0).getProfileImage(), R.drawable.cat, ivUserPet1);
+        }
     }
 }
