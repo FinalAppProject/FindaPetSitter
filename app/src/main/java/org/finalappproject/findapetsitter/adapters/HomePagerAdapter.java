@@ -4,20 +4,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import org.finalappproject.findapetsitter.activities.HomeActivity;
-import org.finalappproject.findapetsitter.application.AppConstants;
 import org.finalappproject.findapetsitter.fragments.AvailableSittersFragment;
-import org.finalappproject.findapetsitter.fragments.FavoriteSittersFragment;
+import org.finalappproject.findapetsitter.fragments.NearbySittersFragment;
 
 import java.util.ArrayList;
-
-import static org.finalappproject.findapetsitter.activities.HomeActivity.HOME_NUM_TABS;
 
 public class HomePagerAdapter extends FragmentPagerAdapter {
 
     ArrayList<String> tabsTitles = new ArrayList<String>(){{
-        add("Avaiable");
-        add("Favorites");
+        add("Pet Sitters");
+        add("Nearby Pet Sitters");
     }};
 
     public HomePagerAdapter(FragmentManager fragmentManager) {
@@ -27,7 +23,7 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
     // Returns total number of pages
     @Override
     public int getCount() {
-        return HomeActivity.HOME_NUM_TABS;
+        return 2;
     }
 
     // Returns the fragment to display for that page
@@ -37,7 +33,7 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return new AvailableSittersFragment();
             case 1:
-                return new FavoriteSittersFragment();
+                return NearbySittersFragment.newInstance();
             default:
                 return null;
         }

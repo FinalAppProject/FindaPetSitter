@@ -28,43 +28,35 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     // https://github.com/googlemaps/google-maps-services-java
-    compile 'com.google.maps:google-maps-services:0.1.16'
 
     // ButterKnife
-    compile 'com.jakewharton:butterknife:8.4.0'
     // Parse
+    // Parceler
+    // Android Support
+    // Recycler view
+    // Google play services
+    // Glide
+    // Gson
+    // PageSlidingTabStrip
+    //Calendar picker
+    compile 'com.google.maps:google-maps-services:0.1.16'
+    compile 'com.jakewharton:butterknife:8.4.0'
     compile 'com.parse:parse-android:1.13.1'
     compile 'com.parse:parseui-widget-android:0.0.1'
     compile 'com.parse:parseinterceptors:0.0.2'
-    // Parceler
     compile 'org.parceler:parceler-api:1.1.1'
-    // Android Support
     compile 'com.android.support:appcompat-v7:24.2.1'
-    apt 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'com.android.support:design:24.2.1'
-
-    apt 'org.parceler:parceler:1.1.1'
-    testCompile 'junit:junit:4.12'
-
-    // Recycler view
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.android.support:recyclerview-v7:24.2.1'
-
-    // Google play services
     compile 'com.google.android.gms:play-services-maps:9.8.0'
     compile 'com.google.android.gms:play-services-location:9.8.0'
-
-
-    //Glide
     compile 'com.github.bumptech.glide:glide:3.5.2'
     compile 'jp.wasabeef:glide-transformations:2.0.1'
-
-    //gson
     compile 'com.google.code.gson:gson:2.6.2'
-
-    // PageSlidingTabStrip
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
-
-    //Calendar picker
     compile 'com.squareup:android-times-square:1.6.5@aar'
+    testCompile 'junit:junit:4.12'
+    apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    apt 'org.parceler:parceler:1.1.1'
 }

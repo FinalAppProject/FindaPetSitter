@@ -20,6 +20,28 @@ import org.finalappproject.findapetsitter.R;
 
 public class SitterHomeFragment extends Fragment {
 
+    /**
+     * Required empty public constructor,
+     * use newInstance() factory method instead
+     */
+    @Deprecated
+    public SitterHomeFragment() {
+        // Required empty public constructor
+    }
+
+    /**
+     * Factory method used to create SitterHomeFragment
+     * with parameters, use this method instead of
+     * new SitterHomeFragment()
+     *
+     * @return A new instance of fragment SitterHomeFragment.
+     */
+    public static SitterHomeFragment newInstance() {
+        SitterHomeFragment fragment = new SitterHomeFragment();
+        // Currently this fragment doesn't require parameters, in the future we may want to
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

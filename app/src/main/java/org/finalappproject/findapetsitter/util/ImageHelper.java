@@ -76,6 +76,6 @@ public abstract class ImageHelper {
             Log.e(LOG_TAG, "Failed to load parse file", e);
         }
 
-        Glide.with(context).load(imageData).placeholder(placeholderResourceId).into(imageView);
+        Glide.with(context).load(imageData).centerCrop().placeholder(placeholderResourceId).into(imageView);
     }
 }
