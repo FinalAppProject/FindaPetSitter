@@ -1,5 +1,6 @@
 package org.finalappproject.findapetsitter.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -14,9 +15,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.parse.GetCallback;
-import com.parse.ParseACL;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -29,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,17 +56,32 @@ public class RequestFragment extends DialogFragment implements CalendarPickerDia
     private static final String LOG_TAG = "RequestFragment";
     CalendarPickerDialogFragment calendarPickerDialogFragment;
 
+    Context mContext;
+
     Request newRequest;
     String sitter_id;
 
     @Override
-    public void done (User user, ParseException e){
+    public void done(User user, ParseException e) {
         if (e == null) {
             newRequest.setReceiver(user);
         } else {
             Log.e(LOG_TAG, "Failed to load sitter", e);
             Toast.makeText(getActivity(), "Failed to fetch added pet", Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        sitter_id = getArguments().getString("sitter_id");
+        User.queryUser(sitter_id, this);
     }
 
     @Nullable
@@ -89,13 +102,6 @@ public class RequestFragment extends DialogFragment implements CalendarPickerDia
         spinnerPetType.setSelection(0, true);
 
         return vi;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        sitter_id = getArguments().getString("sitter_id");
-        User.queryUser(sitter_id, this);
     }
 
     @OnClick(R.id.btnCancel)
@@ -127,26 +133,23 @@ public class RequestFragment extends DialogFragment implements CalendarPickerDia
     @Override
     public void done(ParseException e) {
         if (e == null) {
-            Log.d(LOG_TAG, "Storing fields: " + newRequest.toString());
-            Toast.makeText(getActivity(), "Fields: " + newRequest.toString(),
-                    Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "Request sent", Toast.LENGTH_LONG).show();
         } else {
             Log.e(LOG_TAG, "Failed to send request", e);
-            Toast.makeText(getActivity(), "Failed to send request " + e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "Failed to send request " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
-
     }
 
-    void getRequestFromView(){
+    void getRequestFromView() {
         newRequest.setNote(noteEditText.getText().toString());
         newRequest.setType(PetType.valueOf(spinnerPetType.getSelectedItem().toString()));
         newRequest.setStatus(REQUEST_PENDING);
         setUserNames();
     }
 
-    void setUserNames(){
+    void setUserNames() {
         ParseUser user = ParseUser.getCurrentUser();
-        newRequest.setSender((User)user);
+        newRequest.setSender((User) user);
     }
 
     @OnClick(etSelectDates)
@@ -156,7 +159,7 @@ public class RequestFragment extends DialogFragment implements CalendarPickerDia
         newFragment.show(getFragmentManager(), "calendarfrag");
     }
 
-    public StringBuilder generateFromatedDate(int year, int date, int month){
+    public StringBuilder generateFromatedDate(int year, int date, int month) {
         StringBuilder sb = new StringBuilder();
         sb.append(month);
         sb.append('/');
@@ -166,14 +169,14 @@ public class RequestFragment extends DialogFragment implements CalendarPickerDia
         return sb;
     }
 
-    StringBuilder getDateSplit(Date whole_date){
+    StringBuilder getDateSplit(Date whole_date) {
         StringBuilder sbDate = new StringBuilder();
 
         HashMap<String, Integer> dateSplit = new HashMap<>();
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(whole_date);
-        dateSplit.put("month",cal.get(Calendar.MONTH)+1); //month start from 0 in calendar. so Jan is 0
+        dateSplit.put("month", cal.get(Calendar.MONTH) + 1); //month start from 0 in calendar. so Jan is 0
         dateSplit.put("date", cal.get(Calendar.DATE));
         dateSplit.put("year", cal.get(Calendar.YEAR));
         sbDate.append(generateFromatedDate(dateSplit.get("year"), dateSplit.get("date"), dateSplit.get("month")));
@@ -189,7 +192,7 @@ public class RequestFragment extends DialogFragment implements CalendarPickerDia
         }
 
         Date beginDate = dates.get(0);
-        Date endDate = dates.get(dates.size()-1);
+        Date endDate = dates.get(dates.size() - 1);
         newRequest.setBeginDate(beginDate);
         newRequest.setEndDate(endDate);
 
