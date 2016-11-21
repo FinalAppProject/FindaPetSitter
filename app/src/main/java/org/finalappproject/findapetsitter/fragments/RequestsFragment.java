@@ -29,6 +29,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+import static java.util.Collections.addAll;
+
 /**
  * Requests fragment shows a list of requests by sender or receiver, depending on the context
  */
@@ -147,8 +149,18 @@ public class RequestsFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void done(List<Request> objects, ParseException e) {
+
         if (e == null) {
-            mRequests.addAll(objects);
+            for (Request request : objects) {
+                try {
+                    request.getReceiver().fetchIfNeeded();
+                    request.getSender().fetchIfNeeded();
+                } catch (ParseException ex) {
+                    // This will occur when users associated to the request have been deleted
+                    continue;
+                }
+                mRequests.add(request);
+            }
             mRequestsAdapter.notifyDataSetChanged();
         } else {
             Log.e(LOG_TAG, "Failed to fetch request", e);
