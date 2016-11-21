@@ -17,8 +17,8 @@
     <string name="error_save_profile">Failed to save user profile</string>
 
     <!-- Pet Owner Home Screen -->
-    <string name="page_pet_sitters">Pet Sitters</string>
-    <string name="page_nearby_sitters">Nearby Pet Sitters</string>
+    <string name="page_pet_sitters">Sitters</string>
+    <string name="page_nearby_sitters">Nearby Sitters</string>
     <string name="page_requests_sent">Requests Sent</string>
 
     <!-- Requests Fragment -->
