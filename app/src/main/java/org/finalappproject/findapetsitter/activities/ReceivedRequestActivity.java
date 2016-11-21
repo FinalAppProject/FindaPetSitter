@@ -67,6 +67,7 @@ public class ReceivedRequestActivity extends AppCompatActivity implements GetCal
             @Override
             public void onClick(View view) {
                 mRequest.setStatus(REQUEST_ACCEPTED);
+                Integer status = mRequest.getStatus();
             }
         });
 
