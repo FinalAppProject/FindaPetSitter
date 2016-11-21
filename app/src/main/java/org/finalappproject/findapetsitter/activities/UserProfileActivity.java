@@ -4,10 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,10 +18,16 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 
 import org.finalappproject.findapetsitter.R;
+import org.finalappproject.findapetsitter.adapters.PetsAdapter;
 import org.finalappproject.findapetsitter.fragments.RequestFragment;
 import org.finalappproject.findapetsitter.model.Address;
+import org.finalappproject.findapetsitter.model.Pet;
 import org.finalappproject.findapetsitter.model.User;
 import org.finalappproject.findapetsitter.util.ImageHelper;
+import org.finalappproject.findapetsitter.util.recyclerview.ItemClickSupport;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,25 +61,25 @@ public class UserProfileActivity extends AppCompatActivity implements GetCallbac
     @BindView(R.id.tvUserAddress)
     TextView tvUserAddress;
 
+    @BindView(R.id.rvPets)
+    RecyclerView rvPets;
+
     @BindView(R.id.btSendRequestOrEdit)
     Button btSendRequest;
 
-    // TODO following will be horizontal recyclerview
-    @BindView(R.id.ivUserPet1)
-    ImageView ivUserPet1;
-
-    @BindView(R.id.ivUserPet2)
-    ImageView ivUserPet2;
-
-
     User mUser;
+    List<Pet> mPets;
+    PetsAdapter mPetsAdapter;
     Boolean isOtherUser;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_user_profile);
+        // Bind views
         ButterKnife.bind(this);
+        // Setup recycler view
+        setupPetsRecyclerView();
 
         mUser = null;
         String userObjectId = getIntent().getStringExtra(EXTRA_USER_OBJECT_ID);
@@ -84,6 +93,25 @@ public class UserProfileActivity extends AppCompatActivity implements GetCallbac
             loadData();
         }
     }
+
+    private void setupPetsRecyclerView() {
+        mPets = new ArrayList<>();
+        mPetsAdapter = new PetsAdapter(this, mPets);
+        rvPets.setAdapter(mPetsAdapter);
+        LinearLayoutManager linerLayoutManager = new LinearLayoutManager(this);
+        linerLayoutManager.setOrientation(LinearLayout.HORIZONTAL);
+        rvPets.setLayoutManager(linerLayoutManager);
+
+        ItemClickSupport.addTo(rvPets).setOnItemClickListener(
+                new ItemClickSupport.OnItemClickListener() {
+                    @Override
+                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                        // TOD startPetProfileActivity(position);
+                    }
+                }
+        );
+    }
+
 
     private void loadData() {
         tvUserName.setText(mUser.getFullName());
@@ -121,11 +149,14 @@ public class UserProfileActivity extends AppCompatActivity implements GetCallbac
             }
         });
 
-        // TODO again, should be recyclerview later
         ImageHelper.loadImage(this, mUser.getProfileImage(), R.drawable.account_plus, ivUserProfileImage);
-        //ImageHelper.loadImage(getContext(), mUser.getPets().get(0).getProfileImage(), R.drawable.cat, ivUserPet1);
-        //ImageHelper.loadImage(getContext(), mUser.getPets().get(1).getProfileImage(), R.drawable.cat, ivUserPet2);
 
+        // Load pets list into the recycler view
+        List<Pet> userPets = mUser.getPets();
+        if (userPets != null) {
+            mPets.addAll(userPets);
+            mPetsAdapter.notifyItemRangeInserted(0, userPets.size());
+        }
     }
 
     @Override

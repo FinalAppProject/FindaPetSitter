@@ -207,6 +207,11 @@ public class NearbySittersFragment extends Fragment implements GoogleMap.OnMarke
 
     private void addNearbySitterMarkers(List<User> petSitters) {
         for (User nearbySitter : petSitters) {
+            // Prevent itself from showing up in the map, TODO should probably have filtered the query
+            if (nearbySitter.getObjectId().equals(User.getCurrentUser().getObjectId())) {
+                continue;
+            }
+            //
             try {
                 Address nearbySitterAddress = nearbySitter.getAddress().fetchIfNeeded();
                 ParseGeoPoint geoPoint = nearbySitterAddress.getGeoPoint();

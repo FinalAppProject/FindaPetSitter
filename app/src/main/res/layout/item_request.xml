@@ -2,23 +2,35 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rlRequestReceived"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/rlRequestReceived">
+    android:layout_height="70dp">
 
     <ImageView
+        android:id="@+id/ivRequestProfile"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        tools:src="@mipmap/ic_launcher"
         android:layout_margin="5dp"
-        android:id="@+id/ivRequestProfile" />
+        tools:src="@mipmap/ic_launcher" />
 
     <TextView
-        tools:text="You've got a request from Katie!"
+        android:id="@+id/tvRequestReceived"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textSize="20sp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="5dp"
         android:layout_toEndOf="@id/ivRequestProfile"
-        android:id="@+id/tvRequestReceived" />
+        tools:text="You've got a request from Katie!" />
+
+    <TextView
+        android:id="@+id/tvRequestStatus"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="5dp"
+        tools:background="@color/green"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:textColor="@color/white"
+        tools:text="Accepted" />
 </RelativeLayout>
