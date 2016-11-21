@@ -142,7 +142,10 @@ public class UserProfileFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        
+        // Show user profile image
+        ImageHelper.loadImage(getContext(), mUser.getProfileImage(), R.mipmap.ic_launcher, ivUserProfileImage);
+        
         loadPetsData();
 
         btSendRequest.setText("Edit Profile");
