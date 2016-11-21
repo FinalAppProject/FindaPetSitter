@@ -16,16 +16,11 @@ import org.finalappproject.findapetsitter.fragments.AvailableSittersFragment;
 import org.finalappproject.findapetsitter.model.User;
 import org.finalappproject.findapetsitter.util.ImageHelper;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static android.media.CamcorderProfile.get;
 import static org.finalappproject.findapetsitter.activities.UserProfileEditActivity.EXTRA_USER_OBJECT_ID;
 
 public class SittersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
@@ -77,7 +72,8 @@ public class SittersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         ImageHelper.loadImage(mContext, sitter.getProfileImage(), R.drawable.cat, vh.ivItemProfilePic);
         //vh.tvNumReviews.setText("45");
-        vh.tvDistance.setText(mAvailableSittersWithDistance.get(position).distance + " miles");
+        double distanceVal = Math.round( mAvailableSittersWithDistance.get(position).distance * 100.0 ) / 100.0;
+        vh.tvDistance.setText(distanceVal + " miles");
 
         vh.RlSitterItem.setOnClickListener(new View.OnClickListener() {
             @Override
