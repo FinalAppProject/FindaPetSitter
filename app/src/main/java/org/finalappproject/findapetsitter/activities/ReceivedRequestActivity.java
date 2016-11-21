@@ -62,7 +62,19 @@ public class ReceivedRequestActivity extends AppCompatActivity implements GetCal
     }
 
     private void loadData() {
+
         User petOwner = mRequest.getSender();
+        User petSitter = mRequest.getReceiver();
+
+        try {
+            // This seems to be allowing us to save the request/response
+            // Prevents the error: java.lang.IllegalArgumentException: Cannot save a ParseUser that is not authenticated.
+            petOwner.fetchIfNeeded();
+            petSitter.fetchIfNeeded();
+        } catch (ParseException e) {
+            Log.e(LOG_TAG, "Failed fetching user", e);
+        }
+
         List<Pet> pets = petOwner.getPets();
         // Load user information
         ImageHelper.loadImage(this, petOwner.getProfileImage(), R.drawable.account_plus, ivProfilePic);
@@ -96,8 +108,9 @@ public class ReceivedRequestActivity extends AppCompatActivity implements GetCal
 
     /**
      * Parse GetCallback<Request> implementation
+     *
      * @param request
-     * @param e ParseException
+     * @param e       ParseException
      */
     @Override
     public void done(Request request, ParseException e) {
@@ -112,6 +125,7 @@ public class ReceivedRequestActivity extends AppCompatActivity implements GetCal
 
     /**
      * Parse SaveCallback implementation
+     *
      * @param e ParseException
      */
     @Override
