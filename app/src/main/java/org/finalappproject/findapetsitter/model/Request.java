@@ -103,4 +103,9 @@ public class Request extends ParseObject{
         ParseQuery<Request> requestQuery = ParseQuery.getQuery(Request.class).whereEqualTo(KEY_RECEIVER, user);
         requestQuery.findInBackground(findCallback);
     }
+
+    public static void queryBySender(ParseUser user, FindCallback<Request> findCallback) {
+        ParseQuery<Request> requestQuery = ParseQuery.getQuery(Request.class).whereEqualTo(KEY_SENDER, user);
+        requestQuery.findInBackground(findCallback);
+    }
 }

@@ -41,9 +41,9 @@ public class PetOwnerHomeFragment extends Fragment {
     }
 
     public class PetOwnerPageAdapter extends FragmentPagerAdapter {
-        final int PAGE_COUNT = 2;
+        final int PAGE_COUNT = 3;
 
-        private String titles[] = {"Pet Sitters", "Nearby Pet Sitters"};
+        private String titles[] = {getString(R.string.page_pet_sitters), getString(R.string.page_nearby_sitters), getString(R.string.page_requests_sent)};
 
         public PetOwnerPageAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
@@ -56,16 +56,14 @@ public class PetOwnerHomeFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            if (position == 0) {
-                return new AvailableSittersFragment();
-            } else {
-//                // Pushing MapView Fragment
-//                Fragment fragment = Fragment.instantiate(this, MapViewFragment.class.getName());
-//                FragmentTransaction ft = getFragmentManager().beginTransaction();
-//                ft.replace(R.id.mapViewContainer, fragment);
-//                ft.commit();
-//
-                return NearbySittersFragment.newInstance();
+            switch (position) {
+                case 1:
+                    return NearbySittersFragment.newInstance();
+                case 2:
+                    return RequestsFragment.newInstance(false);
+                case 0:
+                default:
+                    return new AvailableSittersFragment();
             }
         }
 

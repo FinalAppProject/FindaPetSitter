@@ -3,6 +3,7 @@ package org.finalappproject.findapetsitter.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +11,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.parse.ParseException;
+import com.parse.ParseFile;
+
 import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.activities.ReceivedRequestActivity;
 import org.finalappproject.findapetsitter.model.Request;
+import org.finalappproject.findapetsitter.model.User;
 import org.finalappproject.findapetsitter.util.ImageHelper;
 
 import java.util.ArrayList;
@@ -21,14 +26,19 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.R.id.message;
+
 /**
  * Created by Aoi on 11/19/2016.
  */
 
 public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHolder> {
 
+    private static final String LOG_TAG = "RequestsAdapter";
+
     private List<Request> mRequests;
     private Context mContext;
+    private boolean mIsPetSitterFlow;
 
     private Context getContext() {
         return mContext;
@@ -49,9 +59,10 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         }
     }
 
-    public RequestsAdapter(Context context, ArrayList<Request> requests) {
-        mRequests = requests;
+    public RequestsAdapter(Context context, ArrayList<Request> requests, boolean isPetSitterFlow) {
         mContext = context;
+        mRequests = requests;
+        mIsPetSitterFlow = isPetSitterFlow;
     }
 
     public RequestsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -65,8 +76,30 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
     public void onBindViewHolder(RequestsAdapter.ViewHolder viewHolder, int position) {
         final Request request = mRequests.get(position);
 
-        ImageHelper.loadImage(mContext, request.getSender().getProfileImage(), R.drawable.cat, viewHolder.ivRequestProfile);
-        viewHolder.tvRequestReceived.setText(String.format("You got a request from %s", request.getSender().getFullName()));
+        final User currentUser;
+        final User otherUser;
+        final String message;
+
+        try {
+            if (mIsPetSitterFlow) {
+                currentUser = (User) request.getReceiver().fetchIfNeeded();
+                otherUser = (User) request.getSender().fetchIfNeeded();
+                message = getContext().getString(R.string.request_message_pet_sitter, otherUser.getFullName());
+            } else {
+                currentUser = (User) request.getSender().fetchIfNeeded();
+                otherUser = (User) request.getReceiver().fetchIfNeeded();
+                message = getContext().getString(R.string.request_message_pet_owner, otherUser.getFullName());
+            }
+
+            //
+            ImageHelper.loadImage(mContext, otherUser.getProfileImage(), R.drawable.cat, viewHolder.ivRequestProfile);
+            //
+            viewHolder.tvRequestReceived.setText(message);
+        } catch (ParseException e) {
+            Log.e(LOG_TAG, "Failed to fetch User", e);
+            viewHolder.ivRequestProfile.setImageResource(0);
+            viewHolder.tvRequestReceived.setText("");
+        }
 
         viewHolder.rlRequestReceived.setOnClickListener(new View.OnClickListener() {
             @Override

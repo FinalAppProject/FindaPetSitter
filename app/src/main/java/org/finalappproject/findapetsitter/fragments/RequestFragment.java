@@ -32,11 +32,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static org.finalappproject.findapetsitter.R.id.etSelectDates;
+import static org.finalappproject.findapetsitter.application.AppConstants.REQUEST_PENDING;
 
 public class RequestFragment extends DialogFragment implements CalendarPickerDialogFragment.OnDatesSelectedListener, GetCallback<User> {
-
-    //These should maybe go in the utils contants folder
-    public static final int REQUEST_PENDING=0, REQUEST_REJECTED=1, REQUEST_ACCEPTED=2;
 
     @BindView(R.id.spPetType)
     Spinner spinnerPetType;
