@@ -12,7 +12,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.parse.ParseException;
-import com.parse.ParseFile;
 
 import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.activities.ReceivedRequestActivity;
@@ -25,8 +24,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static android.R.id.message;
 
 /**
  * Created by Aoi on 11/19/2016.
@@ -85,6 +82,16 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 currentUser = (User) request.getReceiver().fetchIfNeeded();
                 otherUser = (User) request.getSender().fetchIfNeeded();
                 message = getContext().getString(R.string.request_message_pet_sitter, otherUser.getFullName());
+
+                viewHolder.rlRequestReceived.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getContext(), ReceivedRequestActivity.class);
+                        intent.putExtra("request_id", request.getObjectId());
+                        getContext().startActivity(intent);
+                    }
+                });
+
             } else {
                 currentUser = (User) request.getSender().fetchIfNeeded();
                 otherUser = (User) request.getReceiver().fetchIfNeeded();
@@ -101,14 +108,6 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
             viewHolder.tvRequestReceived.setText("");
         }
 
-        viewHolder.rlRequestReceived.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(), ReceivedRequestActivity.class);
-                intent.putExtra("request_id", request.getObjectId());
-                getContext().startActivity(intent);
-            }
-        });
     }
 
     @Override
