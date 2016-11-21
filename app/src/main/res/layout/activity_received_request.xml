@@ -97,7 +97,7 @@
             android:id="@+id/tvReceivedRequestDate" />
 
         <TextView
-            android:text="Here is the message from Katy:"
+            android:text="Here is the message from the pet owner:"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvReceivedRequestDate"

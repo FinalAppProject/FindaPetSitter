@@ -3,6 +3,8 @@ package org.finalappproject.findapetsitter.activities;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +33,11 @@ public class ReceivedRequestActivity extends AppCompatActivity implements GetCal
     TextView tvDate;
     @BindView(R.id.tvReceivedRequestMessage)
     TextView tvMessage;
+    @BindView(R.id.btRespondAccept)
+    Button btAccept;
+    @BindView(R.id.btRespondReject)
+    Button btReject;
+
 
     private static final String LOG_TAG = "ReceivedRequestActivity";
     Request mRequest;
@@ -52,6 +59,13 @@ public class ReceivedRequestActivity extends AppCompatActivity implements GetCal
         tvPetName.setText(mRequest.getSender().getPets().get(0).getName());
         tvDate.setText(String.format("From %s \nto %s ?", mRequest.getBeginDate().toString(), mRequest.getEndDate().toString()));
         tvMessage.setText(mRequest.getNote());
+
+        btAccept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //
+            }
+        });
     }
 
     @Override
