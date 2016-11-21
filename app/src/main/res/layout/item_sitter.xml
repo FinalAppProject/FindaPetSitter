@@ -42,27 +42,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvItemTagline"
+        android:maxLines="2"
         android:layout_below="@+id/tvItemName"
         android:layout_toRightOf="@+id/ivItemProfileImage"
         android:layout_toEndOf="@+id/ivItemProfileImage" />
 
     <TextView
-        android:text="#Reviews"
+        android:text="Distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tvNumReviews"
+        android:id="@+id/tvDistance"
         android:layout_below="@+id/tvItemTagline"
         android:layout_toRightOf="@+id/ivItemProfileImage"
         android:layout_toEndOf="@+id/ivItemProfileImage" />
 
+<!--
     <TextView
-        android:text="Rating"
+        android:text="Distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tvRatings"
+        android:id="@+id/tvDistance"
         android:layout_marginLeft="5dp"
         android:layout_below="@+id/tvItemTagline"
         android:layout_toRightOf="@+id/tvNumReviews"
         android:layout_toEndOf="@+id/tvNumReviews" />
+-->
 
 </RelativeLayout>
