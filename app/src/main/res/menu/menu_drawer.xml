@@ -12,7 +12,7 @@
         <item
             android:id="@+id/nav_switch_owner_sitter"
             android:icon="@drawable/two"
-            android:title="My Requests" />
+            android:title="Received Requests" />
         <item
             android:id="@+id/nav_logout_fragment"
             android:icon="@drawable/three"
