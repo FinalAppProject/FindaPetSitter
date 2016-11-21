@@ -94,9 +94,7 @@ public class ReceivedRequestActivity extends AppCompatActivity implements GetCal
             public void onClick(View view) {
                 mRequest.setStatus(REQUEST_ACCEPTED);
                 mRequest.saveInBackground(ReceivedRequestActivity.this);
-                btAccept.setEnabled(false);
-                btAccept.setBackgroundResource(R.color.gray);
-                btReject.setEnabled(false);
+                disableButton();
             }
         });
 
@@ -105,12 +103,14 @@ public class ReceivedRequestActivity extends AppCompatActivity implements GetCal
             public void onClick(View view) {
                 mRequest.setStatus(REQUEST_REJECTED);
                 mRequest.saveInBackground(ReceivedRequestActivity.this);
-                btAccept.setEnabled(false);
-                btReject.setBackgroundResource(R.color.gray);
-                btReject.setEnabled(false);
-
+                disableButton();
             }
         });
+    }
+
+    private void disableButton() {
+        btAccept.setEnabled(false);
+        btReject.setEnabled(false);
     }
 
     /**
