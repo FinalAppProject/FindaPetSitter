@@ -13,25 +13,32 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
 
 import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.adapters.SittersAdapter;
+import org.finalappproject.findapetsitter.model.Address;
 import org.finalappproject.findapetsitter.model.User;
 import org.finalappproject.findapetsitter.util.recyclerview.DividerItemDecoration;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+
 public class AvailableSittersFragment extends UserListFragment {
 
     private static final String LOG_TAG = "AvailableSittersFrag";
 
     private LinearLayoutManager mAvailableSittersLinearlayout;
-    private LinkedList<User> mAvailableSittersList;  //TODO: if we want to display search results based on distance, do we need linkedlist or arraylist is ok?
+    private ArrayList<SendAdapterObject> mAllSittersList;
+
     private SittersAdapter mAvailableSittersAdapter;
+    ParseGeoPoint ownerGeoPoint;
 
     @BindView(R.id.rvAvailableSitters)
     RecyclerView mAvailableSittersRecyclerView;
@@ -40,16 +47,19 @@ public class AvailableSittersFragment extends UserListFragment {
 
     @Override
     void populateList() {
-        User.queryPetSitters(new FindCallback<User>() {
+        getUserGeoLocation();
+        User.queryPetSittersNear(ownerGeoPoint, new FindCallback<User>() {
             public void done(List<User> petSitters, ParseException e) {
+                List<User> availableSittersList = new LinkedList<>();
                 if (e == null) {
                     User curUser = (User) User.getCurrentUser();
                     for (User u : petSitters) {
                         if (u.getObjectId().equals(curUser.getObjectId())) {
                             continue;
                         }
-                        mAvailableSittersList.add(u);
+                        availableSittersList.add(u);
                     }
+                    getDistances(availableSittersList);
                     mAvailableSittersAdapter.notifyDataSetChanged();
                 } else {
                     Log.e(LOG_TAG, "Failed to fetch pet sitters", e);
@@ -70,8 +80,8 @@ public class AvailableSittersFragment extends UserListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         super.onCreateView(inflater, parent, savedInstanceState);
 
-        mAvailableSittersList = new LinkedList<>();
-        mAvailableSittersAdapter = new SittersAdapter(getContext(), mAvailableSittersList);
+        mAllSittersList = new ArrayList<>();
+        mAvailableSittersAdapter = new SittersAdapter(getContext(), mAllSittersList);
 
         View availableSittersView = inflater.inflate(R.layout.fragment_available_sitters, parent, false);
         ButterKnife.bind(this, availableSittersView);
@@ -90,14 +100,53 @@ public class AvailableSittersFragment extends UserListFragment {
         mAvailableSittersSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mAvailableSittersList.clear();
+                mAllSittersList.clear();
                 mAvailableSittersAdapter.notifyDataSetChanged();
                 populateList();
                 mAvailableSittersSwipeRefreshLayout.setRefreshing(false);
             }
         });
 
-        mAvailableSittersList.clear();
+        mAllSittersList.clear();
         return availableSittersView;
     }
+
+    void getUserGeoLocation() {
+        User currentUser = (User) User.getCurrentUser();
+        try {
+            Address userAddress = currentUser.getAddress().fetchIfNeeded();
+            ownerGeoPoint = userAddress.getGeoPoint();
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "Failed to fetch user address coordinates", e);
+        }
+    }
+
+    void getDistances(List<User> availableSittersList){
+        for (User sitter :  availableSittersList) {
+            try {
+                Address userAddress = sitter.getAddress().fetchIfNeeded();
+                ParseGeoPoint point = userAddress.getGeoPoint();
+                Integer distance = (int)ownerGeoPoint.distanceInMilesTo(point);
+                mAllSittersList.add(new SendAdapterObject (sitter, distance));
+            } catch (Exception e) {
+                Log.e(LOG_TAG, "Failed to fetch user address coordinates", e);
+            }
+        }
+        Collections.sort(mAllSittersList);
+    }
+
+    public class SendAdapterObject implements Comparable<SendAdapterObject>{
+        public User user;
+        public int distance;
+        public SendAdapterObject(User u, int d){
+            this.user = u;
+            this.distance = d;
+        }
+
+        @Override
+        public int compareTo(SendAdapterObject o) {
+            return (this.distance - o.distance);
+        }
+    }
+
 }
