@@ -19,6 +19,9 @@ import org.finalappproject.findapetsitter.util.ImageHelper;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static org.finalappproject.findapetsitter.application.AppConstants.REQUEST_ACCEPTED;
+import static org.finalappproject.findapetsitter.application.AppConstants.REQUEST_REJECTED;
+
 public class ReceivedRequestActivity extends AppCompatActivity implements GetCallback<Request> {
 
     @BindView(R.id.ivReceivedRequestProfile)
@@ -63,7 +66,14 @@ public class ReceivedRequestActivity extends AppCompatActivity implements GetCal
         btAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //
+                mRequest.setStatus(REQUEST_ACCEPTED);
+            }
+        });
+
+        btReject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mRequest.setStatus(REQUEST_REJECTED);
             }
         });
     }

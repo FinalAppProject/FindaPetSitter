@@ -99,7 +99,7 @@ public class Request extends ParseObject{
         requestQuery.getInBackground(requestId, findCallback);
     }
 
-    public static void queryReceiver(ParseUser user, FindCallback<Request> findCallback) {
+    public static void queryByReceiver(ParseUser user, FindCallback<Request> findCallback) {
         ParseQuery<Request> requestQuery = ParseQuery.getQuery(Request.class).whereEqualTo(KEY_RECEIVER, user);
         requestQuery.findInBackground(findCallback);
     }
