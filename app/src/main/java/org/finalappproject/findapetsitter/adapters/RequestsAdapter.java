@@ -1,14 +1,17 @@
 package org.finalappproject.findapetsitter.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.finalappproject.findapetsitter.R;
+import org.finalappproject.findapetsitter.activities.ReceivedRequestActivity;
 import org.finalappproject.findapetsitter.model.Request;
 import org.finalappproject.findapetsitter.util.ImageHelper;
 
@@ -37,6 +40,8 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         ImageView ivRequestProfile;
         @BindView(R.id.tvRequestReceived)
         TextView tvRequestReceived;
+        @BindView(R.id.rlRequestReceived)
+        RelativeLayout rlRequestReceived;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -62,6 +67,15 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
 
         ImageHelper.loadImage(mContext, request.getSender().getProfileImage(), R.drawable.cat, viewHolder.ivRequestProfile);
         viewHolder.tvRequestReceived.setText(String.format("You got a request from %s", request.getSender().getFullName()));
+
+        viewHolder.rlRequestReceived.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ReceivedRequestActivity.class);
+                intent.putExtra("request_id", request.getObjectId());
+                getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override

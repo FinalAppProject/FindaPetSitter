@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_request"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="org.finalappproject.findapetsitter.activities.ReceivedRequestActivity">
+
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+
+            tools:src="@mipmap/ic_launcher"
+            android:layout_marginTop="34dp"
+            android:id="@+id/ivReceivedRequestProfile"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:text="Hello! My name is "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:textSize="18sp"
+            android:id="@+id/tvReceivedRequestFrom"
+            android:layout_marginStart="15dp"
+            android:layout_below="@+id/ivReceivedRequestProfile"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            tools:text="Katy Smith"
+            android:textSize="30sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:id="@+id/tvReceivedRequestFullName"
+            android:layout_below="@+id/tvReceivedRequestFrom"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:text="I'm looking for a sitter for my pet"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvReceivedRequestFullName"
+            android:layout_alignStart="@+id/tvReceivedRequestFrom"
+            android:id="@+id/tvLookingForText"
+            android:layout_marginTop="10dp" />
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            tools:src="@drawable/cat"
+            android:id="@+id/ivReceivedRequestPetPic"
+            android:layout_below="@id/tvLookingForText"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            tools:text="Doggo"
+            android:textSize="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivReceivedRequestPetPic"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:id="@+id/tvReceivedRequestPetName" />
+
+        <TextView
+            tools:text="Are you available following date?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:id="@+id/tvReceivedRequestDateText"
+            android:layout_below="@+id/tvReceivedRequestPetName"
+            android:layout_alignStart="@+id/tvLookingForText"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            tools:text="2016/11/23 - 2016/11/25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvReceivedRequestDateText"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:textSize="20dp"
+            android:id="@+id/tvReceivedRequestDate" />
+
+        <TextView
+            android:text="Here is the message from Katy:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvReceivedRequestDate"
+            android:layout_alignStart="@+id/tvReceivedRequestDateText"
+            android:textSize="18dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/tvReceivedRequestMessageText" />
+
+        <TextView
+            tools:text="Hi, my name is Katie. I'm looking for a sitter around right before thanksgiving who can take care of my cat called doggo."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvReceivedRequestMessageText"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:layout_alignStart="@+id/tvReceivedRequestDateText"
+            android:id="@+id/tvReceivedRequestMessage" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/tvReceivedRequestMessage">
+
+            <Button
+                android:text="Reject"
+                android:layout_marginEnd="10dp"
+                android:id="@+id/btRespondReject"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:text="Accept"
+                android:layout_marginStart="10dp"
+                android:id="@+id/btRespondAccept"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+</RelativeLayout>
+</ScrollView>

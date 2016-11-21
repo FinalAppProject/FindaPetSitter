@@ -1,6 +1,7 @@
 package org.finalappproject.findapetsitter.model;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -89,6 +90,13 @@ public class Request extends ParseObject{
 
     public String toString() {
         return "PetType: " + this.getType() + "\nNote : " + this.getNote()  + "\nDate: " + this.getBeginDate().toString() + " ---- " + this.getEndDate().toString();
+    }
+
+    public static void queryRequest(String requestId, GetCallback<Request> findCallback) {
+        // TODO verify/validate cache policy
+        ParseQuery<Request> requestQuery = ParseQuery.getQuery(Request.class);
+        requestQuery.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
+        requestQuery.getInBackground(requestId, findCallback);
     }
 
     public static void queryReceiver(ParseUser user, FindCallback<Request> findCallback) {
