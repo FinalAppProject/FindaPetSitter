@@ -47,8 +47,32 @@ public class AvailableSittersFragment extends UserListFragment {
 
     @Override
     void populateList() {
+        User currentUser = (User) User.getCurrentUser();
+
+        if (!currentUser.getAddress().has("address")){
+            getUserGeoLocation();
+            User.queryPetSitters(new FindCallback<User>() {
+                public void done(List<User> petSitters, ParseException e) {
+                    if (e == null) {
+                        User curUser = (User) User.getCurrentUser();
+                        for (User u : petSitters) {
+                            if (u.getObjectId().equals(curUser.getObjectId())) {
+                                continue;
+                            }
+                            mAllSittersList.add(new SendAdapterObject(u, 0));
+                        }
+                        mAvailableSittersAdapter.notifyDataSetChanged();
+                    } else {
+                        Log.e(LOG_TAG, "Failed to fetch pet sitters", e);
+                        Toast.makeText(getContext(), "Failed to fetch pet sitters", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+            return;
+        }
+
         getUserGeoLocation();
-        User.queryPetSittersNear(ownerGeoPoint, new FindCallback<User>() {
+        User.queryPetSitters(new FindCallback<User>() {
             public void done(List<User> petSitters, ParseException e) {
                 List<User> availableSittersList = new LinkedList<>();
                 if (e == null) {
