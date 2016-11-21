@@ -83,12 +83,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
         // If menu item hasn't been handled it comes from the support toolbar
         switch (item.getItemId()) {
-            case R.id.miFilter:
-                showFilterDialog();
-                return true;
-            case R.id.miUserProfile:
-                startUserProfileActivity();
-                return true;
+//            case R.id.miFilter:
+//                showFilterDialog();
+//                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -191,11 +188,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         FragmentManager fm = getSupportFragmentManager();
         FilterFragment filterFragment = new FilterFragment();
         filterFragment.show(fm, "fragment_filter");
-    }
-
-    private void startUserProfileActivity() {
-        Intent userProfileIntent = new Intent(this, UserProfileEditActivity.class);
-        startActivity(userProfileIntent);
     }
 
 }

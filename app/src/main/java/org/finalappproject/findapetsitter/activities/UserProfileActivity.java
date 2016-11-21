@@ -52,7 +52,7 @@ public class UserProfileActivity extends AppCompatActivity implements GetCallbac
     @BindView(R.id.tvUserAddress)
     TextView tvUserAddress;
 
-    @BindView(R.id.btSendRequest)
+    @BindView(R.id.btSendRequestOrEdit)
     Button btSendRequest;
 
     // TODO following will be horizontal recyclerview
@@ -100,6 +100,7 @@ public class UserProfileActivity extends AppCompatActivity implements GetCallbac
         }
 
         if (isOtherUser) {
+            btSendRequest.setText("Send Request");
             btSendRequest.setVisibility(View.VISIBLE);
         } else {
             btSendRequest.setVisibility(View.GONE);

@@ -1,15 +1,18 @@
 package org.finalappproject.findapetsitter.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.finalappproject.findapetsitter.R;
+import org.finalappproject.findapetsitter.activities.UserProfileEditActivity;
 import org.finalappproject.findapetsitter.model.Address;
 import org.finalappproject.findapetsitter.model.Pet;
 import org.finalappproject.findapetsitter.model.User;
@@ -51,6 +54,9 @@ public class UserProfileFragment extends Fragment {
     @BindView(R.id.ivUserPet2)
     ImageView ivUserPet2;
 
+    @BindView(R.id.btSendRequestOrEdit)
+    Button btSendRequest;
+
     User mUser;
 
     /**
@@ -75,15 +81,10 @@ public class UserProfileFragment extends Fragment {
         return fragment;
     }
 
-
-
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
-
 
     @Nullable
     @Override
@@ -95,7 +96,6 @@ public class UserProfileFragment extends Fragment {
         loadData();
         return view;
     }
-
 
     private void loadData() {
         tvUserName.setText(mUser.getFullName());
@@ -118,5 +118,20 @@ public class UserProfileFragment extends Fragment {
         if (userPets != null && !userPets.isEmpty()) {
             ImageHelper.loadImage(getContext(), userPets.get(0).getProfileImage(), R.drawable.cat, ivUserPet1);
         }
+
+        btSendRequest.setText("Edit Profile");
+        btSendRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent userProfileIntent = new Intent(getContext(), UserProfileEditActivity.class);
+                startActivity(userProfileIntent);
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadData();
     }
 }
