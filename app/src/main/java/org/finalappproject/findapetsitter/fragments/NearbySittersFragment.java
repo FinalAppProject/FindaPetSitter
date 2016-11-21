@@ -231,6 +231,11 @@ public class NearbySittersFragment extends Fragment implements GoogleMap.OnMarke
     void zoomIntoUserAddress() {
         User currentUser = (User) User.getCurrentUser();
         try {
+            currentUser.fetchIfNeeded();
+        } catch (ParseException e) {
+            Log.e(TAG, "Failed to fetch user", e);
+        }
+        try {
 
             Address userAddress = currentUser.getAddress().fetchIfNeeded();
             ParseGeoPoint point = userAddress.getGeoPoint();
@@ -266,5 +271,12 @@ public class NearbySittersFragment extends Fragment implements GoogleMap.OnMarke
         Intent userProfileIntent = new Intent(getContext(), UserProfileActivity.class);
         userProfileIntent.putExtra(EXTRA_USER_OBJECT_ID, petSitter.getObjectId());
         startActivity(userProfileIntent);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        zoomIntoUserAddress();
+        searchNearbySitters();
     }
 }
