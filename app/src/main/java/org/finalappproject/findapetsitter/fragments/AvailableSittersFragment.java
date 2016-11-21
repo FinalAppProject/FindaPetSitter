@@ -50,7 +50,6 @@ public class AvailableSittersFragment extends UserListFragment {
         User currentUser = (User) User.getCurrentUser();
 
         if (!currentUser.getAddress().has("address")){
-            getUserGeoLocation();
             User.queryPetSitters(new FindCallback<User>() {
                 public void done(List<User> petSitters, ParseException e) {
                     if (e == null) {
