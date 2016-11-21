@@ -77,7 +77,7 @@
             android:id="@+id/tvReceivedRequestPetName" />
 
         <TextView
-            tools:text="Are you available following date?"
+            android:text="Are you available following date?"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18dp"
