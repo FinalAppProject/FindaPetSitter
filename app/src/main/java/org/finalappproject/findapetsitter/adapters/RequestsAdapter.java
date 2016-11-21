@@ -99,7 +99,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 });
 
                 if (request.getStatus() != REQUEST_PENDING) {
-                    viewHolder.tvRequestStatus.setText("RESPONDED");
+                    viewHolder.tvRequestStatus.setText("Responded");
                     viewHolder.tvRequestStatus.setBackgroundResource(R.color.blue);
                 }
 
@@ -108,13 +108,13 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 otherUser = (User) request.getReceiver().fetchIfNeeded();
                 message = getContext().getString(R.string.request_message_pet_owner, otherUser.getFullName());
                 if (request.getStatus() == REQUEST_ACCEPTED) {
-                    viewHolder.tvRequestStatus.setText("ACCEPTED");
+                    viewHolder.tvRequestStatus.setText("Accepted");
                     viewHolder.tvRequestStatus.setBackgroundResource(R.color.green);
                 } else if (request.getStatus() == REQUEST_REJECTED) {
-                    viewHolder.tvRequestStatus.setText("REJECTED");
+                    viewHolder.tvRequestStatus.setText("Rejected");
                     viewHolder.tvRequestStatus.setBackgroundResource(R.color.gray);
                 } else {
-                    viewHolder.tvRequestStatus.setText("PENDING");
+                    viewHolder.tvRequestStatus.setText("Pending");
                     viewHolder.tvRequestStatus.setBackgroundResource(R.color.blue);
                 }
             }
