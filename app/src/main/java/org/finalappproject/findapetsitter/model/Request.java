@@ -91,8 +91,13 @@ public class Request extends ParseObject{
         return "PetType: " + this.getType() + "\nNote : " + this.getNote()  + "\nDate: " + this.getBeginDate().toString() + " ---- " + this.getEndDate().toString();
     }
 
-    public static void queryReceiver(ParseUser user, FindCallback<Request> findCallback) {
+    public static void queryByReceiver(ParseUser user, FindCallback<Request> findCallback) {
         ParseQuery<Request> requestQuery = ParseQuery.getQuery(Request.class).whereEqualTo(KEY_RECEIVER, user);
+        requestQuery.findInBackground(findCallback);
+    }
+
+    public static void queryBySender(ParseUser user, FindCallback<Request> findCallback) {
+        ParseQuery<Request> requestQuery = ParseQuery.getQuery(Request.class).whereEqualTo(KEY_SENDER, user);
         requestQuery.findInBackground(findCallback);
     }
 }

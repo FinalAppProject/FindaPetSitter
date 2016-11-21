@@ -16,6 +16,15 @@
     <string name="error_sign_up">Failed to sign up</string>
     <string name="error_save_profile">Failed to save user profile</string>
 
+    <!-- Pet Owner Home Screen -->
+    <string name="page_pet_sitters">Pet Sitters</string>
+    <string name="page_nearby_sitters">Nearby Pet Sitters</string>
+    <string name="page_requests_sent">Requests Sent</string>
+
+    <!-- Requests Fragment -->
+    <string name="request_message_pet_sitter">You got a request from %s</string>
+    <string name="request_message_pet_owner">Request sent to %s</string>
+
     <!-- User Profile Activity -->
     <string name="can_host_pet_checkbox">Can Host a Pet ?</string>
     <string name="nick_name_text_view">Nick name</string>

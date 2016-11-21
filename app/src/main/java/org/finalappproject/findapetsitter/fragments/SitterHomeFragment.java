@@ -66,7 +66,7 @@ public class SitterHomeFragment extends Fragment {
         private final static int PAGE_COUNT = 2;
         private String tabTitles[] = new String[]{"Timeline", "Requests"};
         private final SitterTimelineFragment sitterTimelineFragment = new SitterTimelineFragment();
-        private final SitterRequestFragment sitterRequestFragment = new SitterRequestFragment();
+        private final RequestsFragment sitterRequestFragment = RequestsFragment.newInstance(true);
 
 
         public SitterHomeFragmentPagerAdapter(FragmentManager fm) {
