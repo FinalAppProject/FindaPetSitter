@@ -168,4 +168,10 @@ public class User extends ParseUser {
         ParseQuery<User> petSittersQuery = ParseQuery.getQuery(User.class).whereEqualTo(KEY_PET_SITTER, true);
         petSittersQuery.findInBackground(findCallback);
     }
+    public static void queryPetSittersNear(ParseGeoPoint point, FindCallback<User> findCallback)
+    {
+        ParseQuery<Address> nearbyAddressesQuery = ParseQuery.getQuery(Address.class).whereNear(Address.KEY_GEO_POINT, point);
+        ParseQuery<User> nearbyUsersQuery = ParseQuery.getQuery(User.class).whereEqualTo(KEY_PET_SITTER, true).whereMatchesQuery(KEY_ADDRESS, nearbyAddressesQuery);
+        nearbyUsersQuery.findInBackground(findCallback);
+    }
 }
