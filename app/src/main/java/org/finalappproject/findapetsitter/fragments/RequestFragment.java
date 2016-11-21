@@ -14,8 +14,11 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.parse.GetCallback;
+import com.parse.ParseACL;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.model.PetType;
@@ -26,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,7 +38,7 @@ import butterknife.OnClick;
 import static org.finalappproject.findapetsitter.R.id.etSelectDates;
 import static org.finalappproject.findapetsitter.application.AppConstants.REQUEST_PENDING;
 
-public class RequestFragment extends DialogFragment implements CalendarPickerDialogFragment.OnDatesSelectedListener, GetCallback<User> {
+public class RequestFragment extends DialogFragment implements CalendarPickerDialogFragment.OnDatesSelectedListener, GetCallback<User>, SaveCallback {
 
     @BindView(R.id.spPetType)
     Spinner spinnerPetType;
@@ -107,10 +111,30 @@ public class RequestFragment extends DialogFragment implements CalendarPickerDia
     }
 
     void storeInParse() {
-        newRequest.saveInBackground();
-        Log.d(LOG_TAG, "Storing fields: " + newRequest.toString());
-        Toast.makeText(getActivity(), "Fields: " + newRequest.toString(),
-                Toast.LENGTH_LONG).show();
+        /*
+        TODO try understanding parse ACL, is this needed ? It doesn't seem to be needed
+        ParseACL groupACL = new ParseACL();
+        User userList[] = {newRequest.getReceiver(), newRequest.getSender()};
+        for (ParseUser user : userList) {
+            groupACL.setReadAccess(user, true);
+            groupACL.setWriteAccess(user, true);
+        }
+        newRequest.setACL(groupACL);
+        */
+        newRequest.saveInBackground(this);
+    }
+
+    @Override
+    public void done(ParseException e) {
+        if (e == null) {
+            Log.d(LOG_TAG, "Storing fields: " + newRequest.toString());
+            Toast.makeText(getActivity(), "Fields: " + newRequest.toString(),
+                    Toast.LENGTH_LONG).show();
+        } else {
+            Log.e(LOG_TAG, "Failed to send request", e);
+            Toast.makeText(getActivity(), "Failed to send request " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+
     }
 
     void getRequestFromView(){
