@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.SaveCallback;
 
 import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.model.Pet;
@@ -27,7 +28,7 @@ import butterknife.ButterKnife;
 import static org.finalappproject.findapetsitter.application.AppConstants.REQUEST_ACCEPTED;
 import static org.finalappproject.findapetsitter.application.AppConstants.REQUEST_REJECTED;
 
-public class ReceivedRequestActivity extends AppCompatActivity implements GetCallback<Request> {
+public class ReceivedRequestActivity extends AppCompatActivity implements GetCallback<Request>, SaveCallback {
 
     @BindView(R.id.ivReceivedRequestProfile)
     ImageView ivProfilePic;
@@ -80,7 +81,7 @@ public class ReceivedRequestActivity extends AppCompatActivity implements GetCal
             @Override
             public void onClick(View view) {
                 mRequest.setStatus(REQUEST_ACCEPTED);
-                mRequest.saveInBackground();
+                mRequest.saveInBackground(ReceivedRequestActivity.this);
             }
         });
 
@@ -88,11 +89,16 @@ public class ReceivedRequestActivity extends AppCompatActivity implements GetCal
             @Override
             public void onClick(View view) {
                 mRequest.setStatus(REQUEST_REJECTED);
-                mRequest.saveInBackground();
+                mRequest.saveInBackground(ReceivedRequestActivity.this);
             }
         });
     }
 
+    /**
+     * Parse GetCallback<Request> implementation
+     * @param request
+     * @param e ParseException
+     */
     @Override
     public void done(Request request, ParseException e) {
         if (e == null) {
@@ -104,4 +110,17 @@ public class ReceivedRequestActivity extends AppCompatActivity implements GetCal
         }
     }
 
+    /**
+     * Parse SaveCallback implementation
+     * @param e ParseException
+     */
+    @Override
+    public void done(ParseException e) {
+        if (e == null) {
+            Toast.makeText(this, "Response sent", Toast.LENGTH_LONG).show();
+        } else {
+            Log.e(LOG_TAG, "Failed to send response", e);
+            Toast.makeText(this, "Failed to send response " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
 }
