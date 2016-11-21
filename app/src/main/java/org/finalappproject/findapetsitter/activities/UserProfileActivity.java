@@ -1,6 +1,5 @@
 package org.finalappproject.findapetsitter.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -53,7 +52,7 @@ public class UserProfileActivity extends AppCompatActivity implements GetCallbac
     @BindView(R.id.tvUserAddress)
     TextView tvUserAddress;
 
-    @BindView(R.id.btSendRequest)
+    @BindView(R.id.btSendRequestOrEdit)
     Button btSendRequest;
 
     // TODO following will be horizontal recyclerview
@@ -74,8 +73,7 @@ public class UserProfileActivity extends AppCompatActivity implements GetCallbac
         ButterKnife.bind(this);
 
         mUser = null;
-        Intent userProfileIntent = getIntent();
-        String userObjectId = userProfileIntent.getStringExtra(EXTRA_USER_OBJECT_ID);
+        String userObjectId = getIntent().getStringExtra(EXTRA_USER_OBJECT_ID);
 
         if (userObjectId != null && !userObjectId.isEmpty()) {
             isOtherUser = true;
@@ -85,7 +83,6 @@ public class UserProfileActivity extends AppCompatActivity implements GetCallbac
             mUser = (User) User.getCurrentUser();
             loadData();
         }
-
     }
 
     private void loadData() {
@@ -103,6 +100,7 @@ public class UserProfileActivity extends AppCompatActivity implements GetCallbac
         }
 
         if (isOtherUser) {
+            btSendRequest.setText("Send Request");
             btSendRequest.setVisibility(View.VISIBLE);
         } else {
             btSendRequest.setVisibility(View.GONE);

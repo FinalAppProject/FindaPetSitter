@@ -1,18 +1,20 @@
 package org.finalappproject.findapetsitter.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.parse.ParseException;
-import com.parse.ParseFile;
 
 import org.finalappproject.findapetsitter.R;
+import org.finalappproject.findapetsitter.activities.ReceivedRequestActivity;
 import org.finalappproject.findapetsitter.model.Request;
 import org.finalappproject.findapetsitter.model.User;
 import org.finalappproject.findapetsitter.util.ImageHelper;
@@ -22,8 +24,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static android.R.id.message;
 
 /**
  * Created by Aoi on 11/19/2016.
@@ -47,6 +47,8 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         ImageView ivRequestProfile;
         @BindView(R.id.tvRequestReceived)
         TextView tvRequestReceived;
+        @BindView(R.id.rlRequestReceived)
+        RelativeLayout rlRequestReceived;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -80,6 +82,16 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 currentUser = (User) request.getReceiver().fetchIfNeeded();
                 otherUser = (User) request.getSender().fetchIfNeeded();
                 message = getContext().getString(R.string.request_message_pet_sitter, otherUser.getFullName());
+
+                viewHolder.rlRequestReceived.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getContext(), ReceivedRequestActivity.class);
+                        intent.putExtra("request_id", request.getObjectId());
+                        getContext().startActivity(intent);
+                    }
+                });
+
             } else {
                 currentUser = (User) request.getSender().fetchIfNeeded();
                 otherUser = (User) request.getReceiver().fetchIfNeeded();
@@ -95,6 +107,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
             viewHolder.ivRequestProfile.setImageResource(0);
             viewHolder.tvRequestReceived.setText("");
         }
+
     }
 
     @Override

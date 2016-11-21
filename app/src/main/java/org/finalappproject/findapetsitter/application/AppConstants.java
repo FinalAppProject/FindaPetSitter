@@ -6,4 +6,8 @@ public abstract class AppConstants {
 
     public static final int CODE_IMAGE_PICKER = 1046;
 
+    public static final int REQUEST_PENDING=0,
+            REQUEST_REJECTED=1,
+            REQUEST_ACCEPTED=2;
+
 }
