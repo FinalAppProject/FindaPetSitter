@@ -25,6 +25,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static org.finalappproject.findapetsitter.application.AppConstants.REQUEST_ACCEPTED;
+import static org.finalappproject.findapetsitter.application.AppConstants.REQUEST_PENDING;
+import static org.finalappproject.findapetsitter.application.AppConstants.REQUEST_REJECTED;
+
 /**
  * Created by Aoi on 11/19/2016.
  */
@@ -49,6 +53,8 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         TextView tvRequestReceived;
         @BindView(R.id.rlRequestReceived)
         RelativeLayout rlRequestReceived;
+        @BindView(R.id.tvRequestStatus)
+        TextView tvRequestStatus;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -92,10 +98,25 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                     }
                 });
 
+                if (request.getStatus() != REQUEST_PENDING) {
+                    viewHolder.tvRequestStatus.setText("RESPONDED");
+                    viewHolder.tvRequestStatus.setBackgroundResource(R.color.blue);
+                }
+
             } else {
                 currentUser = (User) request.getSender().fetchIfNeeded();
                 otherUser = (User) request.getReceiver().fetchIfNeeded();
                 message = getContext().getString(R.string.request_message_pet_owner, otherUser.getFullName());
+                if (request.getStatus() == REQUEST_ACCEPTED) {
+                    viewHolder.tvRequestStatus.setText("ACCEPTED");
+                    viewHolder.tvRequestStatus.setBackgroundResource(R.color.green);
+                } else if (request.getStatus() == REQUEST_REJECTED) {
+                    viewHolder.tvRequestStatus.setText("REJECTED");
+                    viewHolder.tvRequestStatus.setBackgroundResource(R.color.gray);
+                } else {
+                    viewHolder.tvRequestStatus.setText("PENDING");
+                    viewHolder.tvRequestStatus.setBackgroundResource(R.color.blue);
+                }
             }
 
             //
