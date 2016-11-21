@@ -121,9 +121,9 @@ public class User extends ParseUser {
         put(KEY_PETS, pets);
     }
 
-    public void addPet(Pet pet) {
+    public void addPet(Pet pet) throws ParseException {
         getPets().add(pet);
-        saveInBackground();
+        save();
     }
 
     public void addPet(Pet pet, SaveCallback saveCallback) {
@@ -131,9 +131,9 @@ public class User extends ParseUser {
         saveInBackground(saveCallback);
     }
 
-    public void removePet(Pet pet) {
+    public void removePet(Pet pet) throws ParseException {
         getPets().remove(pet);
-        saveInBackground();
+        save();
     }
 
     public void removePet(Pet pet, SaveCallback saveCallback) {

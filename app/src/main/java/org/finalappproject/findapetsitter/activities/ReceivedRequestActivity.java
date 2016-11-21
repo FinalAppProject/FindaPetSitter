@@ -13,8 +13,13 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 
 import org.finalappproject.findapetsitter.R;
+import org.finalappproject.findapetsitter.model.Pet;
 import org.finalappproject.findapetsitter.model.Request;
+import org.finalappproject.findapetsitter.model.User;
 import org.finalappproject.findapetsitter.util.ImageHelper;
+
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,12 +61,20 @@ public class ReceivedRequestActivity extends AppCompatActivity implements GetCal
     }
 
     private void loadData() {
-        ImageHelper.loadImage(this, mRequest.getSender().getProfileImage(), R.drawable.account_plus, ivProfilePic);
-        ImageHelper.loadImage(this, mRequest.getSender().getPets().get(0).getProfileImage(), R.drawable.account_plus, ivPetPic);
-        tvFullName.setText(mRequest.getSender().getFullName());
-        tvPetName.setText(mRequest.getSender().getPets().get(0).getName());
-        tvDate.setText(String.format("From %s \nto %s ?", mRequest.getBeginDate().toString(), mRequest.getEndDate().toString()));
+        User petOwner = mRequest.getSender();
+        List<Pet> pets = petOwner.getPets();
+        // Load user information
+        ImageHelper.loadImage(this, petOwner.getProfileImage(), R.drawable.account_plus, ivProfilePic);
+        tvFullName.setText(petOwner.getFullName());
+        // Load request information
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        tvDate.setText(String.format("From %s \nto %s ?", sdf.format(mRequest.getBeginDate()), sdf.format(mRequest.getEndDate())));
         tvMessage.setText(mRequest.getNote());
+        // Load pet information
+        if (pets != null && !pets.isEmpty()) {
+            ImageHelper.loadImage(this, mRequest.getSender().getPets().get(0).getProfileImage(), R.drawable.account_plus, ivPetPic);
+            tvPetName.setText(mRequest.getSender().getPets().get(0).getName());
+        }
 
         btAccept.setOnClickListener(new View.OnClickListener() {
             @Override
