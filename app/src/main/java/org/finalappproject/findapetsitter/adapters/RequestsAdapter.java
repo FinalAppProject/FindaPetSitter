@@ -100,7 +100,11 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
 
                 if (request.getStatus() != REQUEST_PENDING) {
                     viewHolder.tvRequestStatus.setText("Responded");
+                    viewHolder.tvRequestStatus.setBackgroundResource(R.color.green);
+                } else {
+                    viewHolder.tvRequestStatus.setText("Pending");
                     viewHolder.tvRequestStatus.setBackgroundResource(R.color.blue);
+
                 }
 
             } else {
