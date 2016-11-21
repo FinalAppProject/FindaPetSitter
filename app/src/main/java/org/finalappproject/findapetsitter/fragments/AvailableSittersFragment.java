@@ -126,7 +126,7 @@ public class AvailableSittersFragment extends UserListFragment {
             try {
                 Address userAddress = sitter.getAddress().fetchIfNeeded();
                 ParseGeoPoint point = userAddress.getGeoPoint();
-                Integer distance = (int)ownerGeoPoint.distanceInMilesTo(point);
+                double distance = ownerGeoPoint.distanceInMilesTo(point);
                 mAllSittersList.add(new SendAdapterObject (sitter, distance));
             } catch (Exception e) {
                 Log.e(LOG_TAG, "Failed to fetch user address coordinates", e);
@@ -137,16 +137,15 @@ public class AvailableSittersFragment extends UserListFragment {
 
     public class SendAdapterObject implements Comparable<SendAdapterObject>{
         public User user;
-        public int distance;
-        public SendAdapterObject(User u, int d){
+        public double distance;
+        public SendAdapterObject(User u, double d){
             this.user = u;
             this.distance = d;
         }
 
         @Override
         public int compareTo(SendAdapterObject o) {
-            return (this.distance - o.distance);
+            return ((int)this.distance - (int)o.distance);
         }
     }
-
 }
