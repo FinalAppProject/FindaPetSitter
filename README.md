@@ -63,18 +63,17 @@ The following **required** functionality is completed:
 * [x] Pet owner can add/modify **pets** under its profile
   * [x] Pet owner can add a **pet profile image** to the pet profile information
   * [x] Pet owner can add pet type (dog/cat/etc), name, picture, breed, emergency contact, special needs, etc
-  * [ ] Pet owner can delete pets
 * [x] User can mark himself as a Pet Sitter
   * [x] Pet sitter can configure his profile with specialties (dogs, cats, etc), services provided
   * [ ] Pet sitter can add **photos** of his pet sitting spaces
 * [x] After sign-up or authentication user will be directed to the home screen
   * [x] Home screen will contain a Navigation Drawer
-  * [ ] Home screen will show list of preferred Pet Sitters
 * [x] Owner can **request a sitter** from the pet sitter details page 
   * [x] User can click a “Contact sitter”
 * [x] Sitter can accept a service request
-* [ ] User can **open the app offline and see most recent persisted data**.
 * [x] User can **review** other users/pets
+* [x] User can use **pull down to refresh ** the results
+
 * [x] User can view a list with detailed reviews about other users (sitters/owners)
 
 
@@ -89,7 +88,10 @@ The following **additional** features are implemented:
   * [ ] Results will show map with pet sitters that match the search filter
   * [ ] Results will show a list with pet sitters that match the search filter (profile, name, stars, likes count, services, ...)
   * [ ] Results will allow the user to view the pet sitter details
-  * [x] User can use **pull down to refresh ** the results
+* [ ] User can **open the app offline and see most recent persisted data**.
+* [ ] Home screen will show list of preferred Pet Sitters, Favorites
+* [ ] Pet owner can delete pets
+
 
 ## Video Walkthrough
 
