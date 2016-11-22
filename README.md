@@ -114,7 +114,7 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 ## License
 
 
-    Copyright 2016 Aoi Masuba, Eduardo Przysiezny, Mugdha Khade
+    Copyright 2016 Aoi Matsuba, Eduardo Przysiezny, Mugdha Khade
 
 
     Licensed under the Apache License, Version 2.0 (the "License");
