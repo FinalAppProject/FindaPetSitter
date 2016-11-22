@@ -20,20 +20,32 @@ In order to use the application, developer needs to create a secrets.xml file ac
 </resources>
 ```
 
+
+**Application flow:**
+1. User opens app sees login screen. You can either login using existing credentials or sign up to create an account. 
+2. User clicks on sign up and gives basic info and click on sign up and is taken to home screen OR user adds correct username and password and clicks on "Login" and is taken to home screen
+3. On the homescreen user can see viewpager with three tabs: 
+    1. List of Pet sitters 
+    2. Map view of neighboring sitters. 
+    3. Reqests tab which contains a list of requests sent to sitters along wiht the status of the request.
+4. User can click on a sitter from the list or from the map view. User is taken to the sitter profile where he can see the sitter's details. He can click on "Request" button to book the sitter. This will open up a window where the owner can select a date range, the pet type and any notes he wants to send the sitter, he then clicks on Send (or cancel and it closes the window)
+5. You can navigate to the Request tab and see a new entry created with Status as "PENDING"
+6. User can edit profile by going to the navigation drawer and opening "My profile" option. He sees his profile and to edit anything in the profile he clicks on "Edit Profile"
+7. In Edit Profile activity user can add details like Address, phone number, Photo. He can choose to be a Pet Sitter by clicking on the "Can host" checkbox. He can also add his pets with "Add Pet" button which opens up the PetProfile activity.
+8. In PetProfile user can add details of his pet such as Name, Type, Breed Photo, Description, Special needs. You can select save pet which will show up in the list of pets of the user. You can add multiple pets. These will be a part of the user's profile and can be opened by clicking on their picture.
+9. In the navigation drawer "My Requests" option will show requests received by the user. He can click on the request and sees the details of hte request. He can click on accept or .
+10. Once the sitter has responded, the user can open up the Requests sent tab and see the updated Status.
+11. User can logout by selecting "Log out" option and he will be taken to login screen.
+
+
+
 **Activities overview:**
 1. Login activity: User/Password authentication using Parse
 2. Sign-up activity: Allows users to create a user for the application
-3. Home Screen activity: Stream with recent activities, searches, ...
-4. Search filter activity: Take parameters "when" "where" and "pet type"(predefined drop down).
-5. Search results
-    1. Search Results Map: shows a map with sitters available accordingly to the search filter/criteria
-    2. Search Results List: shows a list of sitters with profile image, services accordingly to the search filter/criteria
-6. Pet Sitter detail
-	1. Sitter profile information
-	2. Services provided
-	3. Schedule/Availability
-	4. Owner can request service from sitter
-	
+3. Home Screen activity: Stream with sitters nearby, mapview of nearby sitters, requests sent
+4. User Profile
+5. Pet Profile
+  
  
 Time spent: **** hours spent in total
 
@@ -53,19 +65,19 @@ The following **required** functionality is completed:
   * [x] Pet owner can add pet type (dog/cat/etc), name, picture, breed, emergency contact, special needs, etc
   * [ ] Pet owner can delete pets
 * [x] User can mark himself as a Pet Sitter
-  * [ ] Pet sitter can configure his profile with specialties (dogs, cats, etc), services provided
+  * [x] Pet sitter can configure his profile with specialties (dogs, cats, etc), services provided
   * [ ] Pet sitter can add **photos** of his pet sitting spaces
 * [x] After sign-up or authentication user will be directed to the home screen
-  * [ ] Home screen will contain a Navigation Drawer
+  * [x] Home screen will contain a Navigation Drawer
   * [ ] Home screen will show list of preferred Pet Sitters
 * [ ] User can search applying a filter and get results 
   * [ ] Results will show map with pet sitters that match the search filter
   * [ ] Results will show a list with pet sitters that match the search filter (profile, name, stars, likes count, services, ...)
   * [ ] Results will allow the user to view the pet sitter details
-  * [ ] User can use **pull down to refresh ** the results
-* [ ] Owner can **request a sitter** from the pet sitter details page 
-  * [ ] User can click a “Contact sitter”
-* [ ] Sitter can accept a service request
+  * [x] User can use **pull down to refresh ** the results
+* [x] Owner can **request a sitter** from the pet sitter details page 
+  * [x] User can click a “Contact sitter”
+* [x] Sitter can accept a service request
 * [ ] User can **open the app offline and see most recent persisted data**.
 
 The following **additional** features are implemented:
@@ -82,9 +94,9 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/2OxSEhv.gifv' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://i.imgur.com/vEg3EYh.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
-Link: http://i.imgur.com/2OxSEhv.gifv
+Link: http://i.imgur.com/vEg3EYh.gif
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
