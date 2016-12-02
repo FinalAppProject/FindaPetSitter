@@ -26,7 +26,7 @@ public class SitterHomeFragment extends Fragment {
      */
     @Deprecated
     public SitterHomeFragment() {
-        // Required empty public constructor
+
     }
 
     /**
@@ -64,10 +64,7 @@ public class SitterHomeFragment extends Fragment {
 
     public static class SitterHomeFragmentPagerAdapter extends FragmentPagerAdapter {
         private final static int PAGE_COUNT = 2;
-        private String tabTitles[] = new String[]{"Timeline", "Requests"};
-        private final SitterTimelineFragment sitterTimelineFragment = new SitterTimelineFragment();
-        private final RequestsFragment sitterRequestFragment = RequestsFragment.newInstance(true);
-
+        private String tabTitles[] = new String[]{"Received", "Sent"};
 
         public SitterHomeFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -76,9 +73,9 @@ public class SitterHomeFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                return sitterTimelineFragment;
+                return RequestsFragment.newInstance(true);
             } else if (position == 1) {
-                return sitterRequestFragment;
+                return RequestsFragment.newInstance(false);
             } else {
                 return null;
             }
