@@ -3,14 +3,17 @@ package org.finalappproject.findapetsitter.model;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseClassName;
+import com.parse.ParseCloud;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.Date;
+import java.util.HashMap;
 
 @ParseClassName("Request")
-public class Request extends ParseObject{
+public class Request extends ParseObject {
 
     private static final String LOG_TAG = "Request";
 
@@ -64,32 +67,32 @@ public class Request extends ParseObject{
         put(KEY_NOTE, breed);
     }
 
-    public User getSender()  {
-        return (User)getParseUser(KEY_SENDER);
+    public User getSender() {
+        return (User) getParseUser(KEY_SENDER);
     }
 
     public void setSender(User sender) {
         put(KEY_SENDER, sender);
     }
 
-    public User getReceiver()  {
-        return (User)getParseUser(KEY_RECEIVER);
+    public User getReceiver() {
+        return (User) getParseUser(KEY_RECEIVER);
     }
 
     public void setReceiver(User receiver) {
         put(KEY_RECEIVER, receiver);
     }
 
-    public int getStatus(){
+    public int getStatus() {
         return getInt(KEY_STATUS);
     }
 
-    public void setStatus(int status){
-        put (KEY_STATUS, status);
+    public void setStatus(int status) {
+        put(KEY_STATUS, status);
     }
 
     public String toString() {
-        return "PetType: " + this.getType() + "\nNote : " + this.getNote()  + "\nDate: " + this.getBeginDate().toString() + " ---- " + this.getEndDate().toString();
+        return "PetType: " + this.getType() + "\nNote : " + this.getNote() + "\nDate: " + this.getBeginDate().toString() + " ---- " + this.getEndDate().toString();
     }
 
     public static void queryRequest(String requestId, GetCallback<Request> findCallback) {

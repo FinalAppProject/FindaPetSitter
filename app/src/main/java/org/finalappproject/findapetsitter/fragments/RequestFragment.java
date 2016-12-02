@@ -14,7 +14,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
 import com.parse.GetCallback;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -23,6 +26,7 @@ import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.model.PetType;
 import org.finalappproject.findapetsitter.model.Request;
 import org.finalappproject.findapetsitter.model.User;
+import org.finalappproject.findapetsitter.pushmessage.PushMessageHelper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -128,12 +132,27 @@ public class RequestFragment extends DialogFragment implements CalendarPickerDia
         newRequest.setACL(groupACL);
         */
         newRequest.saveInBackground(this);
+
+
+        /*
+        FirebaseMessaging fm = FirebaseMessaging.getInstance();
+
+        fm.send(new RemoteMessage.Builder(getString(R.string.gcm_sender_id) + "@gcm.googleapis.com")
+                .setMessageId(Integer.toString(1)) // msgId.incrementAndGet()))
+                .setTtl(R.string.address_text_view)
+                .addData("my_message", "Hello World")
+                .addData("my_action","SAY_HELLO")
+                .build());
+        */
     }
 
     @Override
     public void done(ParseException e) {
         if (e == null) {
             Toast.makeText(mContext, "Request sent", Toast.LENGTH_LONG).show();
+
+            PushMessageHelper.pushNotifyNewRequest(newRequest);
+
         } else {
             Log.e(LOG_TAG, "Failed to send request", e);
             Toast.makeText(mContext, "Failed to send request " + e.getMessage(), Toast.LENGTH_LONG).show();

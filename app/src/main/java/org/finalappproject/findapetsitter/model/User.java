@@ -19,7 +19,6 @@ import java.util.List;
 /**
  * Custom ParseUser implementation
  */
-
 @ParseClassName("_User")
 public class User extends ParseUser {
 
@@ -30,6 +29,8 @@ public class User extends ParseUser {
     private static final String KEY_NICK_NAME = "nickName";
 
     private static final String KEY_PROFILE_IMAGE = "profileImage";
+
+    private static final String KEY_FCM_TOKEN = "fcmToken";
 
     private static final String KEY_DESCRIPTION = "description";
 
@@ -75,6 +76,14 @@ public class User extends ParseUser {
 
     public void setProfileImage(ParseFile profileImage) {
         put(KEY_PROFILE_IMAGE, profileImage);
+    }
+
+    public void setFcmToken(String fcmToken) {
+        put(KEY_FCM_TOKEN, fcmToken);
+    }
+
+    public String getFcmToken() {
+        return getString(KEY_FCM_TOKEN);
     }
 
     public String getDescription() {

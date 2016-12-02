@@ -34,11 +34,11 @@ dependencies {
     // Parceler
     // Android Support
     // Recycler view
-    // Google play services
+    // Google play services: GCM (Cloud Messaging), Maps, Location
     // Glide
     // Gson
     // PageSlidingTabStrip
-    //Calendar picker
+    // Calendar picker
     compile 'com.google.maps:google-maps-services:0.1.16'
     compile 'com.jakewharton:butterknife:8.4.0'
     compile 'com.parse:parse-android:1.13.1'
@@ -49,8 +49,10 @@ dependencies {
     compile 'com.android.support:design:24.2.1'
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.android.support:recyclerview-v7:24.2.1'
-    compile 'com.google.android.gms:play-services-maps:9.8.0'
-    compile 'com.google.android.gms:play-services-location:9.8.0'
+    compile "com.google.android.gms:play-services-gcm:10.0.0"
+    compile 'com.google.android.gms:play-services-maps:10.0.0'
+    compile 'com.google.android.gms:play-services-location:10.0.0'
+    compile 'com.google.firebase:firebase-messaging:10.0.0'
     compile 'com.github.bumptech.glide:glide:3.5.2'
     compile 'jp.wasabeef:glide-transformations:2.0.1'
     compile 'com.google.code.gson:gson:2.6.2'
@@ -60,3 +62,6 @@ dependencies {
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     apt 'org.parceler:parceler:1.1.1'
 }
+
+// Add to the bottom of the file
+apply plugin: 'com.google.gms.google-services'
