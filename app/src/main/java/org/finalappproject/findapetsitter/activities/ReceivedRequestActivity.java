@@ -81,7 +81,7 @@ public class ReceivedRequestActivity extends AppCompatActivity implements GetCal
         tvFullName.setText(petOwner.getFullName());
         // Load request information
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-        tvDate.setText(String.format("From %s \nto %s ?", sdf.format(mRequest.getBeginDate()), sdf.format(mRequest.getEndDate())));
+        tvDate.setText(String.format("From %s \nto       %s ", sdf.format(mRequest.getBeginDate()), sdf.format(mRequest.getEndDate())));
         tvMessage.setText(mRequest.getNote());
         // Load pet information
         if (pets != null && !pets.isEmpty()) {
