@@ -17,6 +17,8 @@ In order to use the application, developer needs to create a secrets.xml file ac
     <string name="parse_server_url"> </string>
     <string name="parse_app_id"> </string>
     <string name="api_key_google_maps"> </string>
+    <string name="gcm_sender_id"> </string>
+    <string name="gcm_token"> </string>
 </resources>
 ```
 
