@@ -24,6 +24,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:text="send"
-        android:textSize="18sp"></Button>
+        android:textSize="18sp" />
 
 </RelativeLayout>
