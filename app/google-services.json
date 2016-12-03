@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "874242744510",
+    "firebase_url": "https://findapetsitter-14e3e.firebaseio.com",
+    "project_id": "findapetsitter-14e3e",
+    "storage_bucket": "findapetsitter-14e3e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:874242744510:android:9d0e0f6dcbf689f3",
+        "android_client_info": {
+          "package_name": "org.finalappproject.findapetsitter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "874242744510-io8bfjest4dhgr6djsk7ch63n107icv6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.finalappproject.findapetsitter",
+            "certificate_hash": "9239765F4A25284A0A1A2E235A8ED490983B22F9"
+          }
+        },
+        {
+          "client_id": "874242744510-q0bk0t3qdpbkoc9796av530mp06h7b4d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCasJVihhW0KAPdDqQ8LV--jD_SX2MmV30"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "874242744510-q0bk0t3qdpbkoc9796av530mp06h7b4d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

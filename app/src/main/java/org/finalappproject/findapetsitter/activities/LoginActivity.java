@@ -10,12 +10,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.model.User;
+import org.finalappproject.findapetsitter.services.FirebaseMessagingRegistrationService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,6 +52,11 @@ public class LoginActivity extends AppCompatActivity {
         // Initialize views
         ButterKnife.bind(this);
 
+        if(checkPlayServices()) {
+            Intent intent = new Intent(this, FirebaseMessagingRegistrationService.class);
+            startService(intent);
+        }
+
         if(getIntent().getBooleanExtra("logout", false)) {
             mUser = (User)User.getCurrentUser();
             etEmail.setText(mUser.getEmail());
@@ -63,6 +71,28 @@ public class LoginActivity extends AppCompatActivity {
             setupSignUpButton();
         }
     }
+
+    /**
+     * Check the device to make sure it has the Google Play Services APK. If
+     * it doesn't, display a dialog that allows users to download the APK from
+     * the Google Play Store or enable it in the device's system settings.
+     */
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, R.string.error_google_play_services)
+                        .show();
+            } else {
+                Log.i(LOG_TAG, "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
+
 
     private void setupLoginButton() {
         btLogin.setOnClickListener(new View.OnClickListener() {

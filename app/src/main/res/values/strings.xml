@@ -7,6 +7,12 @@
     <string name="login_button">Login</string>
     <string name="sign_up_text_view"><u>Sign Up</u></string>
     <string name="error_authentication">Authentication failure</string>
+    <string name="error_google_play_services">Google Play Services NOT Available on this device</string>
+
+
+    <!-- Notification -->
+    <string name="notification_pet_sitting_request_title">Pet sitting request from: %s</string>
+
 
     <!-- SingUp Activity strings -->
     <string name="repeat_password_text_view">Repeat Password</string>

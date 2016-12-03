@@ -27,6 +27,26 @@
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="@string/api_key_google_maps"/>
 
         <activity android:name=".activities.RequestDetailActivity" />
+
+        <service android:name=".services.FirebaseMessagingRegistrationService"
+            android:exported="false" />
+
+        <service
+            android:name=".services.FirebaseInstanceIdListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".services.FirebaseMessagingHandlerService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>
