@@ -17,14 +17,11 @@ import android.view.MenuItem;
 import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.fragments.FilterFragment;
 import org.finalappproject.findapetsitter.fragments.PetOwnerHomeFragment;
-import org.finalappproject.findapetsitter.fragments.RequestsFragment;
 import org.finalappproject.findapetsitter.fragments.SitterHomeFragment;
 import org.finalappproject.findapetsitter.fragments.UserProfileFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static org.finalappproject.findapetsitter.fragments.RequestsFragment.newInstance;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -106,7 +103,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 intentLogout.putExtra("logout", isLogout);
                 startActivity(intentLogout);
                 break;
-            case R.id.nav_switch_owner_sitter:
+            case R.id.nav_request_fragment:
                 fragmentToShowTag = TAG_SITTER_FRAGMENT;
                 break;
             case R.id.nav_profile_fragment:
@@ -151,8 +148,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         } else if (TAG_PROFILE_FRAGMENT.equals(tag)) {
             fragment = UserProfileFragment.newInstance();
         } else if (TAG_SITTER_FRAGMENT.equals(tag)) {
-            fragment = RequestsFragment.newInstance(true);
-            // fragment = SitterHomeFragment.newInstance();
+            //fragment = RequestsFragment.newInstance(true);
+            fragment = SitterHomeFragment.newInstance();
         }
 
         fm.beginTransaction()

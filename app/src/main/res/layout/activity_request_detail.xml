@@ -13,17 +13,25 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context="org.finalappproject.findapetsitter.activities.ReceivedRequestActivity">
+        tools:context="org.finalappproject.findapetsitter.activities.RequestDetailActivity">
 
+        <TextView
+            tools:text="You are accepted!"
+            android:textSize="20sp"
+            android:padding="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/tvRequestDetailStatus" />
 
         <ImageView
             android:layout_width="70dp"
             android:layout_height="70dp"
-
             tools:src="@mipmap/ic_launcher"
-            android:layout_marginTop="34dp"
+            android:layout_marginTop="30dp"
+            android:layout_below="@id/tvRequestDetailStatus"
             android:id="@+id/ivReceivedRequestProfile"
-            android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
 
         <TextView
@@ -141,5 +149,6 @@
 
         </LinearLayout>
 
-</RelativeLayout>
+
+    </RelativeLayout>
 </ScrollView>

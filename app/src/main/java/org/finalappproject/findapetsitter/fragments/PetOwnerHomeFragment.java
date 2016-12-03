@@ -41,9 +41,9 @@ public class PetOwnerHomeFragment extends Fragment {
     }
 
     public class PetOwnerPageAdapter extends FragmentPagerAdapter {
-        final int PAGE_COUNT = 3;
+        final int PAGE_COUNT = 2;
 
-        private String titles[] = {getString(R.string.page_pet_sitters), getString(R.string.page_nearby_sitters), getString(R.string.page_requests_sent)};
+        private String titles[] = {getString(R.string.page_pet_sitters), getString(R.string.page_nearby_sitters)};
 
         public PetOwnerPageAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
@@ -59,8 +59,6 @@ public class PetOwnerHomeFragment extends Fragment {
             switch (position) {
                 case 1:
                     return NearbySittersFragment.newInstance();
-                case 2:
-                    return RequestsFragment.newInstance(false);
                 case 0:
                 default:
                     return new AvailableSittersFragment();
