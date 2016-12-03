@@ -1,31 +1,9 @@
 package org.finalappproject.findapetsitter.adapters;
 
-import android.content.Context;
-import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+public class SittersAdapter { /*extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+    /*
 
-import org.finalappproject.findapetsitter.R;
-import org.finalappproject.findapetsitter.activities.UserProfileActivity;
-import org.finalappproject.findapetsitter.fragments.AvailableSittersFragment;
-import org.finalappproject.findapetsitter.model.User;
-import org.finalappproject.findapetsitter.util.ImageHelper;
-
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-import static org.finalappproject.findapetsitter.activities.UserProfileEditActivity.EXTRA_USER_OBJECT_ID;
-
-public class SittersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
-
-    private static List<AvailableSittersFragment.SendAdapterObject> mAvailableSittersWithDistance;
+    private static List<User> petSitters;
     private static Context mContext;
 
     private Context getContext() {
@@ -41,8 +19,8 @@ public class SittersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         @BindView(R.id.tvItemTagline)
         TextView tvTagline;
 
-        /*     @BindView(R.id.tvNumReviews)
-        TextView tvNumReviews;*/
+        //@BindView(R.id.tvNumReviews)
+        //TextView tvNumReviews;
 
         @BindView(R.id.tvDistance)
         TextView tvDistance;
@@ -94,8 +72,9 @@ public class SittersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return this.mAvailableSittersWithDistance.size();
     }
 
-    public SittersAdapter(Context context, List<AvailableSittersFragment.SendAdapterObject> availablSittersWithDistance) {
+    public SittersAdapter(Context context, List<User> petSitters) {
         this.mAvailableSittersWithDistance = availablSittersWithDistance;
         mContext = context;
     }
+    */
 }

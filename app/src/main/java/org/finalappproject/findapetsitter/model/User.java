@@ -13,7 +13,10 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -165,22 +168,101 @@ public class User extends ParseUser {
         userQuery.getInBackground(objectId, findCallback);
     }
 
-    public static void queryPetSittersWithinMiles(ParseGeoPoint point, long miles, FindCallback<User> findCallback)
-    {
+    public static void queryPetSittersWithinMiles(ParseGeoPoint point, long miles, FindCallback<User> findCallback) {
         ParseQuery<Address> nearbyAddressesQuery = ParseQuery.getQuery(Address.class).whereWithinMiles(Address.KEY_GEO_POINT, point, miles);
         ParseQuery<User> nearbyUsersQuery = ParseQuery.getQuery(User.class).whereEqualTo(KEY_PET_SITTER, true).whereMatchesQuery(KEY_ADDRESS, nearbyAddressesQuery);
         nearbyUsersQuery.findInBackground(findCallback);
     }
 
-    public static void queryPetSitters(FindCallback<User> findCallback)
-    {
-        ParseQuery<User> petSittersQuery = ParseQuery.getQuery(User.class).whereEqualTo(KEY_PET_SITTER, true);
+    /**
+     * Query Pet Sitter Users
+     * @param findCallback
+     */
+    public static void queryPetSitters(FindCallback<User> findCallback) {
+        ParseQuery<User> petSittersQuery = ParseQuery.getQuery(User.class).whereEqualTo(KEY_PET_SITTER, true).addAscendingOrder(KEY_NICK_NAME);
+        // Include addresses when querying pet sitters
+        petSittersQuery.include(KEY_ADDRESS);
         petSittersQuery.findInBackground(findCallback);
     }
-    public static void queryPetSittersNear(ParseGeoPoint point, FindCallback<User> findCallback)
-    {
-        ParseQuery<Address> nearbyAddressesQuery = ParseQuery.getQuery(Address.class).whereNear(Address.KEY_GEO_POINT, point);
-        ParseQuery<User> nearbyUsersQuery = ParseQuery.getQuery(User.class).whereEqualTo(KEY_PET_SITTER, true).whereMatchesQuery(KEY_ADDRESS, nearbyAddressesQuery);
-        nearbyUsersQuery.findInBackground(findCallback);
+
+    /**
+     * Query Pet Sitter Users ordered by how close they are to the current User
+     * @param findCallback
+     */
+    public static void queryPetSittersNear(final FindCallback<User> findCallback) {
+        User.getCurrentUser().fetchIfNeededInBackground(new GetCallback<User>() {
+            @Override
+            public void done(User user, ParseException e) {
+                final User currentUser = user;
+                Address address = currentUser.getAddress();
+                if (address != null) {
+                    address.fetchIfNeededInBackground(new GetCallback<Address>() {
+                        @Override
+                        public void done(Address address, ParseException e) {
+                            ParseGeoPoint addressGeoPoint = address.getGeoPoint();
+                            if (addressGeoPoint != null) {
+                                // Lets query addresses sorted by geo point
+                                final ParseQuery<Address> addressesNearQuery = ParseQuery.getQuery(Address.class).whereNear(Address.KEY_GEO_POINT, addressGeoPoint);
+                                addressesNearQuery.findInBackground(new FindCallback<Address>() {
+                                    @Override
+                                    public void done(List<Address> addresses, ParseException e) {
+                                        if (e == null) {
+                                            final List<Address> geoLocationSortedAddresses = addresses;
+
+                                            queryPetSitters(new FindCallback<User>() {
+                                                @Override
+                                                public void done(List<User> sitters, ParseException e) {
+                                                    if (e == null) {
+                                                        List<User> sortedByAddresses = new ArrayList<User>();
+
+                                                        // Remove sitters that contain address from the list and store into the addressSitter map
+                                                        Map<String, User> addressSitterMap = new HashMap<String, User>();
+                                                        Iterator<User> sitterIterator = sitters.iterator();
+                                                        while (sitterIterator.hasNext()) {
+                                                            User sitter = sitterIterator.next();
+                                                            if (sitter == currentUser) {
+                                                                sitterIterator.remove();
+                                                            } else if (sitter.getAddress() != null) {
+                                                                sitterIterator.remove();
+                                                                addressSitterMap.put(sitter.getAddress().getObjectId(), sitter);
+                                                            }
+                                                        }
+
+                                                        // Add sitters sorted by address
+                                                        for (Address sortedAddress : geoLocationSortedAddresses) {
+                                                            User sitter = addressSitterMap.get(sortedAddress.getObjectId());
+                                                            if (sitter != null) {
+                                                                sortedByAddresses.add(sitter);
+                                                            }
+                                                        }
+
+                                                        // Add remaining sitters (that do not have address or geopoint)
+                                                        sortedByAddresses.addAll(sitters);
+
+                                                        findCallback.done(sortedByAddresses, null);
+                                                    } else {
+                                                        // Send exception to callback
+                                                        findCallback.done(null, e);
+                                                    }
+                                                }
+                                            });
+                                        } else {
+                                            // Send exception to callback
+                                            findCallback.done(null, e);
+                                        }
+                                    }
+                                });
+                            } else {
+                                // User address doesn't have geopoint, lets fallback to the simpler query
+                                queryPetSitters(findCallback);
+                            }
+                        }
+                    });
+                } else {
+                    // User doesn't have address, lets fallback to the simpler query
+                    queryPetSitters(findCallback);
+                }
+            }
+        });
     }
 }
