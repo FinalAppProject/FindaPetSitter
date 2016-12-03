@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:id="@+id/RlReviewItem">
+
+    <ImageView
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        tools:src="@mipmap/ic_launcher"
+        android:id="@+id/ivReviewItemProfileImage"
+        android:layout_marginRight="5dp"
+        android:padding="3dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ReviewFullName"
+        android:id="@+id/tvReviewItemName"
+        android:layout_toRightOf="@+id/ivReviewItemProfileImage" />
+
+    <TextView
+        tools:text="Review"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvItemReview"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:layout_below="@+id/tvReviewItemName"
+        android:layout_toRightOf="@+id/ivReviewItemProfileImage"
+        android:layout_toEndOf="@+id/ivReviewItemProfileImage" />
+
+    <RatingBar
+        tools:text="Rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rbReviewRating"
+        style="?android:attr/ratingBarStyleSmall"
+        android:isIndicator="true"
+        android:layout_below="@+id/tvItemReview"
+        android:layout_toRightOf="@+id/ivReviewItemProfileImage"
+        android:layout_toEndOf="@+id/ivReviewItemProfileImage"
+        />
+
+</RelativeLayout>
