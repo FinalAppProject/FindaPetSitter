@@ -1,5 +1,7 @@
 package org.finalappproject.findapetsitter.activities;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -118,6 +120,14 @@ public class RequestDetailActivity extends AppCompatActivity implements GetCallb
                     tvRequestStatus.setText("Your request was accepted!");
                     tvRequestStatus.setBackgroundColor(getResources().getColor(R.color.green));
                     tvRequestStatus.setTextColor(getResources().getColor(R.color.white));
+                    tvRequestStatus.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            intent.setData(Uri.fromParts("sms", mRequest.getReceiver().getPhone(), null));
+                            startActivity(intent);
+                        }
+                    });
                     break;
                 case REQUEST_PENDING:
                     tvRequestStatus.setText("Your request is pending...");
