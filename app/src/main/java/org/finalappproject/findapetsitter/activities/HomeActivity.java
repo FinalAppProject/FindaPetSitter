@@ -22,8 +22,6 @@ import com.parse.ParseException;
 import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.fragments.FilterFragment;
 import org.finalappproject.findapetsitter.fragments.PetOwnerHomeFragment;
-import org.finalappproject.findapetsitter.fragments.RequestFragment;
-import org.finalappproject.findapetsitter.fragments.RequestsFragment;
 import org.finalappproject.findapetsitter.fragments.ReviewsAboutFragment;
 import org.finalappproject.findapetsitter.fragments.ReviewsByFragment;
 import org.finalappproject.findapetsitter.fragments.SitterHomeFragment;
@@ -32,10 +30,6 @@ import org.finalappproject.findapetsitter.model.User;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static android.R.attr.fragment;
-import static android.R.attr.tag;
-import static org.finalappproject.findapetsitter.fragments.RequestsFragment.newInstance;
 
 import static org.finalappproject.findapetsitter.application.AppConstants.PREFERENCE_CURRENT_USERNAME;
 
