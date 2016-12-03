@@ -1,7 +1,9 @@
 package org.finalappproject.findapetsitter.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +24,8 @@ import org.finalappproject.findapetsitter.services.FirebaseMessagingRegistration
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static org.finalappproject.findapetsitter.application.AppConstants.PREFERENCE_CURRENT_USERNAME;
 
 /**
  * Login activity
@@ -57,16 +61,19 @@ public class LoginActivity extends AppCompatActivity {
             startService(intent);
         }
 
-        if(getIntent().getBooleanExtra("logout", false)) {
-            mUser = (User)User.getCurrentUser();
-            etEmail.setText(mUser.getEmail());
-            setupLoginButton();
-            setupSignUpButton();
-        } else if ((ParseUser.getCurrentUser() != null)) {
+        if ((ParseUser.getCurrentUser() != null)) {
             startHomeActivity();
             // Causes the activity to close if the user returns to it
             finish();
         } else {
+
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            String lastUserLoggedIn = sharedPreferences.getString(PREFERENCE_CURRENT_USERNAME, "");
+
+            if (!lastUserLoggedIn.isEmpty()) {
+                etEmail.setText(lastUserLoggedIn);
+            }
+
             setupLoginButton();
             setupSignUpButton();
         }
