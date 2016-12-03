@@ -1,8 +1,10 @@
 package org.finalappproject.findapetsitter.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -14,6 +16,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.parse.LogOutCallback;
+import com.parse.ParseException;
+
 import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.fragments.FilterFragment;
 import org.finalappproject.findapetsitter.fragments.PetOwnerHomeFragment;
@@ -23,6 +28,7 @@ import org.finalappproject.findapetsitter.fragments.ReviewsAboutFragment;
 import org.finalappproject.findapetsitter.fragments.ReviewsByFragment;
 import org.finalappproject.findapetsitter.fragments.SitterHomeFragment;
 import org.finalappproject.findapetsitter.fragments.UserProfileFragment;
+import org.finalappproject.findapetsitter.model.User;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +36,8 @@ import butterknife.ButterKnife;
 import static android.R.attr.fragment;
 import static android.R.attr.tag;
 import static org.finalappproject.findapetsitter.fragments.RequestsFragment.newInstance;
+
+import static org.finalappproject.findapetsitter.application.AppConstants.PREFERENCE_CURRENT_USERNAME;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -109,10 +117,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         String fragmentToShowTag = null;
         switch (item.getItemId()) {
             case R.id.nav_logout_fragment:
-                Intent intentLogout = new Intent(this, LoginActivity.class);
-                boolean isLogout = true;
-                intentLogout.putExtra("logout", isLogout);
-                startActivity(intentLogout);
+                logOut();
                 break;
             case R.id.nav_request_fragment:
                 fragmentToShowTag = TAG_SITTER_FRAGMENT;
@@ -204,6 +209,24 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    /**
+     * Current user log out
+     */
+    private void logOut() {
+        User user = (User) User.getCurrentUser();
+        // Save current user name into preferences
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.edit().putString(PREFERENCE_CURRENT_USERNAME, user.getUsername()).apply();
+
+        user.logOutInBackground(new LogOutCallback() {
+            @Override
+            public void done(ParseException e) {
+                Intent intentLogout = new Intent(HomeActivity.this, LoginActivity.class);
+                startActivity(intentLogout);
+            }
+        });
     }
 
     private void showFilterDialog() {
