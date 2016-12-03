@@ -14,13 +14,9 @@
             android:icon="@drawable/two"
             android:title="Requests" />
         <item
-            android:id="@+id/nav_reviews_about"
+            android:id="@+id/nav_reviews"
             android:icon="@drawable/two"
-            android:title="Reviews About Me" />
-        <item
-            android:id="@+id/nav_reviews_by"
-            android:icon="@drawable/two"
-            android:title="Reviews By Me" />
+            android:title="Reviews" />
         <item
             android:id="@+id/nav_logout_fragment"
             android:icon="@drawable/three"
