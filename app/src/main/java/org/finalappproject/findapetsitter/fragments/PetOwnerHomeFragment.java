@@ -61,7 +61,7 @@ public class PetOwnerHomeFragment extends Fragment {
                     return NearbySittersFragment.newInstance();
                 case 0:
                 default:
-                    return new AvailableSittersFragment();
+                    return new PetSittersFragment();
             }
         }
 
