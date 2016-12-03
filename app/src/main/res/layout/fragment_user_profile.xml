@@ -100,5 +100,15 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="11dp"
             tools:text="Send Request" />
+
+        <Button
+            android:id="@+id/btWriteReview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btSendRequestOrEdit"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="11dp"
+            tools:text="Write Review" />
+
     </RelativeLayout>
 </ScrollView>

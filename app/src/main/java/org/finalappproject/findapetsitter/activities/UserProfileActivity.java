@@ -20,6 +20,7 @@ import com.parse.ParseException;
 import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.adapters.PetsAdapter;
 import org.finalappproject.findapetsitter.fragments.RequestFragment;
+import org.finalappproject.findapetsitter.fragments.WriteReviewFragment;
 import org.finalappproject.findapetsitter.model.Address;
 import org.finalappproject.findapetsitter.model.Pet;
 import org.finalappproject.findapetsitter.model.User;
@@ -66,6 +67,9 @@ public class UserProfileActivity extends AppCompatActivity implements GetCallbac
 
     @BindView(R.id.btSendRequestOrEdit)
     Button btSendRequest;
+
+    @BindView(R.id.btWriteReview)
+    Button btWriteReview;
 
     User mUser;
     List<Pet> mPets;
@@ -130,8 +134,11 @@ public class UserProfileActivity extends AppCompatActivity implements GetCallbac
         if (isOtherUser) {
             btSendRequest.setText("Send Request");
             btSendRequest.setVisibility(View.VISIBLE);
+            btWriteReview.setText("Write Review");
+            btWriteReview.setVisibility(View.VISIBLE);
         } else {
             btSendRequest.setVisibility(View.GONE);
+            btWriteReview.setVisibility(View.GONE);
         }
 
         btSendRequest.setOnClickListener(new View.OnClickListener() {
@@ -145,6 +152,21 @@ public class UserProfileActivity extends AppCompatActivity implements GetCallbac
 
                 FragmentManager fm = getSupportFragmentManager();
                 requestFragmentDialog.show(fm, "request");
+
+            }
+        });
+
+        btWriteReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("sitter_id", mUser.getObjectId());
+
+                WriteReviewFragment reviewFragmentDialog = new WriteReviewFragment();
+                reviewFragmentDialog.setArguments(bundle);
+
+                FragmentManager fm = getSupportFragmentManager();
+                reviewFragmentDialog.show(fm, "write_review");
 
             }
         });

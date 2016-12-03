@@ -17,11 +17,19 @@ import android.view.MenuItem;
 import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.fragments.FilterFragment;
 import org.finalappproject.findapetsitter.fragments.PetOwnerHomeFragment;
+import org.finalappproject.findapetsitter.fragments.RequestFragment;
+import org.finalappproject.findapetsitter.fragments.RequestsFragment;
+import org.finalappproject.findapetsitter.fragments.ReviewsAboutFragment;
+import org.finalappproject.findapetsitter.fragments.ReviewsByFragment;
 import org.finalappproject.findapetsitter.fragments.SitterHomeFragment;
 import org.finalappproject.findapetsitter.fragments.UserProfileFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static android.R.attr.fragment;
+import static android.R.attr.tag;
+import static org.finalappproject.findapetsitter.fragments.RequestsFragment.newInstance;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -31,6 +39,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private static final String TAG_OWNER_FRAGMENT = "owner_fragment";
     private static final String TAG_PROFILE_FRAGMENT = "profile_fragment";
     private static final String TAG_SITTER_FRAGMENT = "sitter_fragment";
+    private static final String TAG_REVIEWS_ABOUT_FRAGMENT = "reviews_about_fragment";
+    private static final String TAG_REVIEWS_BY_FRAGMENT = "reviews_by_fragment";
+
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -106,6 +117,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_request_fragment:
                 fragmentToShowTag = TAG_SITTER_FRAGMENT;
                 break;
+            case R.id.nav_reviews_about:
+                fragmentToShowTag = TAG_REVIEWS_ABOUT_FRAGMENT;
+                break;
+            case R.id.nav_reviews_by:
+                fragmentToShowTag = TAG_REVIEWS_BY_FRAGMENT;
+                break;
             case R.id.nav_profile_fragment:
                 fragmentToShowTag = TAG_PROFILE_FRAGMENT;
                 break;
@@ -150,6 +167,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         } else if (TAG_SITTER_FRAGMENT.equals(tag)) {
             //fragment = RequestsFragment.newInstance(true);
             fragment = SitterHomeFragment.newInstance();
+        } else if (TAG_REVIEWS_ABOUT_FRAGMENT.equals(tag)) {
+            fragment = ReviewsAboutFragment.newInstance();
+        } else if (TAG_REVIEWS_BY_FRAGMENT.equals(tag)) {
+            fragment = ReviewsByFragment.newInstance();
         }
 
         fm.beginTransaction()

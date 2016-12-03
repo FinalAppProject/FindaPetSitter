@@ -63,8 +63,8 @@ public class Request extends ParseObject {
         return getString(KEY_NOTE);
     }
 
-    public void setNote(String breed) {
-        put(KEY_NOTE, breed);
+    public void setNote(String note) {
+        put(KEY_NOTE, note);
     }
 
     public User getSender() {
@@ -91,6 +91,7 @@ public class Request extends ParseObject {
         put(KEY_STATUS, status);
     }
 
+    @Override
     public String toString() {
         return "PetType: " + this.getType() + "\nNote : " + this.getNote() + "\nDate: " + this.getBeginDate().toString() + " ---- " + this.getEndDate().toString();
     }
