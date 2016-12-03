@@ -16,7 +16,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 
 import org.finalappproject.findapetsitter.R;
-import org.finalappproject.findapetsitter.adapters.ReviewsAboutAdapter;
+import org.finalappproject.findapetsitter.adapters.ReviewsByAdapter;
 import org.finalappproject.findapetsitter.model.Review;
 import org.finalappproject.findapetsitter.model.User;
 import org.finalappproject.findapetsitter.util.recyclerview.DividerItemDecoration;
@@ -28,37 +28,31 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static java.security.AccessController.getContext;
+public class ReviewsByFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, FindCallback<Review> {
 
-public class ReviewsAboutFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, FindCallback<Review>{
+    private static final String LOG_TAG = "ReviewsByFragment";
 
-    private static final String LOG_TAG = "ReviewsAboutFragment";
+    private ArrayList<Review> mReviewsBy;
 
-    private ArrayList<Review> mReviewsAbout;
-    private ReviewsAboutAdapter mReviewsAboutAdapter;
+    private ReviewsByAdapter mReviewsByAdapter;
     User mUser;
     private Unbinder mUnbinder;
 
-    @BindView(R.id.rvReviewsAbout)
-    RecyclerView rvReviewsAbout;
-    @BindView(R.id.swipeContainerReviewsAbout)
-    SwipeRefreshLayout mReviewsAboutSwipeRefreshLayout;
+    @BindView(R.id.rvReviewsBy)
+    RecyclerView rvReviewsBy;
+    @BindView(R.id.swipeContainerReviewsBy)
+    SwipeRefreshLayout mReviewsBySwipeRefreshLayout;
 
-    public static ReviewsAboutFragment newInstance() {
-        ReviewsAboutFragment fragment = new ReviewsAboutFragment();
-        // Add arguments
-        Bundle savedInstanceState = new Bundle();
-        //savedInstanceState.putBoolean(ARGUMENT_IS_SITTER_FLOW, isPetSitterFlow);
-        //fragment.setArguments(savedInstanceState);
+    public static org.finalappproject.findapetsitter.fragments.ReviewsByFragment newInstance() {
+        org.finalappproject.findapetsitter.fragments.ReviewsByFragment fragment = new org.finalappproject.findapetsitter.fragments.ReviewsByFragment();
         return fragment;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Initialize member variables
-        mReviewsAbout = new ArrayList<>();
-        mReviewsAboutAdapter = new ReviewsAboutAdapter(getContext(), mReviewsAbout);
+        mReviewsBy = new ArrayList<>();
+        mReviewsByAdapter = new ReviewsByAdapter(getContext(), mReviewsBy);
         mUser = (User) User.getCurrentUser();
         fetchReviews();
     }
@@ -66,7 +60,7 @@ public class ReviewsAboutFragment extends Fragment implements SwipeRefreshLayout
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_reviews_about, container, false);
+        View view = inflater.inflate(R.layout.fragment_reviews_by, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
         setupRecyclerView();
@@ -76,18 +70,18 @@ public class ReviewsAboutFragment extends Fragment implements SwipeRefreshLayout
     }
 
     void setupRecyclerView() {
-        rvReviewsAbout.setAdapter(mReviewsAboutAdapter);
+        rvReviewsBy.setAdapter(mReviewsByAdapter);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
-        rvReviewsAbout.addItemDecoration(itemDecoration);
+        rvReviewsBy.addItemDecoration(itemDecoration);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         linearLayoutManager.scrollToPosition(0);
-        rvReviewsAbout.setLayoutManager(linearLayoutManager);
+        rvReviewsBy.setLayoutManager(linearLayoutManager);
     }
 
     void setupSwipeRefresh() {
-        mReviewsAboutSwipeRefreshLayout.setOnRefreshListener(this);
+        mReviewsBySwipeRefreshLayout.setOnRefreshListener(this);
     }
 
     @Override
@@ -98,15 +92,15 @@ public class ReviewsAboutFragment extends Fragment implements SwipeRefreshLayout
 
     @Override
     public void onRefresh() {
-        int reviewsCount = mReviewsAbout.size();
-        mReviewsAbout.clear();
-        mReviewsAboutAdapter.notifyItemRangeRemoved(0, reviewsCount);
+        int reviewsCount = mReviewsBy.size();
+        mReviewsBy.clear();
+        mReviewsByAdapter.notifyItemRangeRemoved(0, reviewsCount);
         fetchReviews();
-        mReviewsAboutSwipeRefreshLayout.setRefreshing(false);
+        mReviewsBySwipeRefreshLayout.setRefreshing(false);
     }
 
     private void fetchReviews() {
-        Review.queryByReviewReceiver(mUser, this);
+        Review.queryBySender(mUser, this);
     }
 
     @Override
@@ -120,9 +114,9 @@ public class ReviewsAboutFragment extends Fragment implements SwipeRefreshLayout
                     // This will occur when users associated to the request have been deleted
                     continue;
                 }
-                mReviewsAbout.add(review);
+                mReviewsBy.add(review);
             }
-            mReviewsAboutAdapter.notifyDataSetChanged();
+            mReviewsByAdapter.notifyDataSetChanged();
         } else {
             Log.e(LOG_TAG, "Failed to fetch request", e);
             Toast.makeText(getContext(), "Failed to fetch requests", Toast.LENGTH_LONG).show();
@@ -135,4 +129,5 @@ public class ReviewsAboutFragment extends Fragment implements SwipeRefreshLayout
         // Unbind views
         mUnbinder.unbind();
     }
+
 }

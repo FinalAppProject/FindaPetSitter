@@ -20,6 +20,7 @@ import org.finalappproject.findapetsitter.fragments.PetOwnerHomeFragment;
 import org.finalappproject.findapetsitter.fragments.RequestFragment;
 import org.finalappproject.findapetsitter.fragments.RequestsFragment;
 import org.finalappproject.findapetsitter.fragments.ReviewsAboutFragment;
+import org.finalappproject.findapetsitter.fragments.ReviewsByFragment;
 import org.finalappproject.findapetsitter.fragments.SitterHomeFragment;
 import org.finalappproject.findapetsitter.fragments.UserProfileFragment;
 
@@ -168,9 +169,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             // fragment = SitterHomeFragment.newInstance();
         } else if (TAG_REVIEWS_ABOUT_FRAGMENT.equals(tag)) {
             fragment = ReviewsAboutFragment.newInstance();
-  /*      } else if (TAG_REVIEWS_BY_FRAGMENT.equals(tag)) {
-            fragment = ReviewsByFragment.newInstance(true);
-  */      }
+        } else if (TAG_REVIEWS_BY_FRAGMENT.equals(tag)) {
+            fragment = ReviewsByFragment.newInstance();
+        }
 
         fm.beginTransaction()
                 .add(R.id.flContent, fragment, tag)

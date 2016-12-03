@@ -52,7 +52,7 @@ public class Review extends ParseObject {
         put(KEY_REVIEWER, sender);
     }
 
-    public User getReviewRecevier() {
+    public User getReviewReceiver() {
         return (User) getParseUser(KEY_REVIEW_RECEIVER);
     }
 
@@ -70,7 +70,7 @@ public class Review extends ParseObject {
 
     @Override
     public String toString() {
-        return "REVIEW: PetType: " + this.getType() + "\nReview : " + this.getReview() + "\nRating : " + this.getRating();
+        return "REVIEW: PetType: " + this.getType() + "\nReview : " + this.getReview() + "\nRating : " + this.getRating() + "\nReviewer : " + this.getReviewer().toString() + "\nReceiver : " + this.getReviewReceiver().toString();
     }
 
     public static void queryReviews(String requestId, GetCallback<org.finalappproject.findapetsitter.model.Review> findCallback) {
