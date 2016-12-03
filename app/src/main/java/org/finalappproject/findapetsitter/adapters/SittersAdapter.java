@@ -73,7 +73,6 @@ public class SittersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         ImageHelper.loadImage(mContext, sitter.getProfileImage(), R.drawable.cat, vh.ivItemProfilePic);
         //vh.tvNumReviews.setText("45");
         double distanceVal = Math.round( mAvailableSittersWithDistance.get(position).distance * 100.0 ) / 100.0;
-
         if(distanceVal != 0) {
             vh.tvDistance.setText(distanceVal + " miles");
         } else {
