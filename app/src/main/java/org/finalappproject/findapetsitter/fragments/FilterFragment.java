@@ -12,7 +12,7 @@ import org.finalappproject.findapetsitter.R;
 
 public class FilterFragment extends DialogFragment {
 
-    //use this to get the fileds that we need to prepopulate in filters
+    //use this to get the fields that we need to prepopulate in filters
     public static FilterFragment newInstance(String title) {
         FilterFragment frag = new FilterFragment();
         Bundle args = new Bundle();
