@@ -26,9 +26,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static org.finalappproject.findapetsitter.application.AppConstants.REQUEST_ACCEPTED;
+import static org.finalappproject.findapetsitter.application.AppConstants.REQUEST_PENDING;
 import static org.finalappproject.findapetsitter.application.AppConstants.REQUEST_REJECTED;
 
-public class ReceivedRequestActivity extends AppCompatActivity implements GetCallback<Request>, SaveCallback {
+public class RequestDetailActivity extends AppCompatActivity implements GetCallback<Request>, SaveCallback {
 
     @BindView(R.id.ivReceivedRequestProfile)
     ImageView ivProfilePic;
@@ -46,18 +47,22 @@ public class ReceivedRequestActivity extends AppCompatActivity implements GetCal
     Button btAccept;
     @BindView(R.id.btRespondReject)
     Button btReject;
+    @BindView(R.id.tvRequestDetailStatus)
+    TextView tvRequestStatus;
 
 
-    private static final String LOG_TAG = "ReceivedRequestActivity";
+    private static final String LOG_TAG = "RequestDetailActivity";
     Request mRequest;
+    private static Boolean mIsReceivedRequest = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_received_request);
+        setContentView(R.layout.activity_request_detail);
         ButterKnife.bind(this);
 
         String request_id = getIntent().getStringExtra("request_id");
+        mIsReceivedRequest = getIntent().getExtras().getBoolean("request_type");
         Request.queryRequest(request_id, this);
     }
 
@@ -81,7 +86,7 @@ public class ReceivedRequestActivity extends AppCompatActivity implements GetCal
         tvFullName.setText(petOwner.getFullName());
         // Load request information
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-        tvDate.setText(String.format("From %s \nto %s ?", sdf.format(mRequest.getBeginDate()), sdf.format(mRequest.getEndDate())));
+        tvDate.setText(String.format("From %s \nto       %s ", sdf.format(mRequest.getBeginDate()), sdf.format(mRequest.getEndDate())));
         tvMessage.setText(mRequest.getNote());
         // Load pet information
         if (pets != null && !pets.isEmpty()) {
@@ -89,23 +94,47 @@ public class ReceivedRequestActivity extends AppCompatActivity implements GetCal
             tvPetName.setText(mRequest.getSender().getPets().get(0).getName());
         }
 
-        btAccept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mRequest.setStatus(REQUEST_ACCEPTED);
-                mRequest.saveInBackground(ReceivedRequestActivity.this);
-                disableButton();
-            }
-        });
+        if (mIsReceivedRequest) {
+            btAccept.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mRequest.setStatus(REQUEST_ACCEPTED);
+                    mRequest.saveInBackground(RequestDetailActivity.this);
+                    disableButton();
+                }
+            });
 
-        btReject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mRequest.setStatus(REQUEST_REJECTED);
-                mRequest.saveInBackground(ReceivedRequestActivity.this);
-                disableButton();
+            btReject.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mRequest.setStatus(REQUEST_REJECTED);
+                    mRequest.saveInBackground(RequestDetailActivity.this);
+                    disableButton();
+                }
+            });
+        } else {
+            switch (mRequest.getStatus()) {
+                case REQUEST_ACCEPTED:
+                    tvRequestStatus.setText("Your request was accepted!");
+                    tvRequestStatus.setBackgroundColor(getResources().getColor(R.color.green));
+                    tvRequestStatus.setTextColor(getResources().getColor(R.color.white));
+                    break;
+                case REQUEST_PENDING:
+                    tvRequestStatus.setText("Your request is pending...");
+                    tvRequestStatus.setBackgroundColor(getResources().getColor(R.color.twitterBlue));
+                    tvRequestStatus.setTextColor(getResources().getColor(R.color.white));
+                    break;
+                case REQUEST_REJECTED:
+                    tvRequestStatus.setText("Your request was rejected. Let's try finding available sitters!");
+                    tvRequestStatus.setBackgroundColor(getResources().getColor(R.color.gray));
+                    tvRequestStatus.setTextColor(getResources().getColor(R.color.white));
+                    break;
+                default:
+                    tvRequestStatus.setEnabled(false);
             }
-        });
+            btAccept.setVisibility(View.GONE);
+            btReject.setVisibility(View.GONE);
+        }
     }
 
     private void disableButton() {

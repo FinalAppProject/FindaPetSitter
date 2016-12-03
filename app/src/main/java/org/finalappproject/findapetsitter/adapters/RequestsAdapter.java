@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.parse.ParseException;
 
 import org.finalappproject.findapetsitter.R;
-import org.finalappproject.findapetsitter.activities.ReceivedRequestActivity;
+import org.finalappproject.findapetsitter.activities.RequestDetailActivity;
 import org.finalappproject.findapetsitter.model.Request;
 import org.finalappproject.findapetsitter.model.User;
 import org.finalappproject.findapetsitter.util.ImageHelper;
@@ -89,15 +89,6 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 otherUser = (User) request.getSender().fetchIfNeeded();
                 message = getContext().getString(R.string.request_message_pet_sitter, otherUser.getFullName());
 
-                viewHolder.rlRequestReceived.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(getContext(), ReceivedRequestActivity.class);
-                        intent.putExtra("request_id", request.getObjectId());
-                        getContext().startActivity(intent);
-                    }
-                });
-
                 if (request.getStatus() != REQUEST_PENDING) {
                     viewHolder.tvRequestStatus.setText("Responded");
                     viewHolder.tvRequestStatus.setBackgroundResource(R.color.green);
@@ -122,6 +113,16 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                     viewHolder.tvRequestStatus.setBackgroundResource(R.color.blue);
                 }
             }
+
+            viewHolder.rlRequestReceived.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getContext(), RequestDetailActivity.class);
+                    intent.putExtra("request_id", request.getObjectId());
+                    intent.putExtra("request_type", mIsPetSitterFlow);
+                    getContext().startActivity(intent);
+                }
+            });
 
             //
             ImageHelper.loadImage(mContext, otherUser.getProfileImage(), R.drawable.cat, viewHolder.ivRequestProfile);
