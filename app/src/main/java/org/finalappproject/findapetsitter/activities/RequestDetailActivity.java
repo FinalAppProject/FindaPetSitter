@@ -179,7 +179,7 @@ public class RequestDetailActivity extends AppCompatActivity implements GetCallb
     @Override
     public void done(ParseException e) {
         if (e == null) {
-            Toast.makeText(this, "Response sent", Toast.LENGTH_LONG).show();
+            finish();
         } else {
             Log.e(LOG_TAG, "Failed to send response", e);
             Toast.makeText(this, "Failed to send response " + e.getMessage(), Toast.LENGTH_LONG).show();
