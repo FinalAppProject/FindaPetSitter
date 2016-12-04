@@ -9,11 +9,24 @@
     android:id="@+id/activity_request"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
         tools:context="org.finalappproject.findapetsitter.activities.RequestDetailActivity">
+
+        <com.github.florent37.diagonallayout.DiagonalLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:diagonal_angle="10"
+            app:diagonal_gravity="left"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/request_background_dog" />
+
+        </com.github.florent37.diagonallayout.DiagonalLayout>
 
         <TextView
             tools:text="You are accepted!Start contacting the sitter!"
@@ -25,14 +38,16 @@
             android:layout_centerHorizontal="true"
             android:id="@+id/tvRequestDetailStatus" />
 
-        <ImageView
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="90dp"
+            android:layout_height="90dp"
             tools:src="@mipmap/ic_launcher"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginLeft="40dp"
+            app:civ_border_width="2dp"
+            app:civ_border_color="@color/white"
             android:layout_below="@id/tvRequestDetailStatus"
-            android:id="@+id/ivReceivedRequestProfile"
-            android:layout_centerHorizontal="true" />
+            android:id="@+id/ivReceivedRequestProfile" />
 
         <TextView
             android:text="Hello! My name is "

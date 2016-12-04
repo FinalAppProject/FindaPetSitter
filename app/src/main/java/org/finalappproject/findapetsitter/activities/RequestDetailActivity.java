@@ -26,6 +26,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static org.finalappproject.findapetsitter.application.AppConstants.REQUEST_ACCEPTED;
 import static org.finalappproject.findapetsitter.application.AppConstants.REQUEST_PENDING;
@@ -34,7 +35,7 @@ import static org.finalappproject.findapetsitter.application.AppConstants.REQUES
 public class RequestDetailActivity extends AppCompatActivity implements GetCallback<Request>, SaveCallback {
 
     @BindView(R.id.ivReceivedRequestProfile)
-    ImageView ivProfilePic;
+    CircleImageView ivProfilePic;
     @BindView(R.id.tvReceivedRequestFullName)
     TextView tvFullName;
     @BindView(R.id.ivReceivedRequestPetPic)
@@ -86,6 +87,7 @@ public class RequestDetailActivity extends AppCompatActivity implements GetCallb
         // Load user information
         ImageHelper.loadImage(this, petOwner.getProfileImage(), R.drawable.account_plus, ivProfilePic);
         tvFullName.setText(petOwner.getFullName());
+
         // Load request information
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         tvDate.setText(String.format("From %s \nto       %s ", sdf.format(mRequest.getBeginDate()), sdf.format(mRequest.getEndDate())));

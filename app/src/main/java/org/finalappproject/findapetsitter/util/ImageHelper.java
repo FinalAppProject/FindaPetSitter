@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.ImageView;
@@ -14,7 +13,6 @@ import com.bumptech.glide.Glide;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 
-import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.application.AppConstants;
 
 import java.io.ByteArrayOutputStream;
@@ -76,6 +74,6 @@ public abstract class ImageHelper {
             Log.e(LOG_TAG, "Failed to load parse file", e);
         }
 
-        Glide.with(context).load(imageData).centerCrop().placeholder(placeholderResourceId).into(imageView);
+        Glide.with(context).load(imageData).centerCrop().placeholder(placeholderResourceId).dontAnimate().into(imageView);
     }
 }

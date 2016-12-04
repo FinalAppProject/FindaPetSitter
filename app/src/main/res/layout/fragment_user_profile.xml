@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:id="@+id/svProfileScroll">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -92,24 +93,59 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tvUserPets"/>
 
-        <Button
-            android:id="@+id/btSendRequestOrEdit"
+
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/rl_action_buttons"
             android:layout_below="@+id/rvPets"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="11dp"
-            tools:text="Send Request" />
+            android:paddingBottom="20dp">
 
-        <Button
-            android:id="@+id/btWriteReview"
+            <Button
+                android:layout_centerHorizontal="true"
+                android:id="@+id/btSendRequestOrEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="11dp"
+                tools:text="Send Request" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/btSendRequestOrEdit"
+                android:layout_height="wrap_content"
+                android:id="@+id/ll_review_btns"
+                android:paddingBottom="20dp">
+
+                <Button
+                    android:id="@+id/btWriteReview"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    tools:text="Write Review" />
+
+                <Button
+                    android:id="@+id/btViewReview"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="11dp"
+                    tools:text="View Reviews" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <FrameLayout
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:id="@+id/flReviewsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
             android:visibility="gone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btSendRequestOrEdit"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="11dp"
-            tools:text="Write Review" />
-
+            android:layout_below="@+id/rl_action_buttons"
+            android:layout_alignParentBottom="true" />
     </RelativeLayout>
+
 </ScrollView>

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 
 import org.finalappproject.findapetsitter.R;
@@ -28,15 +29,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static java.security.AccessController.getContext;
-
-public class ReviewsAboutFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, FindCallback<Review>{
+public class ReviewsAboutFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, FindCallback<Review> {
 
     private static final String LOG_TAG = "ReviewsAboutFragment";
+    private static final String ARGUMENT_USER_ID = "user_id";
 
     private ArrayList<Review> mReviewsAbout;
     private ReviewsAboutAdapter mReviewsAboutAdapter;
     User mUser;
+    String mUserId;
     private Unbinder mUnbinder;
 
     @BindView(R.id.rvReviewsAbout)
@@ -44,23 +45,34 @@ public class ReviewsAboutFragment extends Fragment implements SwipeRefreshLayout
     @BindView(R.id.swipeContainerReviewsAbout)
     SwipeRefreshLayout mReviewsAboutSwipeRefreshLayout;
 
-    public static ReviewsAboutFragment newInstance() {
+    public static ReviewsAboutFragment newInstance(String userId) {
         ReviewsAboutFragment fragment = new ReviewsAboutFragment();
         // Add arguments
         Bundle savedInstanceState = new Bundle();
-        //savedInstanceState.putBoolean(ARGUMENT_IS_SITTER_FLOW, isPetSitterFlow);
-        //fragment.setArguments(savedInstanceState);
+        savedInstanceState.putString(ARGUMENT_USER_ID, userId);
+        fragment.setArguments(savedInstanceState);
         return fragment;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Initialize member variables
+        if (getArguments() != null) {
+            User.queryUser(getArguments().getString(ARGUMENT_USER_ID), new GetCallback<User>() {
+                @Override
+                public void done(User user, ParseException e) {
+                    if (e == null) {
+                        mUser = user;
+                        fetchReviews();
+                    } else {
+                        Log.e(LOG_TAG, "Failed to fetch user", e);
+                        Toast.makeText(getContext(), "Failed to fetch user", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
         mReviewsAbout = new ArrayList<>();
         mReviewsAboutAdapter = new ReviewsAboutAdapter(getContext(), mReviewsAbout);
-        mUser = (User) User.getCurrentUser();
-        fetchReviews();
     }
 
     @Override
@@ -129,10 +141,10 @@ public class ReviewsAboutFragment extends Fragment implements SwipeRefreshLayout
         }
     }
 
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        // Unbind views
         mUnbinder.unbind();
     }
 }
