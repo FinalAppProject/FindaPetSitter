@@ -7,6 +7,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -96,6 +99,8 @@ public class UserProfileFragment extends Fragment {
         mUser = (User) User.getCurrentUser();
         mPets = new ArrayList<>();
         mPetsAdapter = new PetsAdapter(getContext(), mPets);
+
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -108,6 +113,24 @@ public class UserProfileFragment extends Fragment {
         loadData();
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_profile, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle item selection
+        switch (item.getItemId()) {
+            case R.id.miEdit:
+                // TODO
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void setupPetsRecyclerView() {
