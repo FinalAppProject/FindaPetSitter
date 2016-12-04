@@ -3,7 +3,10 @@ package org.finalappproject.findapetsitter.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,12 +21,17 @@ import org.finalappproject.findapetsitter.model.User;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static org.finalappproject.findapetsitter.R.id.btSave;
+
 /**
  * Sign-up activity
  */
 public class SignUpActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = "SignUpActivity";
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     @BindView(R.id.etEmail)
     EditText etEmail;
@@ -37,9 +45,6 @@ public class SignUpActivity extends AppCompatActivity {
     @BindView(R.id.etFullName)
     EditText etFullName;
 
-    @BindView(R.id.btSave)
-    Button btSave;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,18 +52,31 @@ public class SignUpActivity extends AppCompatActivity {
 
         // Bind views
         ButterKnife.bind(this);
-        // Setup save button
-        setupSaveButton();
+
+        // Set support toolbar
+        toolbar.setTitle(R.string.toolbar_title_sign_up);
+        setSupportActionBar(toolbar);
+
     }
 
-    private void setupSaveButton() {
-        btSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signUp();
-            }
-        });
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_signup, menu);
+        return super.onCreateOptionsMenu(menu);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.miSave:
+                signUp();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
     /**
      * Validates the profile information entered by the user, signs up with the Parse backend

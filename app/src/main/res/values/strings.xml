@@ -13,8 +13,8 @@
     <!-- Notification -->
     <string name="notification_pet_sitting_request_title">Pet sitting request from: %s</string>
 
-
     <!-- SingUp Activity strings -->
+    <string name="toolbar_title_sign_up">Sign Up</string>
     <string name="repeat_password_text_view">Repeat Password</string>
     <string name="full_name_text_view">Full Name</string>
     <string name="save_button">Save</string>
