@@ -5,7 +5,7 @@
     <string name="email_text_view">Email Address</string>
     <string name="password_text_view">Password</string>
     <string name="login_button">Login</string>
-    <string name="sign_up_text_view"><u>Sign Up</u></string>
+    <string name="sign_up_text_view">Don\'t have an account? Sign up</string>
     <string name="error_authentication">Authentication failure</string>
     <string name="error_google_play_services">Google Play Services NOT Available on this device</string>
 
