@@ -98,18 +98,25 @@ public class Request extends ParseObject {
 
     public static void queryRequest(String requestId, GetCallback<Request> findCallback) {
         // TODO verify/validate cache policy
-        ParseQuery<Request> requestQuery = ParseQuery.getQuery(Request.class);
+        ParseQuery<Request> requestQuery = ParseQuery.getQuery(Request.class)
+                .include(KEY_SENDER)
+                .include(KEY_RECEIVER);
         requestQuery.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
         requestQuery.getInBackground(requestId, findCallback);
     }
 
     public static void queryByReceiver(ParseUser user, FindCallback<Request> findCallback) {
-        ParseQuery<Request> requestQuery = ParseQuery.getQuery(Request.class).whereEqualTo(KEY_RECEIVER, user);
+        ParseQuery<Request> requestQuery = ParseQuery.getQuery(Request.class)
+                .include(KEY_SENDER)
+                .include(KEY_RECEIVER).whereEqualTo(KEY_RECEIVER, user);
         requestQuery.findInBackground(findCallback);
     }
 
     public static void queryBySender(ParseUser user, FindCallback<Request> findCallback) {
-        ParseQuery<Request> requestQuery = ParseQuery.getQuery(Request.class).whereEqualTo(KEY_SENDER, user);
+        ParseQuery<Request> requestQuery = ParseQuery.getQuery(Request.class)
+                .include(KEY_SENDER)
+                .include(KEY_RECEIVER)
+                .whereEqualTo(KEY_SENDER, user);
         requestQuery.findInBackground(findCallback);
     }
 }
