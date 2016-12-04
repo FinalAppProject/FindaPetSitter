@@ -62,9 +62,9 @@ public class SitterHomeFragment extends Fragment {
         return view;
     }
 
-    public static class SitterHomeFragmentPagerAdapter extends FragmentPagerAdapter {
+    public static class SitterHomeFragmentPagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
         private final static int PAGE_COUNT = 2;
-        private String tabTitles[] = new String[]{"Received", "Sent"};
+        private int tabIcons[] = {R.drawable.request_received, R.drawable.request_sent};
 
         public SitterHomeFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -82,13 +82,13 @@ public class SitterHomeFragment extends Fragment {
         }
 
         @Override
-        public CharSequence getPageTitle(int position) {
-            return tabTitles[position];
+        public int getPageIconResId(int position) {
+            return tabIcons[position];
         }
 
         @Override
         public int getCount() {
-            return tabTitles.length;
+            return tabIcons.length;
         }
     }
 }
