@@ -125,9 +125,6 @@ public class RequestsFragment extends Fragment implements SwipeRefreshLayout.OnR
      */
     @Override
     public void onRefresh() {
-        int requestsCount = mRequests.size();
-        mRequests.clear();
-        mRequestsAdapter.notifyItemRangeRemoved(0, requestsCount);
         fetchRequests();
         swipeLayoutRequests.setRefreshing(false);
 
@@ -142,20 +139,30 @@ public class RequestsFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
     @Override
-    public void done(List<Request> objects, ParseException e) {
+    public void onResume() {
+        super.onResume();
+        fetchRequests();
+    }
+
+    @Override
+    public void done(List<Request> requests, ParseException e) {
 
         if (e == null) {
-            for (Request request : objects) {
-                try {
-                    request.getReceiver().fetchIfNeeded();
-                    request.getSender().fetchIfNeeded();
-                } catch (ParseException ex) {
-                    // This will occur when users associated to the request have been deleted
-                    continue;
-                }
-                mRequests.add(request);
+
+            int oldRequestsCount = mRequests.size();
+            if (oldRequestsCount > 0) {
+                mRequests.clear();
             }
-            mRequestsAdapter.notifyDataSetChanged();
+            mRequests.addAll(requests);
+
+            int newRequestsCount = requests.size();
+            if (newRequestsCount == oldRequestsCount) {
+                mRequestsAdapter.notifyItemRangeChanged(0, oldRequestsCount);
+            } else if (newRequestsCount > oldRequestsCount) {
+                mRequestsAdapter.notifyItemRangeInserted(oldRequestsCount, (newRequestsCount - oldRequestsCount));
+            } else if (newRequestsCount > oldRequestsCount) {
+                mRequestsAdapter.notifyItemRangeRemoved(newRequestsCount, (oldRequestsCount - newRequestsCount));
+            }
         } else {
             Log.e(LOG_TAG, "Failed to fetch request", e);
             Toast.makeText(getContext(), "Failed to fetch requests", Toast.LENGTH_LONG).show();
