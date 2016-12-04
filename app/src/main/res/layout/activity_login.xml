@@ -15,12 +15,11 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginTop="20dp"
-        android:src="@mipmap/pettin_logo"
-        android:scaleType="fitStart"
-        />
+        android:adjustViewBounds="true"
+        android:src="@mipmap/pettin_logo" />
 
     <RelativeLayout
         android:layout_width="match_parent"
