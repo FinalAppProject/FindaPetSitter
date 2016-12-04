@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.astuetz.PagerSlidingTabStrip;
 
 import org.finalappproject.findapetsitter.R;
+import org.finalappproject.findapetsitter.model.User;
 
 public class ReviewsFragment extends Fragment {
 
@@ -57,7 +58,8 @@ public class ReviewsFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                return ReviewsAboutFragment.newInstance();
+                User user = (User) User.getCurrentUser();
+                return ReviewsAboutFragment.newInstance(user.getObjectId());
             } else if (position == 1) {
                 return ReviewsByFragment.newInstance();
             } else {
