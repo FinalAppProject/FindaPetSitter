@@ -22,8 +22,7 @@ import com.parse.ParseException;
 import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.fragments.FilterFragment;
 import org.finalappproject.findapetsitter.fragments.PetOwnerHomeFragment;
-import org.finalappproject.findapetsitter.fragments.ReviewsAboutFragment;
-import org.finalappproject.findapetsitter.fragments.ReviewsByFragment;
+import org.finalappproject.findapetsitter.fragments.ReviewsFragment;
 import org.finalappproject.findapetsitter.fragments.SitterHomeFragment;
 import org.finalappproject.findapetsitter.fragments.UserProfileFragment;
 import org.finalappproject.findapetsitter.model.User;
@@ -41,9 +40,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private static final String TAG_OWNER_FRAGMENT = "owner_fragment";
     private static final String TAG_PROFILE_FRAGMENT = "profile_fragment";
     private static final String TAG_SITTER_FRAGMENT = "sitter_fragment";
-    private static final String TAG_REVIEWS_ABOUT_FRAGMENT = "reviews_about_fragment";
-    private static final String TAG_REVIEWS_BY_FRAGMENT = "reviews_by_fragment";
-
+    private static final String TAG_REVIEWS_FRAGMENT = "reviews_fragment";
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -116,11 +113,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_request_fragment:
                 fragmentToShowTag = TAG_SITTER_FRAGMENT;
                 break;
-            case R.id.nav_reviews_about:
-                fragmentToShowTag = TAG_REVIEWS_ABOUT_FRAGMENT;
-                break;
-            case R.id.nav_reviews_by:
-                fragmentToShowTag = TAG_REVIEWS_BY_FRAGMENT;
+            case R.id.nav_reviews:
+                fragmentToShowTag = TAG_REVIEWS_FRAGMENT;
                 break;
             case R.id.nav_profile_fragment:
                 fragmentToShowTag = TAG_PROFILE_FRAGMENT;
@@ -166,10 +160,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         } else if (TAG_SITTER_FRAGMENT.equals(tag)) {
             //fragment = RequestsFragment.newInstance(true);
             fragment = SitterHomeFragment.newInstance();
-        } else if (TAG_REVIEWS_ABOUT_FRAGMENT.equals(tag)) {
-            fragment = ReviewsAboutFragment.newInstance();
-        } else if (TAG_REVIEWS_BY_FRAGMENT.equals(tag)) {
-            fragment = ReviewsByFragment.newInstance();
+        } else if (TAG_REVIEWS_FRAGMENT.equals(tag)) {
+            fragment = ReviewsFragment.newInstance();
         }
 
         fm.beginTransaction()
