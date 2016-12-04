@@ -22,8 +22,6 @@ import com.parse.ParseException;
 import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.fragments.FilterFragment;
 import org.finalappproject.findapetsitter.fragments.PetOwnerHomeFragment;
-import org.finalappproject.findapetsitter.fragments.ReviewsAboutFragment;
-import org.finalappproject.findapetsitter.fragments.ReviewsByFragment;
 import org.finalappproject.findapetsitter.fragments.ReviewsFragment;
 import org.finalappproject.findapetsitter.fragments.SitterHomeFragment;
 import org.finalappproject.findapetsitter.fragments.UserProfileFragment;

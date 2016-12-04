@@ -59,10 +59,10 @@ public class ReviewsAboutAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         org.finalappproject.findapetsitter.adapters.ReviewsAboutAdapter.ReviewViewHolder vh = (org.finalappproject.findapetsitter.adapters.ReviewsAboutAdapter.ReviewViewHolder) holder;
         final Review review = mReviews.get(position);
-        vh.tvItemFirstName.setText(review.getReviewer().getFullName());
         vh.tvReview.setText(review.getReview());
         vh.rbReviewRating.setRating((float)review.getRating());
         ImageHelper.loadImage(mContext, review.getReviewer().getProfileImage(), R.drawable.cat, vh.ivItemProfilePic);
+        vh.tvItemFirstName.setText(review.getReviewer().getFullName());
 
         vh.RlReviewItem.setOnClickListener(new View.OnClickListener() {
             @Override

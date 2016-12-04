@@ -3,12 +3,14 @@ package org.finalappproject.findapetsitter.activities;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,6 +22,7 @@ import com.parse.ParseException;
 import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.adapters.PetsAdapter;
 import org.finalappproject.findapetsitter.fragments.RequestFragment;
+import org.finalappproject.findapetsitter.fragments.ReviewsAboutFragment;
 import org.finalappproject.findapetsitter.fragments.WriteReviewFragment;
 import org.finalappproject.findapetsitter.model.Address;
 import org.finalappproject.findapetsitter.model.Pet;
@@ -33,6 +36,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.R.attr.fragment;
+import static android.R.attr.tag;
+import static org.finalappproject.findapetsitter.R.id.btViewReview;
 import static org.finalappproject.findapetsitter.activities.UserProfileEditActivity.EXTRA_USER_OBJECT_ID;
 import static org.finalappproject.findapetsitter.model.User.queryUser;
 
@@ -70,6 +76,13 @@ public class UserProfileActivity extends AppCompatActivity implements GetCallbac
 
     @BindView(R.id.btWriteReview)
     Button btWriteReview;
+
+    @BindView(btViewReview)
+    Button btViewReviews;
+
+    @BindView(R.id.flReviewsContainer)
+    FrameLayout profileReviewsContainer;
+
 
     User mUser;
     List<Pet> mPets;
@@ -122,6 +135,7 @@ public class UserProfileActivity extends AppCompatActivity implements GetCallbac
         tvUserNickname.setText(mUser.getNickName());
         tvUserDescription.setText(mUser.getDescription());
         tvUserPhoneNumber.setText(String.format("Phone number: %s", mUser.getPhone()));
+
         try {
             Address address = mUser.getAddress().fetchIfNeeded();
             if (address != null) {
@@ -136,9 +150,12 @@ public class UserProfileActivity extends AppCompatActivity implements GetCallbac
             btSendRequest.setVisibility(View.VISIBLE);
             btWriteReview.setText("Write Review");
             btWriteReview.setVisibility(View.VISIBLE);
+            btViewReviews.setText("View Reviews");
+            btViewReviews.setVisibility(View.VISIBLE);
         } else {
             btSendRequest.setVisibility(View.GONE);
             btWriteReview.setVisibility(View.GONE);
+            btViewReviews.setVisibility(View.GONE);
         }
 
         btSendRequest.setOnClickListener(new View.OnClickListener() {
@@ -152,7 +169,6 @@ public class UserProfileActivity extends AppCompatActivity implements GetCallbac
 
                 FragmentManager fm = getSupportFragmentManager();
                 requestFragmentDialog.show(fm, "request");
-
             }
         });
 
@@ -168,6 +184,19 @@ public class UserProfileActivity extends AppCompatActivity implements GetCallbac
                 FragmentManager fm = getSupportFragmentManager();
                 reviewFragmentDialog.show(fm, "write_review");
 
+            }
+        });
+
+        btViewReviews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                profileReviewsContainer.setVisibility(View.VISIBLE);
+                FragmentManager fm = getSupportFragmentManager();
+                ReviewsAboutFragment reviewsAboutFragment = ReviewsAboutFragment.newInstance(mUser.getObjectId());
+                fm.beginTransaction()
+                        .add(R.id.flReviewsContainer, reviewsAboutFragment, "review_about_user")
+                        .commit();
+                fm.beginTransaction().show(reviewsAboutFragment).commit();
             }
         });
 
