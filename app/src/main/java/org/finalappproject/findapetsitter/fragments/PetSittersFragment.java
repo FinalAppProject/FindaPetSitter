@@ -39,7 +39,7 @@ import static org.finalappproject.findapetsitter.activities.UserProfileEditActiv
  */
 public class PetSittersFragment extends Fragment {
 
-    private static final String LOG_TAG = "AvailableSittersFrag";
+    private static final String LOG_TAG = "PetSittersFragment";
 
     public class PetSitterAdapter extends RecyclerView.Adapter<PetSitterAdapter.UserViewHolder> {
 

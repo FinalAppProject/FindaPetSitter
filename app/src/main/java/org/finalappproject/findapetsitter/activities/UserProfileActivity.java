@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ import butterknife.ButterKnife;
 import static android.R.attr.fragment;
 import static android.R.attr.tag;
 import static org.finalappproject.findapetsitter.R.id.btViewReview;
+import static org.finalappproject.findapetsitter.R.id.flReviewsContainer;
 import static org.finalappproject.findapetsitter.activities.UserProfileEditActivity.EXTRA_USER_OBJECT_ID;
 import static org.finalappproject.findapetsitter.model.User.queryUser;
 
@@ -77,12 +79,14 @@ public class UserProfileActivity extends AppCompatActivity implements GetCallbac
     @BindView(R.id.btWriteReview)
     Button btWriteReview;
 
-    @BindView(btViewReview)
+    @BindView(R.id.btViewReview)
     Button btViewReviews;
 
     @BindView(R.id.flReviewsContainer)
-    FrameLayout profileReviewsContainer;
+    FrameLayout flProfileReviewsContainer;
 
+    @BindView(R.id.svProfileScroll)
+    ScrollView svProfileScroll;
 
     User mUser;
     List<Pet> mPets;
@@ -190,13 +194,15 @@ public class UserProfileActivity extends AppCompatActivity implements GetCallbac
         btViewReviews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                profileReviewsContainer.setVisibility(View.VISIBLE);
+                flProfileReviewsContainer.setVisibility(View.VISIBLE);
                 FragmentManager fm = getSupportFragmentManager();
                 ReviewsAboutFragment reviewsAboutFragment = ReviewsAboutFragment.newInstance(mUser.getObjectId());
                 fm.beginTransaction()
                         .add(R.id.flReviewsContainer, reviewsAboutFragment, "review_about_user")
                         .commit();
                 fm.beginTransaction().show(reviewsAboutFragment).commit();
+                focusOnView();
+                //flProfileReviewsContainer.getParent().requestChildFocus(targetView,targetView);
             }
         });
 
@@ -219,5 +225,14 @@ public class UserProfileActivity extends AppCompatActivity implements GetCallbac
             Log.e(LOG_TAG, "Failed to fetch user", e);
             Toast.makeText(this, "Failed to fetch user", Toast.LENGTH_LONG).show();
         }
+    }
+
+    private final void focusOnView(){
+        svProfileScroll.post(new Runnable() {
+            @Override
+            public void run() {
+                svProfileScroll.smoothScrollBy(0, flProfileReviewsContainer.getTop());
+            }
+        });
     }
 }
