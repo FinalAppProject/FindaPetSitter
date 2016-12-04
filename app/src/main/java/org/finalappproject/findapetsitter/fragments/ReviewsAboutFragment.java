@@ -20,7 +20,6 @@ import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.adapters.ReviewsAboutAdapter;
 import org.finalappproject.findapetsitter.model.Review;
 import org.finalappproject.findapetsitter.model.User;
-import org.finalappproject.findapetsitter.util.recyclerview.DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,9 +88,6 @@ public class ReviewsAboutFragment extends Fragment implements SwipeRefreshLayout
 
     void setupRecyclerView() {
         rvReviewsAbout.setAdapter(mReviewsAboutAdapter);
-        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
-        rvReviewsAbout.addItemDecoration(itemDecoration);
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         linearLayoutManager.scrollToPosition(0);

@@ -153,7 +153,14 @@ public class RequestsFragment extends Fragment implements SwipeRefreshLayout.OnR
             if (oldRequestsCount > 0) {
                 mRequests.clear();
             }
-            mRequests.addAll(requests);
+
+            for (Request request : requests) {
+                if (request.getSender() == null || request.getReceiver() == null) {
+                    // Bad data, user has been deleted from the database, but requests associated to it is still there
+                    continue;
+                }
+                mRequests.add(request);
+            }
 
             int newRequestsCount = requests.size();
             if (newRequestsCount == oldRequestsCount) {

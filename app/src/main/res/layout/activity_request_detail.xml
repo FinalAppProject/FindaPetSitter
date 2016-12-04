@@ -1,169 +1,182 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:diagonal="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_request"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-        tools:context="org.finalappproject.findapetsitter.activities.RequestDetailActivity">
+    android:layout_height="wrap_content"
+    android:background="#EEEEEE"
+    tools:context="org.finalappproject.findapetsitter.activities.RequestDetailActivity">
 
-        <com.github.florent37.diagonallayout.DiagonalLayout
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            app:diagonal_angle="10"
-            app:diagonal_gravity="left"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/request_background_dog" />
-
-        </com.github.florent37.diagonallayout.DiagonalLayout>
-
-        <TextView
-            tools:text="You are accepted!Start contacting the sitter!"
-            android:textSize="20sp"
-            android:padding="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/tvRequestDetailStatus" />
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            tools:src="@mipmap/ic_launcher"
-            android:layout_marginTop="100dp"
-            android:layout_marginLeft="40dp"
-            app:civ_border_width="2dp"
-            app:civ_border_color="@color/white"
-            android:layout_below="@id/tvRequestDetailStatus"
-            android:id="@+id/ivReceivedRequestProfile" />
-
-        <TextView
-            android:text="Hello! My name is "
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:textSize="18sp"
-            android:id="@+id/tvReceivedRequestFrom"
-            android:layout_marginStart="15dp"
-            android:layout_below="@+id/ivReceivedRequestProfile"
-            android:layout_alignParentStart="true" />
-
-        <TextView
-            tools:text="Katy Smith"
-            android:textSize="30sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:id="@+id/tvReceivedRequestFullName"
-            android:layout_below="@+id/tvReceivedRequestFrom"
-            android:layout_centerHorizontal="true" />
-
-        <TextView
-            android:text="I'm looking for a sitter for my pet"
-            android:textSize="18sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tvReceivedRequestFullName"
-            android:layout_alignStart="@+id/tvReceivedRequestFrom"
-            android:id="@+id/tvLookingForText"
-            android:layout_marginTop="10dp" />
+    <com.github.florent37.diagonallayout.DiagonalLayout
+        android:id="@+id/diagonalLayout"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/transparent"
+        android:elevation="5dp"
+        diagonal:diagonal_angle="10"
+        diagonal:diagonal_gravity="left">
 
         <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            tools:src="@drawable/cat"
-            android:id="@+id/ivReceivedRequestPetPic"
-            android:layout_below="@id/tvLookingForText"
-            android:layout_marginTop="10dp"
-            android:layout_centerHorizontal="true" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/request_background_dog" />
+
+    </com.github.florent37.diagonallayout.DiagonalLayout>
+
+    <TextView
+        android:id="@+id/tvRequestDetailStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:padding="5dp"
+        android:textSize="20sp"
+        tools:text="You are accepted!Start contacting the sitter!" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ivReceivedRequestProfile"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_below="@id/tvRequestDetailStatus"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/circle"
+        android:elevation="20dp"
+        app:civ_border_color="@color/white"
+        app:civ_border_width="1dp"
+        tools:src="@mipmap/ic_launcher" />
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:elevation="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent">
+        <TextView
+            android:id="@+id/tvReceivedRequestFrom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="250dp"
+            android:text="Hello! My name is "
+            android:textSize="18sp" />
 
         <TextView
-            tools:text="Doggo"
-            android:textSize="25dp"
+            android:id="@+id/tvReceivedRequestFullName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvReceivedRequestFrom"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:textSize="30sp"
+            tools:text="Katy Smith" />
+
+        <TextView
+            android:id="@+id/tvLookingForText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/tvReceivedRequestFrom"
+            android:layout_below="@+id/tvReceivedRequestFullName"
+            android:layout_marginTop="10dp"
+            android:text="I'm looking for a sitter for my pet"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/ivReceivedRequestPetPic"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_below="@id/tvLookingForText"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            tools:src="@drawable/cat" />
+
+        <TextView
+            android:id="@+id/tvReceivedRequestPetName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ivReceivedRequestPetPic"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
-            android:id="@+id/tvReceivedRequestPetName" />
+            android:textSize="25dp"
+            tools:text="Doggo" />
 
         <TextView
-            android:text="Are you available following date?"
+            android:id="@+id/tvReceivedRequestDateText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18dp"
-            android:id="@+id/tvReceivedRequestDateText"
-            android:layout_below="@+id/tvReceivedRequestPetName"
             android:layout_alignStart="@+id/tvLookingForText"
-            android:layout_marginTop="10dp" />
+            android:layout_below="@+id/tvReceivedRequestPetName"
+            android:layout_marginTop="10dp"
+            android:text="Are you available following date?"
+            android:textSize="18dp" />
 
         <TextView
-            tools:text="2016/11/23 - 2016/11/25"
+            android:id="@+id/tvReceivedRequestDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvReceivedRequestDateText"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:textSize="20dp"
-            android:id="@+id/tvReceivedRequestDate" />
+            tools:text="2016/11/23 - 2016/11/25" />
 
         <TextView
-            android:text="Here is the message from the pet owner:"
+            android:id="@+id/tvReceivedRequestMessageText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvReceivedRequestDate"
             android:layout_alignStart="@+id/tvReceivedRequestDateText"
-            android:textSize="18dp"
+            android:layout_below="@+id/tvReceivedRequestDate"
             android:layout_marginTop="10dp"
-            android:id="@+id/tvReceivedRequestMessageText" />
+            android:text="Here is the message from the pet owner:"
+            android:textSize="18dp" />
 
         <TextView
-            tools:text="Hi, my name is Katie. I'm looking for a sitter around right before thanksgiving who can take care of my cat called doggo."
+            android:id="@+id/tvReceivedRequestMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/tvReceivedRequestDateText"
             android:layout_below="@+id/tvReceivedRequestMessageText"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
-            android:layout_alignStart="@+id/tvReceivedRequestDateText"
-            android:id="@+id/tvReceivedRequestMessage" />
+            tools:text="Hi, my name is Katie. I'm looking for a sitter around right before thanksgiving who can take care of my cat called doggo." />
 
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_below="@+id/tvReceivedRequestMessage"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
-            android:layout_below="@+id/tvReceivedRequestMessage">
+            android:orientation="horizontal">
 
             <Button
-                android:text="Reject"
-                android:layout_marginEnd="10dp"
                 android:id="@+id/btRespondReject"
                 android:layout_width="100dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:text="Reject" />
 
             <Button
-                android:text="Accept"
-                android:layout_marginStart="10dp"
                 android:id="@+id/btRespondAccept"
                 android:layout_width="100dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="Accept" />
 
         </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
 
-
-    </RelativeLayout>
-</ScrollView>
+</RelativeLayout>
