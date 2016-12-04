@@ -3,6 +3,7 @@ package org.finalappproject.findapetsitter.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.R.id.message;
 import static org.finalappproject.findapetsitter.application.AppConstants.REQUEST_ACCEPTED;
 import static org.finalappproject.findapetsitter.application.AppConstants.REQUEST_PENDING;
 import static org.finalappproject.findapetsitter.application.AppConstants.REQUEST_REJECTED;
@@ -77,6 +79,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(RequestsAdapter.ViewHolder viewHolder, int position) {
+        final int vhPos = position;
         final Request request = mRequests.get(position);
 
         final RequestsAdapter.ViewHolder vh = viewHolder;
@@ -86,9 +89,17 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
             request.getSender().fetchIfNeededInBackground(new GetCallback<User>() {
                 @Override
                 public void done(User sender, ParseException e) {
-                    String message = getContext().getString(R.string.request_message_pet_sitter, sender.getFullName());
-                    vh.tvRequestReceived.setText(message);
-                    ImageHelper.loadImage(mContext, sender.getProfileImage(), R.drawable.cat, vh.ivRequestProfile);
+                    if (e == null) {
+                        String message = getContext().getString(R.string.request_message_pet_sitter, sender.getFullName());
+                        vh.tvRequestReceived.setText(message);
+                        ImageHelper.loadImage(mContext, sender.getProfileImage(), R.drawable.cat, vh.ivRequestProfile);
+                    }
+                    else
+                    {
+                        // Bad data in the database
+                        // This shouldn't happen anymore, when querying requests we are now asking for users as well
+                        Log.e(LOG_TAG, "Failed to fetch sender associated to request", e);
+                    }
                 }
             });
 
@@ -104,9 +115,18 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
             request.getReceiver().fetchIfNeededInBackground(new GetCallback<User>() {
                 @Override
                 public void done(User receiver, ParseException e) {
-                    String message = getContext().getString(R.string.request_message_pet_owner, receiver.getFullName());
-                    vh.tvRequestReceived.setText(message);
-                    ImageHelper.loadImage(mContext, receiver.getProfileImage(), R.drawable.cat, vh.ivRequestProfile);
+                    if (e == null) {
+                        String message = getContext().getString(R.string.request_message_pet_owner, receiver.getFullName());
+                        vh.tvRequestReceived.setText(message);
+                        ImageHelper.loadImage(mContext, receiver.getProfileImage(), R.drawable.cat, vh.ivRequestProfile);
+                    }
+                    else
+                    {
+                        // Bad data in the database
+                        // This shouldn't happen anymore, when querying requests we are now asking for users as well
+                        Log.e(LOG_TAG, "Failed to fetch receiver associated to request", e);
+
+                    }
                 }
             });
 
