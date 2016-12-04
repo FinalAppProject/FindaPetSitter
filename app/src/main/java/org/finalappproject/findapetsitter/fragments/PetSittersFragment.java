@@ -24,7 +24,6 @@ import org.finalappproject.findapetsitter.activities.UserProfileActivity;
 import org.finalappproject.findapetsitter.model.Address;
 import org.finalappproject.findapetsitter.model.User;
 import org.finalappproject.findapetsitter.util.ImageHelper;
-import org.finalappproject.findapetsitter.util.recyclerview.DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -157,11 +156,6 @@ public class PetSittersFragment extends Fragment {
         ButterKnife.bind(this, availableSittersView);
 
         mAvailableSittersRecyclerView.setAdapter(mAvailableSittersAdapter);
-
-        RecyclerView.ItemDecoration itemDecoration = new
-                DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
-        mAvailableSittersRecyclerView.addItemDecoration(itemDecoration);
-
         mAvailableSittersLinearlayout = new LinearLayoutManager(getActivity());
         mAvailableSittersLinearlayout.setOrientation(LinearLayoutManager.VERTICAL);
         mAvailableSittersLinearlayout.scrollToPosition(0);
