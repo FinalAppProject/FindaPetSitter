@@ -5,19 +5,22 @@
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context="org.finalappproject.findapetsitter.activities.LoginActivity">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
+        android:src="@drawable/login_dogcat" />
 
-        android:src="@drawable/login_dogcat"
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:src="@mipmap/pettin_logo"
+        android:scaleType="fitStart"
         />
-
-
-
 
     <RelativeLayout
         android:layout_width="match_parent"
