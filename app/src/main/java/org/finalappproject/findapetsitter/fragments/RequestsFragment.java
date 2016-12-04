@@ -1,6 +1,5 @@
 package org.finalappproject.findapetsitter.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,7 +19,6 @@ import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.adapters.RequestsAdapter;
 import org.finalappproject.findapetsitter.model.Request;
 import org.finalappproject.findapetsitter.model.User;
-import org.finalappproject.findapetsitter.util.recyclerview.DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +26,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-
-import static java.util.Collections.addAll;
 
 /**
  * Requests fragment shows a list of requests by sender or receiver, depending on the context
@@ -96,7 +92,7 @@ public class RequestsFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_sitter_request, container, false);
+        View view = inflater.inflate(R.layout.fragment_requests, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
         setupRecyclerView();
@@ -107,8 +103,6 @@ public class RequestsFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     void setupRecyclerView() {
         rvRequests.setAdapter(mRequestsAdapter);
-        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
-        rvRequests.addItemDecoration(itemDecoration);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
