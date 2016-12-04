@@ -81,11 +81,9 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
     public void onBindViewHolder(RequestsAdapter.ViewHolder viewHolder, int position) {
         final int vhPos = position;
         final Request request = mRequests.get(position);
-
         final RequestsAdapter.ViewHolder vh = viewHolder;
 
         if (mIsPetSitterFlow) {
-
             request.getSender().fetchIfNeededInBackground(new GetCallback<User>() {
                 @Override
                 public void done(User sender, ParseException e) {

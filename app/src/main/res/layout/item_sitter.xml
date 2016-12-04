@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="2dp"
+    android:layout_marginBottom="2dp"
+    card_view:cardUseCompatPadding="true"
+    card_view:contentPadding="5dp">
+
+    <RelativeLayout
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+        android:layout_height="wrap_content"
     android:paddingBottom="5dp"
     android:paddingTop="5dp"
     android:paddingLeft="5dp"
@@ -17,6 +28,7 @@
         tools:src="@mipmap/ic_launcher"
         android:id="@+id/ivItemProfileImage"
         android:layout_marginRight="5dp"
+        android:layout_centerVertical="true"
         android:padding="3dp" />
 
     <TextView
@@ -70,3 +82,4 @@
 -->
 
 </RelativeLayout>
+</android.support.v7.widget.CardView>
