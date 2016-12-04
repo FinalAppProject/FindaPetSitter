@@ -8,6 +8,7 @@ import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -26,6 +27,8 @@ import java.util.Map;
 public class User extends ParseUser {
 
     private static final String LOG_TAG = "User";
+
+    private static final String KEY_OBJECT_ID = "objectId";
 
     private static final String KEY_FULL_NAME = "fullName";
 
@@ -170,7 +173,9 @@ public class User extends ParseUser {
 
     public static void queryPetSittersWithinMiles(ParseGeoPoint point, long miles, FindCallback<User> findCallback) {
         ParseQuery<Address> nearbyAddressesQuery = ParseQuery.getQuery(Address.class).whereWithinMiles(Address.KEY_GEO_POINT, point, miles);
-        ParseQuery<User> nearbyUsersQuery = ParseQuery.getQuery(User.class).whereEqualTo(KEY_PET_SITTER, true).whereMatchesQuery(KEY_ADDRESS, nearbyAddressesQuery);
+        ParseQuery<User> nearbyUsersQuery = ParseQuery.getQuery(User.class).whereEqualTo(KEY_PET_SITTER, true)
+                .whereNotEqualTo(KEY_OBJECT_ID, User.getCurrentUser().getObjectId())
+                .whereMatchesQuery(KEY_ADDRESS, nearbyAddressesQuery);
         nearbyUsersQuery.findInBackground(findCallback);
     }
 
@@ -179,7 +184,10 @@ public class User extends ParseUser {
      * @param findCallback
      */
     public static void queryPetSitters(FindCallback<User> findCallback) {
-        ParseQuery<User> petSittersQuery = ParseQuery.getQuery(User.class).whereEqualTo(KEY_PET_SITTER, true).addAscendingOrder(KEY_NICK_NAME);
+        ParseQuery<User> petSittersQuery = ParseQuery.getQuery(User.class)
+                .whereNotEqualTo(KEY_OBJECT_ID, User.getCurrentUser().getObjectId())
+                .whereEqualTo(KEY_PET_SITTER, true)
+                .addAscendingOrder(KEY_NICK_NAME);
         // Include addresses when querying pet sitters
         petSittersQuery.include(KEY_ADDRESS);
         petSittersQuery.findInBackground(findCallback);
@@ -220,7 +228,7 @@ public class User extends ParseUser {
                                                         Iterator<User> sitterIterator = sitters.iterator();
                                                         while (sitterIterator.hasNext()) {
                                                             User sitter = sitterIterator.next();
-                                                            if (sitter == currentUser) {
+                                                            if (sitter.getObjectId().equals(currentUser.getObjectId())) {
                                                                 sitterIterator.remove();
                                                             } else if (sitter.getAddress() != null) {
                                                                 sitterIterator.remove();
