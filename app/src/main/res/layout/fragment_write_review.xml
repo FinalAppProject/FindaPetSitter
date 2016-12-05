@@ -19,9 +19,13 @@
         android:id="@+id/linear_layout_review_title"
         >
         <TextView
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_horizontal"
+            android:background = "@drawable/roundedbutton"
+            android:textColor="@color/white"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="WRITE REVIEW"
             android:id="@+id/tvRequestTitle"
@@ -113,6 +117,7 @@
             android:id="@+id/btnReviewCancel"
             android:gravity="center"
             android:backgroundTint="@color/teal"
+            android:textStyle="bold"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white" />
 
@@ -121,6 +126,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_height="wrap_content"
             android:text="SAVE"
+            android:textStyle="bold"
             android:backgroundTint="@color/darkorange"
             android:id="@+id/btnReviewSave"
             android:gravity="center" />

@@ -1,19 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:diagonal="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="192dp"
+    android:layout_height="200dp"
     android:background="?attr/colorPrimaryDark"
-    android:padding="16dp"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    android:gravity="bottom"
     android:orientation="vertical"
-    android:gravity="bottom">
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <TextView
-        android:id="@+id/tvNavHeader"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:diagonal="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_request"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Header"
-        android:textColor="@android:color/white"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+        android:background="@color/teal">
 
+        <com.github.florent37.diagonallayout.DiagonalLayout
+            android:id="@+id/diagonalLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@android:color/transparent"
+            diagonal:diagonal_angle="20"
+            diagonal:diagonal_gravity="right">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/nav_drawer_header" />
+
+        </com.github.florent37.diagonallayout.DiagonalLayout>
+
+        <RelativeLayout
+            android:id="@+id/RlNavHeaderItem"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivNavHeaderProfileImage"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_above="@+id/tvNavHeaderName"
+                android:layout_alignParentStart="true"
+                android:background="@drawable/circle"
+                android:elevation="25dp"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="1dp"
+                app:srcCompat="@drawable/cat"
+                tools:src="@mipmap/ic_launcher" />
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:id="@+id/tvNavHeaderName"
+                android:text="FullName"
+                android:maxLines="2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+            <TextView
+                android:text="username"
+                android:visibility="gone"
+                android:id="@+id/tvNavHeaderUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/ivNavHeaderProfileImage"
+                android:layout_marginLeft="10dp"
+                android:layout_toEndOf="@+id/ivNavHeaderProfileImage"
+                android:layout_toRightOf="@+id/ivNavHeaderProfileImage"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textStyle="bold"
+                tools:text="username" />
+
+        </RelativeLayout>
+    </RelativeLayout>
 </LinearLayout>

@@ -13,9 +13,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.parse.GetCallback;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 
@@ -26,10 +32,18 @@ import org.finalappproject.findapetsitter.fragments.ReviewsFragment;
 import org.finalappproject.findapetsitter.fragments.SitterHomeFragment;
 import org.finalappproject.findapetsitter.fragments.UserProfileFragment;
 import org.finalappproject.findapetsitter.model.User;
+import org.finalappproject.findapetsitter.util.ImageHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
+import static java.security.AccessController.getContext;
+import static org.finalappproject.findapetsitter.R.id.tvNavHeaderName;
+import static org.finalappproject.findapetsitter.R.id.tvNavHeaderUserName;
+import static org.finalappproject.findapetsitter.R.id.tvUserDescription;
+import static org.finalappproject.findapetsitter.R.id.tvUserName;
+import static org.finalappproject.findapetsitter.R.id.tvUserNickname;
 import static org.finalappproject.findapetsitter.application.AppConstants.PREFERENCE_CURRENT_USERNAME;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -52,6 +66,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     NavigationView nvDrawer;
 
     private ActionBarDrawerToggle mDrawerToggle;
+    private View headerLayout;
+
+    TextView tvNavHeaderName;
+    TextView tvNavHeaderUserName;
+    CircleImageView ivProfilePic;
+
 
     private String mCurrentFragmentTag;
 
@@ -77,9 +97,29 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         // Note that this activity implements NavigationView.OnNavigationItemSelectedListener
         // which requires onNavigationItemSelected for handling the Drawer Menu Item selection
         nvDrawer.setNavigationItemSelectedListener(this);
+        setupNavigationDrawerHeader();
     }
 
-    @Override
+    void setupNavigationDrawerHeader(){
+        bindHeader();
+        User user = (User) User.getCurrentUser(); //TODO: make it class variable and use it for logout?
+        loadData(user);
+    }
+
+    void bindHeader(){
+        headerLayout = nvDrawer.getHeaderView(0);
+        ivProfilePic = (CircleImageView) headerLayout.findViewById(R.id.ivNavHeaderProfileImage);
+        tvNavHeaderName = (TextView) headerLayout.findViewById(R.id.tvNavHeaderName);
+        tvNavHeaderUserName = (TextView) headerLayout.findViewById(R.id.tvNavHeaderUserName);
+    }
+
+    private void loadData(User mUser) {
+        tvNavHeaderName.setText(mUser.getFullName());
+        tvNavHeaderUserName.setText(mUser.getUsername());
+        ImageHelper.loadImage(this, mUser.getProfileImage(), R.drawable.account_plus, ivProfilePic);
+    }
+
+        @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
         return super.onCreateOptionsMenu(menu);
