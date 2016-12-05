@@ -13,17 +13,20 @@
     <com.squareup.timessquare.CalendarPickerView
         android:id="@+id/calendar_view"
         android:layout_width="wrap_content"
-        android:layout_height="474dp"
+        android:layout_height="456dp"
         android:layout_marginBottom="5dp"/>
 
     <Button
-        android:text="NEXT"
-        android:layout_width="wrap_content"
+        android:text="SAVE"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
         android:layout_gravity="center"
-        android:layout_height="50dp"
-        android:layout_below="@+id/calendar_view"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
+        android:layout_height="32dp"
+        android:background="@color/teal"
+        android:textColor="@color/white"
+        android:layout_below="@+id/calendar_vie"
+        android:foregroundGravity="center_vertical"
+        android:layout_marginBottom="20dp"
         android:id="@+id/btDone" />
 
 </LinearLayout>

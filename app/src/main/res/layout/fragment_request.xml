@@ -11,30 +11,28 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_alignParentTop="true"
-        android:id="@+id/linear_layout_request_image"
-        android:gravity="center"
-        android:layout_gravity="center_horizontal"
-        android:layout_centerInParent="true">
-
-        <ImageView
-            android:id="@+id/ivReviewImageView"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginTop="30dp"
+        android:textStyle="bold"
+        android:id="@+id/linear_layout_title"
+        >
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/request_kitten"
-            tools:src="@mipmap/ic_launcher"/>
-
+            android:gravity="center_horizontal"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="SEND REQUEST"
+            android:id="@+id/tvRequestTitle"
+            />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/linear_layout_request_image"
+        android:layout_marginTop="50dp"
+        android:layout_below="@+id/linear_layout_title"
         android:id="@+id/linear_layout_begin_date"
         android:paddingBottom="20dp">
         <TextView
@@ -49,6 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/etSelectDates"
+            android:maxLines="2"
             android:layout_gravity="center"
             android:drawableRight="@mipmap/ic_calender"
             />
@@ -58,7 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:id="@+id/linear_layout_pet_type"
         android:layout_below="@+id/linear_layout_begin_date"
         android:paddingBottom="20dp">
@@ -72,6 +71,7 @@
         <Spinner
             android:layout_gravity="center_horizontal"
             android:id="@+id/spPetType"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:spinnerMode="dropdown"
             android:layout_width="match_parent"
             android:layout_height="40dp"/>
@@ -82,9 +82,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
+        android:layout_marginTop="20dp"
         android:layout_below="@id/linear_layout_pet_type"
-        android:id="@+id/linear_layout_note"
-        android:paddingBottom="20dp">
+        android:id="@+id/linear_layout_note">
         <TextView
             android:layout_width="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -104,6 +104,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
+        android:layout_marginTop="40dp"
         android:id="@+id/linear_layout_action_buttons"
         android:layout_below="@id/linear_layout_note"
         android:layout_gravity="center"
@@ -116,7 +117,7 @@
             android:id="@+id/btnCancel"
             android:gravity="center"
             android:textColor="@color/white"
-            android:backgroundTint="@color/colorPrimary"
+            android:backgroundTint="@color/teal"
             android:textAppearance="?android:attr/textAppearanceMedium"
             />
 
