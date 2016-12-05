@@ -2,6 +2,7 @@ package org.finalappproject.findapetsitter.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,8 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -25,8 +31,10 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.ui.IconGenerator;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 
@@ -231,12 +239,10 @@ public class NearbySittersFragment extends Fragment implements GoogleMap.OnMarke
     private void onPanToolStateChanged() {
         int buttonImageResource = R.drawable.ic_pan_tool;
         boolean scrollGestureEnabled = false;
-        boolean zoomGestureEnabled = false;
 
         if (mPanEnabled) {
             buttonImageResource = R.drawable.ic_pan_tool_lock;
             scrollGestureEnabled = true;
-            zoomGestureEnabled = true;
         }
 
         // Setup pan tool button
@@ -248,8 +254,6 @@ public class NearbySittersFragment extends Fragment implements GoogleMap.OnMarke
         if (mMap != null) {
             UiSettings settings = mMap.getUiSettings();
             settings.setScrollGesturesEnabled(scrollGestureEnabled);
-            // settings.setZoomGesturesEnabled(zoomGestureEnabled);
-            // settings.setZoomControlsEnabled(!zoomGestureEnabled);
         }
     }
 
@@ -263,15 +267,56 @@ public class NearbySittersFragment extends Fragment implements GoogleMap.OnMarke
             if (mMap != null) {
                 Address nearbySitterAddress = nearbySitter.getAddress();
                 ParseGeoPoint geoPoint = nearbySitterAddress.getGeoPoint();
-                Marker marker = addPetSitterMarker(nearbySitter.getNickName(), new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude()));
-                mNearbyPetSitterMarkers.put(marker, nearbySitter);
+                addPetSitterMarker(nearbySitter, new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude()));
             }
         }
     }
 
-    private Marker addPetSitterMarker(String sitterNickName, LatLng petSitterLocation) {
-        BitmapDescriptor defaultMarker = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET);
-        return mMap.addMarker(new MarkerOptions().position(petSitterLocation).title(sitterNickName).snippet("xxxx").icon(defaultMarker));
+    private void addPetSitterMarker(final User sitter, final LatLng petSitterLocation) {
+        final IconGenerator iconGenerator = new IconGenerator(getContext());
+        final ImageView profileImageView = new ImageView(getContext());
+        profileImageView.setMinimumWidth(20);
+        if (sitter.getProfileImage() != null) {
+//            sitter.getProfileImage().getDataInBackground(new GetDataCallback() {
+//                @Override
+//                public void done(byte[] data, ParseException e) {
+//                    Glide.with(getContext()).load(data).centerCrop().placeholder(R.drawable.cat).dontAnimate().into(profileImageView);
+//                }
+//            });
+
+            sitter.getProfileImage().getDataInBackground(new GetDataCallback() {
+                @Override
+                public void done(byte[] data, ParseException e) {
+                    if (e == null) {
+                        Glide.with(getContext())
+                                .load(data).asBitmap()
+                                .centerCrop()
+                                .placeholder(R.drawable.cat)
+                                .dontAnimate()
+                                .into(new SimpleTarget<Bitmap>(100, 100) {
+                                    @Override
+                                    public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
+                                        profileImageView.setImageBitmap(bitmap);
+                                        iconGenerator.setContentView(profileImageView);
+                                        BitmapDescriptor profileMarker = BitmapDescriptorFactory.fromBitmap(iconGenerator.makeIcon());
+                                        Marker marker = mMap.addMarker(new MarkerOptions().position(petSitterLocation).title(sitter.getNickName()).snippet("snippet").icon(profileMarker));
+                                        mNearbyPetSitterMarkers.put(marker, sitter);
+                                    }
+                                });
+                    } else {
+                        Glide.with(getContext()).load(data).centerCrop().placeholder(R.drawable.cat).dontAnimate().into(profileImageView);
+                        BitmapDescriptor profileMarker = BitmapDescriptorFactory.fromBitmap(iconGenerator.makeIcon());
+                        Marker marker = mMap.addMarker(new MarkerOptions().position(petSitterLocation).title(sitter.getNickName()).snippet("snippet").icon(profileMarker));
+                        mNearbyPetSitterMarkers.put(marker, sitter);
+                    }
+                }
+            });
+
+//                Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
+//                profileImageView.setImageBitmap(bmp);
+
+        }
+
     }
 
     void zoomCamera() {

@@ -10,12 +10,15 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 
 import org.finalappproject.findapetsitter.application.AppConstants;
 
 import java.io.ByteArrayOutputStream;
+
+import static android.R.attr.data;
 
 /**
  * Helper class to support working with images
@@ -63,17 +66,20 @@ public abstract class ImageHelper {
         return createParseFile(fileName, bitmap, 100);
     }
 
-    public static void loadImage(Context context, ParseFile parseFile, int placeholderResourceId, ImageView imageView) {
+    public static void loadImage(final Context context, ParseFile parseFile, final int placeholderResourceId, final ImageView imageView) {
         // Profile image
-        byte imageData[] = null;
-        try {
-            if (parseFile != null) {
-                imageData = parseFile.getData();
-            }
-        } catch (ParseException e) {
-            Log.e(LOG_TAG, "Failed to load parse file", e);
-        }
+        if (parseFile != null) {
+            parseFile.getDataInBackground(new GetDataCallback() {
+                @Override
+                public void done(byte[] data, ParseException e) {
 
-        Glide.with(context).load(imageData).centerCrop().placeholder(placeholderResourceId).dontAnimate().into(imageView);
+                    if (e != null) {
+                        Log.e(LOG_TAG, "Failed to load parse file", e);
+                    }
+
+                    Glide.with(context).load(data).centerCrop().placeholder(placeholderResourceId).dontAnimate().into(imageView);
+                }
+            });
+        }
     }
 }
