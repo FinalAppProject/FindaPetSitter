@@ -16,5 +16,21 @@
     <color name="darkred" type="color">#FFCC0000</color>
     <color name="twitterBlue" type="color">#1DA1F2</color>
     <color name="white" type="color">#ffffff</color>
+    <color name="teal" type="color">#319b92</color>
+    <color name="pastel_green">#1DE9B6</color>
+
+    <color name="cal_text" type="color">@color/teal</color>
+
+    <!--Calendar picker-->
+    <color name="calendar_bg">@color/darkorange</color>
+<!--    <color name="calendar_divider">#fcc31f</color>
+    <color name="calendar_active_month_bg">@color/darkorange</color>
+    <color name="calendar_inactive_month_bg">#6ddbfd</color> -->
+    <color name="calendar_selected_day_bg">@color/darkorange</color>
+    <color name="calendar_text_inactive">@color/cal_text</color>
+    <color name="calendar_text_active">@color/cal_text</color>
+    <color name="calendar_text_selected">@color/cal_text</color>
+    <color name="calendar_selected_range_bg">@color/orange</color>
+    <color name="calendar_text_unselectable">@color/cal_text</color>
 
 </resources>

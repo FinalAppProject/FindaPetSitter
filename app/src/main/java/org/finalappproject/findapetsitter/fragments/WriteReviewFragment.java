@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.model.PetType;
 import org.finalappproject.findapetsitter.model.Review;
 import org.finalappproject.findapetsitter.model.User;
+import org.finalappproject.findapetsitter.util.ImageHelper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -110,6 +112,7 @@ public class WriteReviewFragment extends DialogFragment implements GetCallback<U
                 Toast.makeText(getActivity(),"Your Selected Ratings  : " + String.valueOf(rating),Toast.LENGTH_LONG).show();
             }
         });
+
         return vi;
     }
 
