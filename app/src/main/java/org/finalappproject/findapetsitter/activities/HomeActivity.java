@@ -162,7 +162,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         if (fragmentToShowTag != null) {
             if (mCurrentFragmentTag != null) {
-                fm.beginTransaction().hide(fm.findFragmentByTag(mCurrentFragmentTag)).commit();
+                Fragment fragmentToHide = fm.findFragmentByTag(mCurrentFragmentTag);
+                if (fragmentToHide != null) {
+                    fm.beginTransaction().hide(fragmentToHide).commit();
+                }
             }
             mCurrentFragmentTag = fragmentToShowTag;
             Fragment fragmentToShow = fm.findFragmentByTag(fragmentToShowTag);
@@ -175,24 +178,27 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         return false;
     }
 
-    public void showUserProfileFragment(String user_object) {
+    public void showUserProfileFragment(String petSitterObjectId) {
         FragmentManager fm = getSupportFragmentManager();
-        String fragmentToShowTag = null;
-        fragmentToShowTag = TAG_OTHERS_PROFILE_FRAGMENT;
 
-        if (fragmentToShowTag != null) {
-            if (mCurrentFragmentTag != null) {
-                fm.beginTransaction().hide(fm.findFragmentByTag(mCurrentFragmentTag)).commit();
-            }
-            mCurrentFragmentTag = fragmentToShowTag;
-            Fragment fragmentToShow = fm.findFragmentByTag(fragmentToShowTag);
-            fragmentToShow = UserProfileFragment.newInstance(user_object);
-            fm.beginTransaction()
-                    .add(R.id.flContent, fragmentToShow, fragmentToShowTag)
-                    .commit();
-            fm.beginTransaction().show(fragmentToShow).commit();
-            fragmentToShow = null;
+        // Hide current fragment
+        if (mCurrentFragmentTag != null) {
+            fm.beginTransaction().hide(fm.findFragmentByTag(mCurrentFragmentTag)).commit();
         }
+
+        Fragment fragmentToShow = UserProfileFragment.newInstance(petSitterObjectId);
+        fm.beginTransaction()
+                .addToBackStack(null)
+                .add(R.id.flContent, fragmentToShow)
+                .commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        // Show current fragment
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().show(fm.findFragmentByTag(mCurrentFragmentTag)).commit();
     }
 
     private Fragment instantiateFragment(FragmentManager fm, String tag) {
