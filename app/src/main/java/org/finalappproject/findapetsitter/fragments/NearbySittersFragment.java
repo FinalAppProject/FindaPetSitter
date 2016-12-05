@@ -1,7 +1,6 @@
 package org.finalappproject.findapetsitter.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -27,7 +26,7 @@ import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 
 import org.finalappproject.findapetsitter.R;
-import org.finalappproject.findapetsitter.activities.UserProfileActivity;
+import org.finalappproject.findapetsitter.activities.HomeActivity;
 import org.finalappproject.findapetsitter.model.Address;
 import org.finalappproject.findapetsitter.model.User;
 
@@ -38,8 +37,6 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-
-import static org.finalappproject.findapetsitter.activities.UserProfileEditActivity.EXTRA_USER_OBJECT_ID;
 
 
 /**
@@ -268,9 +265,7 @@ public class NearbySittersFragment extends Fragment implements GoogleMap.OnMarke
     }
 
     private void startUserProfileActivity(User petSitter) {
-        Intent userProfileIntent = new Intent(getContext(), UserProfileActivity.class);
-        userProfileIntent.putExtra(EXTRA_USER_OBJECT_ID, petSitter.getObjectId());
-        startActivity(userProfileIntent);
+        ((HomeActivity) getContext()).showUserProfileFragment(petSitter.getObjectId());
     }
 
     @Override
