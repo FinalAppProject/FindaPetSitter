@@ -19,7 +19,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * Custom ParseUser implementation
  */
@@ -171,9 +170,10 @@ public class User extends ParseUser {
         userQuery.getInBackground(objectId, findCallback);
     }
 
-    public static void queryPetSittersWithinMiles(ParseGeoPoint point, long miles, FindCallback<User> findCallback) {
+    public static void queryPetSittersWithinMiles(ParseGeoPoint point, double miles, FindCallback<User> findCallback) {
         ParseQuery<Address> nearbyAddressesQuery = ParseQuery.getQuery(Address.class).whereWithinMiles(Address.KEY_GEO_POINT, point, miles);
         ParseQuery<User> nearbyUsersQuery = ParseQuery.getQuery(User.class).whereEqualTo(KEY_PET_SITTER, true)
+                .include(KEY_ADDRESS)
                 .whereNotEqualTo(KEY_OBJECT_ID, User.getCurrentUser().getObjectId())
                 .whereMatchesQuery(KEY_ADDRESS, nearbyAddressesQuery);
         nearbyUsersQuery.findInBackground(findCallback);
