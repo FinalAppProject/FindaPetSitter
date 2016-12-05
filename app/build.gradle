@@ -39,6 +39,7 @@ dependencies {
     // Gson
     // PageSlidingTabStrip
     // Calendar picker
+    compile 'com.google.maps.android:android-maps-utils:0.4+'
     compile 'com.google.maps:google-maps-services:0.1.16'
     compile 'com.jakewharton:butterknife:8.4.0'
     compile 'com.parse:parse-android:1.13.1'

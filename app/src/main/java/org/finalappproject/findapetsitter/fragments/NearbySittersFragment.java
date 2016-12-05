@@ -2,6 +2,7 @@ package org.finalappproject.findapetsitter.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,20 +10,31 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.ui.IconGenerator;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 
@@ -44,15 +56,15 @@ import static org.finalappproject.findapetsitter.activities.UserProfileEditActiv
 
 /**
  * Nearby Sitters fragment implementation uses a GoogleMap fragment to show pet sitter near a location
- *
+ * <p>
  * Activities that contain this fragment must implement the
  * {link NearbySittersFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- *
+ * <p>
  * Use the {@link NearbySittersFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NearbySittersFragment extends Fragment implements GoogleMap.OnMarkerClickListener, GoogleMap.OnMapLongClickListener {
+public class NearbySittersFragment extends Fragment implements GoogleMap.OnMarkerClickListener, GoogleMap.OnMapLongClickListener, GoogleMap.OnCameraIdleListener {
 
     /**
      * This interface must be implemented by activities that contain this
@@ -69,6 +81,9 @@ public class NearbySittersFragment extends Fragment implements GoogleMap.OnMarke
 
     private static final String TAG = "NearbySittersFragment";
 
+    private static final String STATE_PAN_ENABLED = "PAN_ENABLED";
+    private static final String STATE_CAMERA_POSITION = "CAMERA_POSITION";
+
     private NearbySittersFragmentListener mListener;
 
     private Unbinder mUnbinder;
@@ -76,11 +91,16 @@ public class NearbySittersFragment extends Fragment implements GoogleMap.OnMarke
     @BindView(R.id.mapView)
     MapView mMapView;
 
+    @BindView(R.id.ibPanTool)
+    ImageButton ibPanTool;
+
     GoogleMap mMap;
 
-    LatLng mCurrentLocation;
+    CameraPosition mCameraSavedState;
 
-    Map<String, User> mNearbyPetSitterMarkers;
+    boolean mPanEnabled;
+
+    Map<Marker, User> mNearbyPetSitterMarkers;
 
     /**
      * Required empty public constructor.
@@ -95,6 +115,7 @@ public class NearbySittersFragment extends Fragment implements GoogleMap.OnMarke
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
+     *
      * @return A new instance of fragment NearbySittersFragment.
      */
     public static NearbySittersFragment newInstance() {
@@ -122,18 +143,37 @@ public class NearbySittersFragment extends Fragment implements GoogleMap.OnMarke
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupMapFragment(view, savedInstanceState);
+        setupPanTool();
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+    }
 
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            mPanEnabled = savedInstanceState.getBoolean(STATE_PAN_ENABLED, false);
+            if (savedInstanceState.containsKey(STATE_CAMERA_POSITION)) {
+                mCameraSavedState = savedInstanceState.getParcelable(STATE_CAMERA_POSITION);
+            } else {
+                mCameraSavedState = null;
+            }
+            onPanToolStateChanged();
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(STATE_PAN_ENABLED, mPanEnabled);
+
+        if (mMap != null) {
+            outState.putParcelable(STATE_CAMERA_POSITION, mMap.getCameraPosition());
+        }
     }
 
     @Override
@@ -164,8 +204,7 @@ public class NearbySittersFragment extends Fragment implements GoogleMap.OnMarke
             @Override
             public void onMapReady(GoogleMap map) {
                 setupMap(map);
-                zoomIntoUserAddress();
-                searchNearbySitters();
+                zoomCamera();
             }
         });
 
@@ -175,33 +214,46 @@ public class NearbySittersFragment extends Fragment implements GoogleMap.OnMarke
         mMap = googleMap;
         if (mMap != null) {
 
-            mMap.setOnMapLongClickListener(this);
+            onPanToolStateChanged();
 
+            mMap.setOnMapLongClickListener(this);
             mMap.setOnMarkerClickListener(this);
+            mMap.setOnCameraIdleListener(this);
 
         } else {
             Toast.makeText(getContext(), "ERROR - Map NOT loaded", Toast.LENGTH_SHORT).show();
+            ibPanTool.setVisibility(View.INVISIBLE);
         }
     }
 
-    private void searchNearbySitters() {
-        final ParseGeoPoint currentLocationGeoPoint = new ParseGeoPoint();
-        if (mCurrentLocation != null) {
-            currentLocationGeoPoint.setLatitude(mCurrentLocation.latitude);
-            currentLocationGeoPoint.setLongitude(mCurrentLocation.longitude);
+    void setupPanTool() {
+        ibPanTool.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPanEnabled = !mPanEnabled;
+                onPanToolStateChanged();
+            }
+        });
+    }
 
-            User.queryPetSittersWithinMiles(currentLocationGeoPoint, 10, new FindCallback<User>() {
-                @Override
-                public void done(List<User> petSitters, ParseException e) {
-                    if (e == null) {
-                        mNearbyPetSitterMarkers.clear();
-                        addNearbySitterMarkers(petSitters);
-                    } else {
-                        Log.e(TAG, "Failed to retrieve users", e);
-                        Toast.makeText(getContext(), "Failed to query nearby users", Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
+    private void onPanToolStateChanged() {
+        int buttonImageResource = R.drawable.ic_pan_tool;
+        boolean scrollGestureEnabled = false;
+
+        if (mPanEnabled) {
+            buttonImageResource = R.drawable.ic_pan_tool_lock;
+            scrollGestureEnabled = true;
+        }
+
+        // Setup pan tool button
+        if (ibPanTool != null) {
+            ibPanTool.setImageResource(buttonImageResource);
+        }
+
+        // Setup map settings
+        if (mMap != null) {
+            UiSettings settings = mMap.getUiSettings();
+            settings.setScrollGesturesEnabled(scrollGestureEnabled);
         }
     }
 
@@ -212,44 +264,96 @@ public class NearbySittersFragment extends Fragment implements GoogleMap.OnMarke
                 continue;
             }
             //
-            try {
-                Address nearbySitterAddress = nearbySitter.getAddress().fetchIfNeeded();
+            if (mMap != null) {
+                Address nearbySitterAddress = nearbySitter.getAddress();
                 ParseGeoPoint geoPoint = nearbySitterAddress.getGeoPoint();
-                Marker marker = addPetSitterMarker(nearbySitter.getNickName(), new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude()));
-                mNearbyPetSitterMarkers.put(marker.getId(), nearbySitter);
-            } catch (ParseException e) {
-                Log.e(TAG, "Failed to add user marker", e);
+                addPetSitterMarker(nearbySitter, new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude()));
             }
         }
     }
 
-    private Marker addPetSitterMarker(String sitterNickName, LatLng petSitterLocation) {
-        BitmapDescriptor defaultMarker = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET);
-        return mMap.addMarker(new MarkerOptions().position(petSitterLocation).title(sitterNickName).snippet("xxxx").icon(defaultMarker));
+    private void addPetSitterMarker(final User sitter, final LatLng petSitterLocation) {
+        final IconGenerator iconGenerator = new IconGenerator(getContext());
+        final ImageView profileImageView = new ImageView(getContext());
+        profileImageView.setMinimumWidth(20);
+        if (sitter.getProfileImage() != null) {
+//            sitter.getProfileImage().getDataInBackground(new GetDataCallback() {
+//                @Override
+//                public void done(byte[] data, ParseException e) {
+//                    Glide.with(getContext()).load(data).centerCrop().placeholder(R.drawable.cat).dontAnimate().into(profileImageView);
+//                }
+//            });
+
+            sitter.getProfileImage().getDataInBackground(new GetDataCallback() {
+                @Override
+                public void done(byte[] data, ParseException e) {
+                    if (e == null) {
+                        Glide.with(getContext())
+                                .load(data).asBitmap()
+                                .centerCrop()
+                                .placeholder(R.drawable.cat)
+                                .dontAnimate()
+                                .into(new SimpleTarget<Bitmap>(100, 100) {
+                                    @Override
+                                    public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
+                                        profileImageView.setImageBitmap(bitmap);
+                                        iconGenerator.setContentView(profileImageView);
+                                        BitmapDescriptor profileMarker = BitmapDescriptorFactory.fromBitmap(iconGenerator.makeIcon());
+                                        Marker marker = mMap.addMarker(new MarkerOptions().position(petSitterLocation).title(sitter.getNickName()).snippet("snippet").icon(profileMarker));
+                                        mNearbyPetSitterMarkers.put(marker, sitter);
+                                    }
+                                });
+                    } else {
+                        Glide.with(getContext()).load(data).centerCrop().placeholder(R.drawable.cat).dontAnimate().into(profileImageView);
+                        BitmapDescriptor profileMarker = BitmapDescriptorFactory.fromBitmap(iconGenerator.makeIcon());
+                        Marker marker = mMap.addMarker(new MarkerOptions().position(petSitterLocation).title(sitter.getNickName()).snippet("snippet").icon(profileMarker));
+                        mNearbyPetSitterMarkers.put(marker, sitter);
+                    }
+                }
+            });
+
+//                Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
+//                profileImageView.setImageBitmap(bmp);
+
+        }
+
     }
 
-    void zoomIntoUserAddress() {
-        User currentUser = (User) User.getCurrentUser();
-        try {
-            currentUser.fetchIfNeeded();
-        } catch (ParseException e) {
-            Log.e(TAG, "Failed to fetch user", e);
-        }
-        try {
+    void zoomCamera() {
 
-            Address userAddress = currentUser.getAddress().fetchIfNeeded();
-            ParseGeoPoint point = userAddress.getGeoPoint();
-            mCurrentLocation = new LatLng(point.getLatitude(), point.getLongitude());
-            //
-            BitmapDescriptor defaultMarker = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
-            Marker marker = mMap.addMarker(new MarkerOptions().position(mCurrentLocation).title(currentUser.getFullName()).snippet(currentUser.getNickName()).icon(defaultMarker));
+        final User currentUser = (User) User.getCurrentUser();
+        currentUser.fetchIfNeededInBackground(new GetCallback<User>() {
+            @Override
+            public void done(User user, ParseException e) {
+                if (e == null) {
+                    currentUser.getAddress().fetchIfNeededInBackground(new GetCallback<Address>() {
+                        @Override
+                        public void done(Address userAddress, ParseException e) {
+                            ParseGeoPoint point = userAddress.getGeoPoint();
+                            LatLng userAddressLatLng = new LatLng(point.getLatitude(), point.getLongitude());
+                            //
+                            BitmapDescriptor defaultMarker = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
+                            Marker marker = mMap.addMarker(new MarkerOptions().position(userAddressLatLng).title(currentUser.getFullName()).snippet(currentUser.getNickName()).icon(defaultMarker));
 
-            // Zoom into the user's address latLng coordinates
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(mCurrentLocation, 12);
-            mMap.animateCamera(cameraUpdate);
-        } catch (Exception e) {
-            Log.e(TAG, "Failed to fetch user address coordinates", e);
-        }
+                            if (mCameraSavedState != null) {
+                                // Restore camera state
+                                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(mCameraSavedState));
+                            } else {
+                                // Zoom into the user's address latLng coordinates
+                                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(userAddressLatLng, 12);
+                                mMap.animateCamera(cameraUpdate);
+                            }
+                        }
+                    });
+                } else {
+                    Log.e(TAG, "Failed to fetch current user", e);
+                    if (mCameraSavedState != null) {
+                        // Restore camera state
+                        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(mCameraSavedState));
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -259,12 +363,52 @@ public class NearbySittersFragment extends Fragment implements GoogleMap.OnMarke
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        User petSitter = mNearbyPetSitterMarkers.get(marker.getId());
+        User petSitter = mNearbyPetSitterMarkers.get(marker);
         // Sitter will be null if the user clicks on its own marker
         if (petSitter != null) {
             startUserProfileActivity(petSitter);
         }
         return true;
+    }
+
+    @Override
+    public void onCameraIdle() {
+        CameraPosition cameraPosition = mMap.getCameraPosition();
+
+        LatLng target = cameraPosition.target;
+        LatLng ne = mMap.getProjection().getVisibleRegion().latLngBounds.northeast;
+        LatLng sw = mMap.getProjection().getVisibleRegion().latLngBounds.southwest;
+
+        final ParseGeoPoint targetGeoPoint = new ParseGeoPoint(target.latitude, target.longitude);
+        ParseGeoPoint neGeoPoint = new ParseGeoPoint(ne.latitude, ne.longitude);
+        ParseGeoPoint swGeoPoint = new ParseGeoPoint(sw.latitude, sw.longitude);
+
+        double milesNe = targetGeoPoint.distanceInMilesTo(neGeoPoint);
+        double milesSw = targetGeoPoint.distanceInMilesTo(swGeoPoint);
+
+        double distance = milesNe;
+        if (milesSw > milesNe) {
+            distance = milesSw;
+        }
+
+        User.queryPetSittersWithinMiles(targetGeoPoint, distance, new FindCallback<User>() {
+            @Override
+            public void done(List<User> petSitters, ParseException e) {
+                if (e == null) {
+                    // Remove existing markers
+                    for (Marker marker : mNearbyPetSitterMarkers.keySet()) {
+                        marker.remove();
+                    }
+                    mNearbyPetSitterMarkers.clear();
+
+                    addNearbySitterMarkers(petSitters);
+                } else {
+                    Log.e(TAG, "Failed to retrieve users", e);
+                    Toast.makeText(getContext(), "Failed to query nearby users", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
     }
 
     private void startUserProfileActivity(User petSitter) {
@@ -276,7 +420,5 @@ public class NearbySittersFragment extends Fragment implements GoogleMap.OnMarke
     @Override
     public void onResume() {
         super.onResume();
-        zoomIntoUserAddress();
-        searchNearbySitters();
     }
 }
