@@ -54,9 +54,6 @@ public class WriteReviewFragment extends DialogFragment implements GetCallback<U
     @BindView(R.id.rbReviewRating)
     RatingBar reviewRatingRatingBar;
 
-    @BindView(R.id.ivReviewImageView)
-    ImageView reviewImageView;
-
     private static final String LOG_TAG = "ReviewFragment";
     CalendarPickerDialogFragment calendarPickerDialogFragment;
 
