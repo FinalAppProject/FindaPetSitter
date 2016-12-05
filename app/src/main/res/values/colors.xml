@@ -18,6 +18,7 @@
     <color name="white" type="color">#ffffff</color>
     <color name="teal" type="color">#319b92</color>
     <color name="pastel_green">#1DE9B6</color>
+    <color name="black">#000000</color>
 
     <color name="cal_text" type="color">@color/teal</color>
 
