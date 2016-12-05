@@ -3,14 +3,11 @@ package org.finalappproject.findapetsitter.model;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseClassName;
-import com.parse.ParseCloud;
-import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.Date;
-import java.util.HashMap;
 
 @ParseClassName("Request")
 public class Request extends ParseObject {

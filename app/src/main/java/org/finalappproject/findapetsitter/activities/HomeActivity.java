@@ -13,15 +13,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.parse.GetCallback;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 
@@ -38,12 +34,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static java.security.AccessController.getContext;
-import static org.finalappproject.findapetsitter.R.id.tvNavHeaderName;
-import static org.finalappproject.findapetsitter.R.id.tvNavHeaderUserName;
-import static org.finalappproject.findapetsitter.R.id.tvUserDescription;
-import static org.finalappproject.findapetsitter.R.id.tvUserName;
-import static org.finalappproject.findapetsitter.R.id.tvUserNickname;
 import static org.finalappproject.findapetsitter.application.AppConstants.PREFERENCE_CURRENT_USERNAME;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -52,7 +42,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private static final String STATE_CURRENT_FRAGMENT_TAG = "current_fragment_tag";
     private static final String TAG_OWNER_FRAGMENT = "owner_fragment";
-    private static final String TAG_PROFILE_FRAGMENT = "profile_fragment";
+    public static final String TAG_OWN_PROFILE_FRAGMENT = "profile_own_fragment";
+    public static final String TAG_OTHERS_PROFILE_FRAGMENT = "profile_others_fragment";
     private static final String TAG_SITTER_FRAGMENT = "sitter_fragment";
     private static final String TAG_REVIEWS_FRAGMENT = "reviews_fragment";
 
@@ -157,7 +148,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 fragmentToShowTag = TAG_REVIEWS_FRAGMENT;
                 break;
             case R.id.nav_profile_fragment:
-                fragmentToShowTag = TAG_PROFILE_FRAGMENT;
+                fragmentToShowTag = TAG_OWN_PROFILE_FRAGMENT;
                 break;
             case R.id.nav_home_fragment:
             default:
@@ -169,25 +160,39 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         setTitle(item.getTitle());
         mDrawer.closeDrawers();
 
-        //
         if (fragmentToShowTag != null) {
-            // Hide current fragment
             if (mCurrentFragmentTag != null) {
                 fm.beginTransaction().hide(fm.findFragmentByTag(mCurrentFragmentTag)).commit();
             }
-            // Replace current fragment tag with selected fragment
             mCurrentFragmentTag = fragmentToShowTag;
             Fragment fragmentToShow = fm.findFragmentByTag(fragmentToShowTag);
-            // Create and add selected fragment if that hasn't been done yet
             if (fragmentToShow == null) {
                 fragmentToShow = instantiateFragment(fm, fragmentToShowTag);
             }
-            // Show the selected fragment
             fm.beginTransaction().show(fragmentToShow).commit();
             return true;
         }
-
         return false;
+    }
+
+    public void showUserProfileFragment(String user_object) {
+        FragmentManager fm = getSupportFragmentManager();
+        String fragmentToShowTag = null;
+        fragmentToShowTag = TAG_OTHERS_PROFILE_FRAGMENT;
+
+        if (fragmentToShowTag != null) {
+            if (mCurrentFragmentTag != null) {
+                fm.beginTransaction().hide(fm.findFragmentByTag(mCurrentFragmentTag)).commit();
+            }
+            mCurrentFragmentTag = fragmentToShowTag;
+            Fragment fragmentToShow = fm.findFragmentByTag(fragmentToShowTag);
+            fragmentToShow = UserProfileFragment.newInstance(user_object);
+            fm.beginTransaction()
+                    .add(R.id.flContent, fragmentToShow, fragmentToShowTag)
+                    .commit();
+            fm.beginTransaction().show(fragmentToShow).commit();
+            fragmentToShow = null;
+        }
     }
 
     private Fragment instantiateFragment(FragmentManager fm, String tag) {
@@ -195,8 +200,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         if (TAG_OWNER_FRAGMENT.equals(tag)) {
             fragment = PetOwnerHomeFragment.newInstance();
-        } else if (TAG_PROFILE_FRAGMENT.equals(tag)) {
-            fragment = UserProfileFragment.newInstance();
+        } else if (TAG_OWN_PROFILE_FRAGMENT.equals(tag)) {
+            fragment = UserProfileFragment.newInstance(null);
         } else if (TAG_SITTER_FRAGMENT.equals(tag)) {
             //fragment = RequestsFragment.newInstance(true);
             fragment = SitterHomeFragment.newInstance();

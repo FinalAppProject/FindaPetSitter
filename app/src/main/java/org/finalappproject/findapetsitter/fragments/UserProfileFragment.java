@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,14 +14,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.parse.GetCallback;
+import com.parse.ParseException;
 
 import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.activities.UserProfileEditActivity;
 import org.finalappproject.findapetsitter.adapters.PetsAdapter;
-import org.finalappproject.findapetsitter.adapters.RequestsAdapter;
 import org.finalappproject.findapetsitter.model.Address;
 import org.finalappproject.findapetsitter.model.Pet;
 import org.finalappproject.findapetsitter.model.User;
@@ -33,7 +39,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static org.finalappproject.findapetsitter.R.id.rvPets;
+import static org.finalappproject.findapetsitter.model.User.queryUser;
 
 /**
  * Created by Aoi on 11/15/2016.
@@ -65,9 +71,22 @@ public class UserProfileFragment extends Fragment {
     @BindView(R.id.btSendRequestOrEdit)
     Button btSendRequest;
 
+    @BindView(R.id.btWriteReview)
+    Button btWriteReview;
+
+    @BindView(R.id.btViewReview)
+    Button btViewReviews;
+
+    @BindView(R.id.flReviewsContainer)
+    FrameLayout flProfileReviewsContainer;
+
+    @BindView(R.id.svProfileScroll)
+    ScrollView svProfileScroll;
+
     User mUser;
     List<Pet> mPets;
     PetsAdapter mPetsAdapter;
+    private Boolean isOtherUser;
 
     /**
      * Required empty public constructor,
@@ -85,9 +104,11 @@ public class UserProfileFragment extends Fragment {
      *
      * @return A new instance of fragment SitterHomeFragment.
      */
-    public static UserProfileFragment newInstance() {
+    public static UserProfileFragment newInstance(String userId) {
         UserProfileFragment fragment = new UserProfileFragment();
-        // Currently this fragment doesn't require parameters, in the future we may want to
+        Bundle args = new Bundle();
+        args.putString("user_id", userId);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -95,8 +116,6 @@ public class UserProfileFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Initialize member variables
-        mUser = (User) User.getCurrentUser();
         mPets = new ArrayList<>();
         mPetsAdapter = new PetsAdapter(getContext(), mPets);
 
@@ -110,7 +129,26 @@ public class UserProfileFragment extends Fragment {
         ButterKnife.bind(this, view);
         setupPetsRecyclerView();
 
-        loadData();
+        String userObjectId = getArguments().getString("user_id");
+
+        if (userObjectId != null && !userObjectId.isEmpty()) {
+            queryUser(userObjectId, new GetCallback<User>() {
+                @Override
+                public void done(User user, ParseException e) {
+                    if (e == null) {
+                        isOtherUser = false;
+                        mUser = user;
+                        loadData();
+                    } else {
+                        Toast.makeText(getContext(), "Failed to fetch user", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        } else {
+            isOtherUser = true;
+            mUser = (User) User.getCurrentUser();
+            loadData();
+        }
 
         return view;
     }
@@ -151,6 +189,10 @@ public class UserProfileFragment extends Fragment {
 
 
     private void loadData() {
+        if (mUser == null) {
+            return;
+        }
+        String a = mUser.getFullName();
         tvUserName.setText(mUser.getFullName());
         tvUserNickname.setText(mUser.getNickName());
         tvUserDescription.setText(mUser.getDescription());
@@ -165,9 +207,66 @@ public class UserProfileFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
+        if (isOtherUser) {
+            btSendRequest.setText("Send Request");
+            btSendRequest.setVisibility(View.VISIBLE);
+            btWriteReview.setText("Write Review");
+            btWriteReview.setVisibility(View.VISIBLE);
+            btViewReviews.setText("View Reviews");
+            btViewReviews.setVisibility(View.VISIBLE);
+        } else {
+            btSendRequest.setVisibility(View.GONE);
+            btWriteReview.setVisibility(View.GONE);
+            btViewReviews.setVisibility(View.GONE);
+        }
+
+        btSendRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("sitter_id", mUser.getObjectId());
+
+                RequestFragment requestFragmentDialog = new RequestFragment();
+                requestFragmentDialog.setArguments(bundle);
+
+                FragmentManager fm = getFragmentManager();
+                requestFragmentDialog.show(fm, "request");
+            }
+        });
+
+        btWriteReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("sitter_id", mUser.getObjectId());
+
+                WriteReviewFragment reviewFragmentDialog = new WriteReviewFragment();
+                reviewFragmentDialog.setArguments(bundle);
+
+                FragmentManager fm = getFragmentManager();
+                reviewFragmentDialog.show(fm, "write_review");
+
+            }
+        });
+
+        btViewReviews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flProfileReviewsContainer.setVisibility(View.VISIBLE);
+                FragmentManager fm = getFragmentManager();
+                ReviewsAboutFragment reviewsAboutFragment = ReviewsAboutFragment.newInstance(mUser.getObjectId());
+                fm.beginTransaction()
+                        .add(R.id.flReviewsContainer, reviewsAboutFragment, "review_about_user")
+                        .commit();
+                fm.beginTransaction().show(reviewsAboutFragment).commit();
+                focusOnView();
+                //flProfileReviewsContainer.getParent().requestChildFocus(targetView,targetView);
+            }
+        });
+
         // Show user profile image
-        ImageHelper.loadImage(getContext(), mUser.getProfileImage(), R.mipmap.ic_launcher, ivUserProfileImage);
+        ImageHelper.loadImage(getContext(), mUser.getProfileImage(), R.drawable.account_plus, ivUserProfileImage);
         
         loadPetsData();
 
@@ -198,5 +297,14 @@ public class UserProfileFragment extends Fragment {
     public void onResume() {
         super.onResume();
         loadData();
+    }
+
+    private final void focusOnView() {
+        svProfileScroll.post(new Runnable() {
+            @Override
+            public void run() {
+                svProfileScroll.smoothScrollBy(0, flProfileReviewsContainer.getTop());
+            }
+        });
     }
 }
