@@ -4,82 +4,66 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="90dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginTop="2dp"
+    android:layout_height="150dp"
     android:layout_marginBottom="2dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="2dp"
     card_view:cardUseCompatPadding="true"
     card_view:contentPadding="5dp">
 
     <RelativeLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-    android:paddingBottom="5dp"
-    android:paddingTop="5dp"
-    android:paddingLeft="5dp"
-    android:paddingRight="5dp"
-    android:id="@+id/RlSitterItem">
+        android:background="@drawable/card_background_2"
+        android:id="@+id/RlSitterItem"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp">
 
-    <ImageView
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        tools:src="@mipmap/ic_launcher"
-        android:id="@+id/ivItemProfileImage"
-        android:layout_marginRight="5dp"
-        android:layout_centerVertical="true"
-        android:padding="3dp" />
+        <ImageView
+            android:id="@+id/ivItemProfileImage"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:padding="3dp"
+            tools:src="@mipmap/ic_launcher" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="FullName"
-        android:id="@+id/tvItemName"
-        android:layout_toRightOf="@+id/ivItemProfileImage" />
+        <TextView
+            android:id="@+id/tvItemName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/ivItemProfileImage"
+            android:text="FullName"
+            android:textStyle="bold"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-<!-- For future
-    <TextView
-        android:id="@+id/tvItemAmountCharged"
-        android:text="$20"
-        android:layout_marginLeft="5dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_toRightOf="@id/tvItemLastName" />
--->
+        <TextView
+            android:id="@+id/tvItemTagline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvItemName"
+            android:layout_toEndOf="@+id/ivItemProfileImage"
+            android:layout_toRightOf="@+id/ivItemProfileImage"
+            android:ellipsize="end"
+            android:maxLines="3"
+            tools:text="Tagline"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/darker_grey"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+e
+        <TextView
+            android:id="@+id/tvDistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/darker_grey"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            tools:text="Distance" />
 
-    <TextView
-        tools:text="Tagline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvItemTagline"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:layout_below="@+id/tvItemName"
-        android:layout_toRightOf="@+id/ivItemProfileImage"
-        android:layout_toEndOf="@+id/ivItemProfileImage" />
-
-    <TextView
-        tools:text="Distance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvDistance"
-        android:layout_below="@+id/tvItemTagline"
-        android:layout_toRightOf="@+id/ivItemProfileImage"
-        android:layout_toEndOf="@+id/ivItemProfileImage" />
-
-<!--
-    <TextView
-        android:text="Distance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvDistance"
-        android:layout_marginLeft="5dp"
-        android:layout_below="@+id/tvItemTagline"
-        android:layout_toRightOf="@+id/tvNumReviews"
-        android:layout_toEndOf="@+id/tvNumReviews" />
--->
-
-</RelativeLayout>
+    </RelativeLayout>
 </android.support.v7.widget.CardView>

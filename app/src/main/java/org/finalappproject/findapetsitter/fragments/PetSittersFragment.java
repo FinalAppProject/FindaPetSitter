@@ -30,6 +30,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static org.finalappproject.findapetsitter.R.layout.item_sitter;
+
 /**
  * Fragment that shows a list of pet sitters ordered by how close they are to the current user
  */
@@ -66,7 +68,7 @@ public class PetSittersFragment extends Fragment {
         @Override
         public PetSitterAdapter.UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            View view = inflater.inflate(R.layout.item_sitter, parent, false);
+            View view = inflater.inflate(item_sitter, parent, false);
             return new UserViewHolder(view);
         }
 
@@ -74,17 +76,20 @@ public class PetSittersFragment extends Fragment {
         public void onBindViewHolder(PetSitterAdapter.UserViewHolder vh, final int position) {
             final User sitter = mPetSitters.get(position);
             vh.tvItemFirstName.setText(sitter.getFullName());
-            vh.tvTagline.setText(sitter.getDescription());
-
             vh.ivItemProfilePic.setImageResource(0);
+            if(sitter.getDescription().length() == 0) {
+                vh.tvTagline.setText("No Description Provided");
+            } else {
+                vh.tvTagline.setText("\"" + sitter.getDescription() + "\"");
+            }
             ImageHelper.loadImage(getContext(), sitter.getProfileImage(), R.drawable.cat, vh.ivItemProfilePic);
 
-            String distanceStr = "??? miles";
+            String distanceStr = "??? mi";
             if (ownerGeoPoint != null) {
                 if ((sitter.getAddress() != null && sitter.getAddress().getGeoPoint() != null)) {
                     ParseGeoPoint sitterGeoPoint = sitter.getAddress().getGeoPoint();
                     double distance = ownerGeoPoint.distanceInMilesTo(sitterGeoPoint);
-                    distanceStr = String.format("%.2f miles", distance);
+                    distanceStr = String.format("%.2f mi", distance);
                 }
             }
 

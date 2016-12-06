@@ -19,6 +19,9 @@
     <color name="teal" type="color">#319b92</color>
     <color name="pastel_green">#1DE9B6</color>
     <color name="black">#000000</color>
+    <color name="light_grey">#b3b3b3</color>
+    <color name="dark_grey">#808080</color>
+    <color name="darker_grey">#4d4d4d</color>
 
     <color name="cal_text" type="color">@color/teal</color>
 
