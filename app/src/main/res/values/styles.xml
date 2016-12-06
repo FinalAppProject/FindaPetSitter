@@ -14,7 +14,7 @@
 
     <style name="MyActionBar.MenuTextStyle"  parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/darkorange</item>
-        <item name="colorPrimaryDark">@color/teal</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="android:textSize">15dip</item>
     </style>
 
