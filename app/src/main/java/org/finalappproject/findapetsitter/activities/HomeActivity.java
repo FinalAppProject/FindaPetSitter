@@ -160,6 +160,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         setTitle(item.getTitle());
         mDrawer.closeDrawers();
 
+        // Force removing sitter fragment if it's there
+        Fragment sitterFragment = fm.findFragmentByTag(TAG_OTHERS_PROFILE_FRAGMENT);
+        if (sitterFragment != null) {
+            fm.beginTransaction().remove(sitterFragment).commit();
+        }
+
+
         if (fragmentToShowTag != null) {
             if (mCurrentFragmentTag != null) {
                 Fragment fragmentToHide = fm.findFragmentByTag(mCurrentFragmentTag);
@@ -189,7 +196,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         Fragment fragmentToShow = UserProfileFragment.newInstance(petSitterObjectId);
         fm.beginTransaction()
                 .addToBackStack(null)
-                .add(R.id.flContent, fragmentToShow)
+                .add(R.id.flContent, fragmentToShow, TAG_OTHERS_PROFILE_FRAGMENT)
                 .commit();
     }
 
