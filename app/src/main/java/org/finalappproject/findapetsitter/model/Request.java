@@ -3,14 +3,11 @@ package org.finalappproject.findapetsitter.model;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseClassName;
-import com.parse.ParseCloud;
-import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.Date;
-import java.util.HashMap;
 
 @ParseClassName("Request")
 public class Request extends ParseObject {
@@ -98,15 +95,14 @@ public class Request extends ParseObject {
 
     public static void queryRequest(String requestId, GetCallback<Request> findCallback) {
         // TODO verify/validate cache policy
-        ParseQuery<Request> requestQuery = ParseQuery.getQuery(Request.class)
-                .include(KEY_SENDER)
-                .include(KEY_RECEIVER);
+        ParseQuery<Request> requestQuery = ParseQuery.getQuery(Request.class);
         requestQuery.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
         requestQuery.getInBackground(requestId, findCallback);
     }
 
     public static void queryByReceiver(ParseUser user, FindCallback<Request> findCallback) {
         ParseQuery<Request> requestQuery = ParseQuery.getQuery(Request.class)
+                .setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE)
                 .include(KEY_SENDER)
                 .include(KEY_RECEIVER).whereEqualTo(KEY_RECEIVER, user);
         requestQuery.findInBackground(findCallback);
@@ -114,6 +110,7 @@ public class Request extends ParseObject {
 
     public static void queryBySender(ParseUser user, FindCallback<Request> findCallback) {
         ParseQuery<Request> requestQuery = ParseQuery.getQuery(Request.class)
+                .setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE)
                 .include(KEY_SENDER)
                 .include(KEY_RECEIVER)
                 .whereEqualTo(KEY_SENDER, user);

@@ -1,6 +1,5 @@
 package org.finalappproject.findapetsitter.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,7 +19,7 @@ import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 
 import org.finalappproject.findapetsitter.R;
-import org.finalappproject.findapetsitter.activities.UserProfileActivity;
+import org.finalappproject.findapetsitter.activities.HomeActivity;
 import org.finalappproject.findapetsitter.model.Address;
 import org.finalappproject.findapetsitter.model.User;
 import org.finalappproject.findapetsitter.util.ImageHelper;
@@ -31,14 +30,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static org.finalappproject.findapetsitter.activities.UserProfileEditActivity.EXTRA_USER_OBJECT_ID;
-
 /**
  * Fragment that shows a list of pet sitters ordered by how close they are to the current user
  */
 public class PetSittersFragment extends Fragment {
 
     private static final String LOG_TAG = "PetSittersFragment";
+    private String mCurrentFragmentTag = "PetSitterFragment";
 
     public class PetSitterAdapter extends RecyclerView.Adapter<PetSitterAdapter.UserViewHolder> {
 
@@ -95,9 +93,7 @@ public class PetSittersFragment extends Fragment {
             vh.RlSitterItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent userProfileIntent = new Intent(getContext(), UserProfileActivity.class);
-                    userProfileIntent.putExtra(EXTRA_USER_OBJECT_ID, sitter.getObjectId());
-                    getContext().startActivity(userProfileIntent);
+                    ((HomeActivity) getContext()).showUserProfileFragment(sitter.getObjectId());
                 }
             });
         }
