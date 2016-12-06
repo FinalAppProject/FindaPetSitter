@@ -1,6 +1,10 @@
 package org.finalappproject.findapetsitter.fragments;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,15 +18,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.maps.GeoApiContext;
+import com.google.maps.GeocodingApi;
+import com.google.maps.model.GeocodingResult;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 
 import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.activities.UserProfileEditActivity;
@@ -39,6 +48,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static org.finalappproject.findapetsitter.R.id.tvUserAddress;
+import static org.finalappproject.findapetsitter.R.id.tvUserDescription;
+import static org.finalappproject.findapetsitter.R.id.tvUserName;
+import static org.finalappproject.findapetsitter.R.id.tvUserNickname;
+import static org.finalappproject.findapetsitter.R.id.tvUserPhoneNumber;
 import static org.finalappproject.findapetsitter.model.User.queryUser;
 
 /**
@@ -50,25 +64,25 @@ public class UserProfileFragment extends Fragment {
     @BindView(R.id.ivUserProfileImage)
     ImageView ivUserProfileImage;
 
-    @BindView(R.id.tvUserName)
-    TextView tvUserName;
+    @BindView(tvUserName)
+    EditText etUserName;
 
-    @BindView(R.id.tvUserNickname)
-    TextView tvUserNickname;
+    @BindView(tvUserNickname)
+    EditText etUserNickname;
 
-    @BindView(R.id.tvUserDescription)
-    TextView tvUserDescription;
+    @BindView(tvUserDescription)
+    EditText etUserDescription;
 
-    @BindView(R.id.tvUserPhoneNumber)
-    TextView tvUserPhoneNumber;
+    @BindView(tvUserPhoneNumber)
+    EditText etUserPhoneNumber;
 
-    @BindView(R.id.tvUserAddress)
-    TextView tvUserAddress;
+    @BindView(tvUserAddress)
+    EditText etUserAddress;
 
     @BindView(R.id.rvPets)
     RecyclerView rvPets;
 
-    @BindView(R.id.btSendRequestOrEdit)
+    @BindView(R.id.btSendRequest)
     Button btSendRequest;
 
     @BindView(R.id.btWriteReview)
@@ -164,11 +178,19 @@ public class UserProfileFragment extends Fragment {
         // handle item selection
         switch (item.getItemId()) {
             case R.id.miEdit:
-                // TODO
+                enableEdit();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void enableEdit() {
+        etUserName.setFocusable(true);
+        etUserNickname.setFocusable(true);
+        etUserDescription.setFocusable(true);
+        etUserPhoneNumber.setFocusable(true);
+        etUserAddress.setFocusable(true);
     }
 
     private void setupPetsRecyclerView() {
@@ -193,16 +215,30 @@ public class UserProfileFragment extends Fragment {
             return;
         }
         String a = mUser.getFullName();
-        tvUserName.setText(mUser.getFullName());
-        tvUserNickname.setText(mUser.getNickName());
-        tvUserDescription.setText(mUser.getDescription());
-        tvUserPhoneNumber.setText(String.format("Phone number: %s", mUser.getPhone()));
+        etUserName.setText(mUser.getFullName());
+        etUserName.setFocusable(false);
+        etUserName.setBackgroundColor(Color.TRANSPARENT);
+
+        etUserNickname.setText(mUser.getNickName());
+        etUserNickname.setFocusable(false);
+        etUserNickname.setBackgroundColor(Color.TRANSPARENT);
+
+        etUserDescription.setText(mUser.getDescription());
+        etUserDescription.setFocusable(false);
+        etUserDescription.setBackgroundColor(Color.TRANSPARENT);
+
+        etUserPhoneNumber.setText(String.format("Phone number: %s", mUser.getPhone()));
+        etUserPhoneNumber.setFocusable(false);
+        etUserPhoneNumber.setBackgroundColor(Color.TRANSPARENT);
+
         //tvUserAddress.setText(String.format("Live in: %s, %s", mUser.getAddress().getCity(), mUser.getAddress().getState()));
 
         try {
             Address userAddress = mUser.getAddress().fetchIfNeeded();
             if (userAddress != null) {
-                tvUserAddress.setText(String.format("Live in: %s, %s", mUser.getAddress().getCity(), mUser.getAddress().getState()));
+                etUserAddress.setText(String.format("Live in: %s, %s", mUser.getAddress().getCity(), mUser.getAddress().getState()));
+                etUserAddress.setFocusable(false);
+                etUserAddress.setBackgroundColor(Color.TRANSPARENT);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -306,5 +342,60 @@ public class UserProfileFragment extends Fragment {
                 svProfileScroll.smoothScrollBy(0, flProfileReviewsContainer.getTop());
             }
         });
+    }
+
+    void saveUser() {
+
+        // Profile Image
+        Drawable profileImageDrawable = ivUserProfileImage.getDrawable();
+
+        if (profileImageDrawable != null) {
+            if (profileImageDrawable instanceof BitmapDrawable) {
+                Bitmap profileBitmap = ((BitmapDrawable) profileImageDrawable).getBitmap();
+                ParseFile imageFile = ImageHelper.createParseFile(mUser.getObjectId(), profileBitmap);
+                mUser.setProfileImage(imageFile);
+            }
+            // TODO handle failure to retrieve profile image from drawable
+        }
+
+        //TODO
+        //mUser.setPetSitter(cbPetSitter.isChecked());
+        mUser.setFullName(etUserName.getText().toString());
+        mUser.setNickName(etUserNickname.getText().toString());
+        mUser.setDescription(etUserDescription.getText().toString());
+        mUser.setPhone(etUserPhoneNumber.getText().toString());
+
+        // User address
+        Address userAddress = mUser.getAddress();
+
+        //make EditText boxes separated TODO
+        String address = etUserAddress.getText().toString();
+        String city = etUserAddress.getText().toString();
+        String state = etUserAddress.getText().toString();
+        String zipCode = etUserAddress.getText().toString();
+
+        //userAddress.setAddress(address);
+        //userAddress.setZipCode(zipCode);
+        userAddress.setCity(city);
+        userAddress.setState(state);
+
+        // Retrieve the address geolocation and save the user
+        String formattedAddress = String.format("%s, %s, %s, %s", address, city, state, zipCode);
+        GeoApiContext context = new GeoApiContext().setApiKey(getString(R.string.api_key_google_maps));
+        try {
+            // TODO await/synchronous, is this a bad practice ?
+            GeocodingResult[] results = GeocodingApi.geocode(context, formattedAddress).await();
+
+            if (results != null) {
+                ParseGeoPoint geoPoint = new ParseGeoPoint();
+                geoPoint.setLatitude(results[0].geometry.location.lat);
+                geoPoint.setLongitude(results[0].geometry.location.lng);
+                userAddress.setGeoPoint(geoPoint);
+            }
+        } catch (Exception e) {
+            //Log.e(LOG_TAG, "Failed to retrieve user's address geo location", e);
+        }
+
+        mUser.saveInBackground();
     }
 }

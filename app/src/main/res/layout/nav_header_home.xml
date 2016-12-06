@@ -17,7 +17,7 @@
         android:id="@+id/activity_request"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/teal">
+        android:background="@color/colorPrimary">
 
         <com.github.florent37.diagonallayout.DiagonalLayout
             android:id="@+id/diagonalLayout"
