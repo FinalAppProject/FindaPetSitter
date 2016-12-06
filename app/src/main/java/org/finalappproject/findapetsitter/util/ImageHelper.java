@@ -18,8 +18,6 @@ import org.finalappproject.findapetsitter.application.AppConstants;
 
 import java.io.ByteArrayOutputStream;
 
-import static android.R.attr.data;
-
 /**
  * Helper class to support working with images
  */
@@ -42,7 +40,6 @@ public abstract class ImageHelper {
     }
 
     /**
-     *
      * @param fileName
      * @param bitmap
      * @param quality
@@ -56,7 +53,6 @@ public abstract class ImageHelper {
     }
 
     /**
-     *
      * @param fileName
      * @param bitmap
      * @return
@@ -72,14 +68,16 @@ public abstract class ImageHelper {
             parseFile.getDataInBackground(new GetDataCallback() {
                 @Override
                 public void done(byte[] data, ParseException e) {
-
-                    if (e != null) {
+                    if (e == null) {
+                        Glide.with(context).load(data).centerCrop().dontAnimate().into(imageView);
+                    } else {
                         Log.e(LOG_TAG, "Failed to load parse file", e);
+                        imageView.setImageResource(placeholderResourceId);
                     }
-
-                    Glide.with(context).load(data).centerCrop().placeholder(placeholderResourceId).dontAnimate().into(imageView);
                 }
             });
+        } else {
+            imageView.setImageResource(placeholderResourceId);
         }
     }
 }

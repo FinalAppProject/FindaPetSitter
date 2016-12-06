@@ -78,6 +78,7 @@ public class PetSittersFragment extends Fragment {
             vh.tvItemFirstName.setText(sitter.getFullName());
             vh.tvTagline.setText(sitter.getDescription());
 
+            vh.ivItemProfilePic.setImageResource(0);
             ImageHelper.loadImage(getContext(), sitter.getProfileImage(), R.drawable.cat, vh.ivItemProfilePic);
 
             String distanceStr = "??? miles";
