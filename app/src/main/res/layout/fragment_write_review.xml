@@ -116,7 +116,7 @@
             android:text="CANCEL"
             android:id="@+id/btnReviewCancel"
             android:gravity="center"
-            android:backgroundTint="@color/teal"
+            android:backgroundTint="@color/colorPrimaryDark"
             android:textStyle="bold"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white" />
@@ -127,7 +127,7 @@
             android:layout_height="wrap_content"
             android:text="SAVE"
             android:textStyle="bold"
-            android:backgroundTint="@color/darkorange"
+            android:backgroundTint="@color/colorPrimary"
             android:id="@+id/btnReviewSave"
             android:gravity="center" />
 

@@ -4,7 +4,7 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="120dp"
     android:layout_marginBottom="2dp"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
@@ -13,7 +13,7 @@
     card_view:contentPadding="5dp">
 
     <RelativeLayout
-        android:background="@drawable/card_background_2"
+        android:background="@drawable/card_background_1"
         android:id="@+id/RlSitterItem"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,7 +27,6 @@
             android:id="@+id/ivItemProfileImage"
             android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
             android:padding="3dp"
             tools:src="@mipmap/ic_launcher" />

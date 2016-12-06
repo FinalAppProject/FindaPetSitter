@@ -89,7 +89,7 @@ public class PetSittersFragment extends Fragment {
                 if ((sitter.getAddress() != null && sitter.getAddress().getGeoPoint() != null)) {
                     ParseGeoPoint sitterGeoPoint = sitter.getAddress().getGeoPoint();
                     double distance = ownerGeoPoint.distanceInMilesTo(sitterGeoPoint);
-                    distanceStr = String.format("%.2f mi", distance);
+                    distanceStr = String.format("%.1f mi", distance);
                 }
             }
 
