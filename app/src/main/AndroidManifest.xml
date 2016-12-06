@@ -13,17 +13,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.LoginActivity">
+        </activity>
+
+        <activity
+            android:name=".activities.SplashActivity"
+            android:theme="@style/SplashTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".activities.SignUpActivity" />
         <activity android:name=".activities.HomeActivity" />
         <activity android:name=".activities.UserProfileEditActivity" />
         <activity android:name=".activities.PetProfileActivity" />
-        <activity android:name=".activities.UserProfileActivity"></activity>
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="@string/api_key_google_maps"/>
 
         <activity android:name=".activities.RequestDetailActivity" />

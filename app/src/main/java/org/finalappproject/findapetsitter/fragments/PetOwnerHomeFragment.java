@@ -40,20 +40,19 @@ public class PetOwnerHomeFragment extends Fragment {
         void onPetSitterClicked(User petSitter);
     }
 
-    public class PetOwnerPageAdapter extends FragmentPagerAdapter {
+    public class PetOwnerPageAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
         final int PAGE_COUNT = 2;
 
-        private String titles[] = {getString(R.string.page_pet_sitters), getString(R.string.page_nearby_sitters)};
+        private int tabIcons[] = {R.drawable.sitter_listview, R.drawable.sitter_mapview};
 
         public PetOwnerPageAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
         }
 
         @Override
-        public CharSequence getPageTitle(int position) {
-            return titles[position];
+        public int getPageIconResId(int position) {
+            return tabIcons[position];
         }
-
         @Override
         public Fragment getItem(int position) {
             switch (position) {

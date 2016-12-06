@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@mipmap/request_background_dog" />
+            android:src="@drawable/cat_profile" />
 
     </com.github.florent37.diagonallayout.DiagonalLayout>
 
@@ -44,7 +44,6 @@
         android:id="@+id/ivReceivedRequestProfile"
         android:layout_width="90dp"
         android:layout_height="90dp"
-        android:layout_below="@id/tvRequestDetailStatus"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="100dp"
         android:background="@drawable/circle"

@@ -15,28 +15,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/login_dogcat" />
+        android:src="@mipmap/login_background" />
 
     <ImageView
         android:id="@+id/ivLogo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_below="@+id/singupToolbar"
         android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
         android:adjustViewBounds="true"
-        android:src="@mipmap/pettin_logo" />
+        android:src="@mipmap/pettin_logo"
+        android:layout_marginBottom="5dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivLogo"
-        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginStart="20dp"
         android:padding="16dp"
-        android:background="#80ffffff">
+        android:background="#E0ffffff">
 
         <EditText
             android:id="@+id/etFullName"
