@@ -340,7 +340,7 @@ public class NearbySittersFragment extends Fragment implements GoogleMap.OnMarke
                                 mMap.animateCamera(CameraUpdateFactory.newCameraPosition(mCameraSavedState));
                             } else {
                                 // Zoom into the user's address latLng coordinates
-                                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(userAddressLatLng, 12);
+                                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(userAddressLatLng, 14);
                                 mMap.animateCamera(cameraUpdate);
                             }
                         }
