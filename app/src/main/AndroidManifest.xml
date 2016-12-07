@@ -29,6 +29,7 @@
         <activity android:name=".activities.UserProfileEditActivity" />
         <activity android:name=".activities.PetProfileActivity" />
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="@string/api_key_google_maps"/>
+        <meta-data android:name="com.parse.push.notification_icon" android:resource="@mipmap/logo_push_notification"/>
 
         <activity android:name=".activities.RequestDetailActivity" />
 
@@ -50,6 +51,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
 
     </application>
 
