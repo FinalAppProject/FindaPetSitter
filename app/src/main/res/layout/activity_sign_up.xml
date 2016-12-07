@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@mipmap/login_background" />
+        android:src="@drawable/login_background" />
 
     <ImageView
         android:id="@+id/ivLogo"
@@ -25,7 +25,7 @@
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:adjustViewBounds="true"
-        android:src="@mipmap/pettin_logo"
+        android:src="@drawable/pettin_logo"
         android:layout_marginBottom="5dp" />
 
     <RelativeLayout

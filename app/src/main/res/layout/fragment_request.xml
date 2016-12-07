@@ -53,7 +53,7 @@
             android:id="@+id/etSelectDates"
             android:maxLines="2"
             android:layout_gravity="center"
-            android:drawableRight="@mipmap/ic_calender"
+            android:drawableRight="@drawable/ic_calender"
             />
     </LinearLayout>
 
