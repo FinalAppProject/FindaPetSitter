@@ -133,7 +133,8 @@
             android:id="@+id/btnSend"
             android:gravity="center"
             android:textStyle="bold"
-            android:backgroundTint="@color/darkorange"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/colorAccent"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
     </LinearLayout>

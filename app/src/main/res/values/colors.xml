@@ -3,6 +3,7 @@
     <color name="colorPrimary">#1DE9B6</color>
     <color name="colorPrimaryDark">#00BFA5</color>
     <color name="colorAccent">#FFC107</color>
+    <color name="colorAccentLight">#FFE082</color>
     <color name="colorPrimaryTransparent">#331DE9B6</color>
     <color name="whiteTransparent">#4Dffffff</color>
     <color name="blue" type="color">#FF33B5E5</color>
@@ -28,15 +29,17 @@
     <color name="cal_text" type="color">@color/teal</color>
 
     <!--Calendar picker-->
-    <color name="calendar_bg">@color/darkorange</color>
-<!--    <color name="calendar_divider">#fcc31f</color>
-    <color name="calendar_active_month_bg">@color/darkorange</color>
-    <color name="calendar_inactive_month_bg">#6ddbfd</color> -->
-    <color name="calendar_selected_day_bg">@color/colorPrimary</color>
-    <color name="calendar_text_inactive">@color/cal_text</color>
-    <color name="calendar_text_active">@color/cal_text</color>
-    <color name="calendar_text_selected">@color/cal_text</color>
-    <color name="calendar_selected_range_bg">@color/orange</color>
-    <color name="calendar_text_unselectable">@color/cal_text</color>
+    <color name="calendar_bg">@color/colorPrimary</color>
+    <!--&lt;!&ndash;    <color name="calendar_divider">#fcc31f</color>-->
+    <color name="calendar_active_month_bg">@color/white</color>
+    <color name="calendar_inactive_month_bg">@color/white</color>
+    -->
+    <color name="calendar_selected_day_bg">@color/colorAccent</color>
+    <color name="calendar_text_inactive">@color/dark_grey</color>
+    <color name="calendar_text_active">@color/colorAccentLight</color>
+    <color name="calendar_text_selected">@color/colorAccent</color>
+    <color name="calendar_selected_range_bg">@color/colorAccentLight</color>
+    <color name="calendar_text_unselectable">@color/light_grey</color>
+
 
 </resources>

@@ -60,7 +60,7 @@
             style="?android:attr/ratingBarStyle"
             android:transformPivotX="10dp"
             android:transformPivotY="10dp"
-            android:progressTint="@color/darkorange"
+            android:progressTint="@color/colorAccent"
             android:layout_marginTop="20dp"
             android:layout_below="@+id/tvReview"
             />
