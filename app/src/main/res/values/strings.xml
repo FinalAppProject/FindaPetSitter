@@ -32,7 +32,8 @@
     <string name="request_message_pet_owner">Request sent to %s</string>
 
     <!-- User Profile Activity -->
-    <string name="can_host_pet_checkbox">Can Host a Pet ?</string>
+    <string name="edit_profile_title">Edit Profile"</string>
+    <string name="can_host_pet_checkbox">Available for Pet Sitting ?</string>
     <string name="nick_name_text_view">Nick name</string>
     <string name="description_text_view">Description</string>
     <string name="phone_number_text_view">Phone Number</string>
@@ -48,6 +49,7 @@
     <string name="write_review_button">Write Review</string>
     <string name="menu_edit_profile">Edit Profile</string>
     <string name="menu_send_request">Send Request</string>
+    <string name="menu_save">Save</string>
 
     <!-- Pet Profile Activity -->
     <string name="name_text_view">Name</string>

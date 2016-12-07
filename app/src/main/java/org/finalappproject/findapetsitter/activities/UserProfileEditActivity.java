@@ -8,7 +8,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -60,6 +63,9 @@ public class UserProfileEditActivity extends AppCompatActivity implements SaveCa
 
     public static final String EXTRA_USER_OBJECT_ID = "EXTRA_USER_OBJECT_ID";
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
     @BindView(R.id.cbPetSitter)
     CheckBox cbPetSitter;
 
@@ -96,9 +102,6 @@ public class UserProfileEditActivity extends AppCompatActivity implements SaveCa
     @BindView(R.id.btAddPet)
     Button btAddPet;
 
-    @BindView(R.id.btSave)
-    Button btSave;
-
     User mUser;
 
     List<Pet> mPets;
@@ -111,12 +114,32 @@ public class UserProfileEditActivity extends AppCompatActivity implements SaveCa
         setContentView(R.layout.activity_user_profile_edit);
         // Bind views
         ButterKnife.bind(this);
+        // Set support toolbar
+        toolbar.setTitle(R.string.edit_profile_title);
+        setSupportActionBar(toolbar);
         setupPetsRecyclerView();
         retrieveUserExtra();
         setupProfileImage();
         setupAddPetButton();
-        setupSaveButton();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_edit_profile, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.miSave:
+                saveUser();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -150,15 +173,6 @@ public class UserProfileEditActivity extends AppCompatActivity implements SaveCa
             @Override
             public void onClick(View v) {
                 startPetProfileActivity();
-            }
-        });
-    }
-
-    private void setupSaveButton() {
-        btSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveUser();
             }
         });
     }
@@ -259,6 +273,7 @@ public class UserProfileEditActivity extends AppCompatActivity implements SaveCa
         petProfileIntent.putExtra(EXTRA_PET_POSITION, position);
         petProfileIntent.putExtra(EXTRA_PET_OBJECT_ID, pet.getObjectId());
         startActivityForResult(petProfileIntent, REQUEST_CODE_EDIT_PET);
+
     }
 
     private void startPetProfileActivity() {
@@ -268,11 +283,12 @@ public class UserProfileEditActivity extends AppCompatActivity implements SaveCa
 
     void onPetAdded(int resultCode, Intent data) {
         if (resultCode == PetProfileActivity.RESULT_CODE_SAVE_SUCCESS) {
+            mUser = (User) User.getCurrentUser();
             String petObjectId = data.getStringExtra(EXTRA_PET_OBJECT_ID);
 
             ParseQuery<Pet> query = ParseQuery.getQuery(Pet.class);
             // TODO verify/validate cache policy
-            query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
+            query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
             query.getInBackground(petObjectId, new GetCallback<Pet>() {
                 @Override
                 public void done(Pet pet, ParseException e) {
