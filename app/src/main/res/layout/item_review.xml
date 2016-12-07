@@ -49,7 +49,8 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:layout_toRightOf="@+id/cvCircleBehindReview"
-            android:text="ReviewFullName" />
+            android:text="ReviewFullName"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tvItemReview"
@@ -58,7 +59,7 @@
             android:textColor="@color/darker_grey"
             android:layout_below="@+id/tvReviewItemName"
             android:layout_toRightOf="@+id/cvCircleBehindReview"
-            android:textSize="12dp"
+            android:textSize="14sp"
             android:layout_marginTop="3dp"
             android:maxLines="2"
             tools:text="Review" />
@@ -71,6 +72,7 @@
             android:layout_below="@+id/tvItemReview"
             android:layout_toRightOf="@+id/cvCircleBehindReview"
             android:isIndicator="true"
+
             tools:text="Rating" />
 
     </RelativeLayout>

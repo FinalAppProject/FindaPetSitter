@@ -33,7 +33,6 @@
     <!--&lt;!&ndash;    <color name="calendar_divider">#fcc31f</color>-->
     <color name="calendar_active_month_bg">@color/white</color>
     <color name="calendar_inactive_month_bg">@color/white</color>
-    -->
     <color name="calendar_selected_day_bg">@color/colorAccent</color>
     <color name="calendar_text_inactive">@color/dark_grey</color>
     <color name="calendar_text_active">@color/colorAccentLight</color>
