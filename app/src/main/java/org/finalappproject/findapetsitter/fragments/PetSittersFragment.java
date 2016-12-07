@@ -125,6 +125,10 @@ public class PetSittersFragment extends Fragment {
         User.queryPetSittersNear(new FindCallback<User>() {
             @Override
             public void done(List<User> sitters, ParseException e) {
+                if (ownerGeoPoint == null) {
+                    // Try getting it
+                    getUserGeoLocation();
+                }
                 // Cleanup data if not empty
                 int currentSize = mPetSitters.size();
                 if (currentSize != 0) {
@@ -141,8 +145,6 @@ public class PetSittersFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getUserGeoLocation(); // TODO in background
-        populateList();
     }
 
     @Nullable
@@ -172,6 +174,13 @@ public class PetSittersFragment extends Fragment {
         });
 
         return availableSittersView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getUserGeoLocation(); // TODO in background
+        populateList();
     }
 
     void getUserGeoLocation() {
