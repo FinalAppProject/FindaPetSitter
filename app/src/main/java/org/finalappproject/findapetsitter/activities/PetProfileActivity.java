@@ -9,13 +9,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -57,6 +62,8 @@ public class PetProfileActivity extends AppCompatActivity implements GetCallback
 
     public static final String EXTRA_PET_OBJECT_ID = "EXTRA_PET_OBJECT_ID";
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     @BindView(R.id.ivProfileImage)
     ImageView ivProfileImage;
@@ -67,23 +74,23 @@ public class PetProfileActivity extends AppCompatActivity implements GetCallback
     @BindView(R.id.etDescription)
     EditText etDescription;
 
-    @BindView(R.id.rgType)
-    RadioGroup rgType;
+//    @BindView(R.id.rgType)
+//    RadioGroup rgType;
+//
+//    @BindView(R.id.rbDog)
+//    RadioButton rbDog;
+//
+//    @BindView(R.id.rbCat)
+//    RadioButton rbCat;
 
-    @BindView(R.id.rbDog)
-    RadioButton rbDog;
-
-    @BindView(R.id.rbCat)
-    RadioButton rbCat;
+    @BindView(R.id.spPetType)
+    Spinner spType;
 
     @BindView(R.id.etBreed)
     EditText etBreed;
 
     @BindView(R.id.etSpecialNeeds)
     EditText etSpecialNeeds;
-
-    @BindView(R.id.btSave)
-    Button btSave;
 
     int mPosition;
     Pet mPet;
@@ -94,27 +101,40 @@ public class PetProfileActivity extends AppCompatActivity implements GetCallback
         setContentView(R.layout.activity_pet_profile);
         // Bind views
         ButterKnife.bind(this);
+        // Set support toolbar
+        toolbar.setTitle(R.string.edit_profile_title);
+        setSupportActionBar(toolbar);
         // Retrieve extra
         retrievePetExtra();
         // Setup views
         setupProfileImage();
-        setupSaveButton();
+        // Setup Spinner
+        setupPetTypeSpinner();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_edit_profile, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.miSave:
+                savePet();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
     void setupProfileImage() {
         ivProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ImageHelper.startImagePickerActivity(PetProfileActivity.this);
-            }
-        });
-    }
-
-    void setupSaveButton() {
-        btSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                savePet();
             }
         });
     }
@@ -129,6 +149,14 @@ public class PetProfileActivity extends AppCompatActivity implements GetCallback
             mPosition = petProfileIntent.getIntExtra(EXTRA_PET_POSITION, -1);
             loadPet(petObjectId);
         }
+    }
+
+    void setupPetTypeSpinner() {
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this,
+                R.array.pet_type_array, android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spType.setAdapter(spinnerAdapter);
+        spType.setSelection(0, true);
     }
 
     @Override
@@ -158,21 +186,25 @@ public class PetProfileActivity extends AppCompatActivity implements GetCallback
             ImageHelper.loadImage(this, pet.getProfileImage(), R.drawable.cat, ivProfileImage);
 
             // Pet Type
+
+
             PetType type = pet.getType();
             if (type != null) {
                 switch (type) {
                     case Dog:
-                        rgType.check(R.id.rbDog);
+                        spType.setSelection(0);
+                        // rgType.check(R.id.rbDog);
                         break;
                     case Cat:
-                        rgType.check(R.id.rbCat);
+                        spType.setSelection(1);
+                        // rgType.check(R.id.rbCat);
                         break;
                 }
             }
-            pet.setType(type);
+//            pet.setType(type);
             // Remaining attributes
             etName.setText(pet.getName());
-            etDescription.setText(etDescription.getText());
+            etDescription.setText(pet.getDescription());
             etBreed.setText(pet.getBreed());
             etSpecialNeeds.setText(pet.getSpecialNeeds());
 
@@ -216,16 +248,17 @@ public class PetProfileActivity extends AppCompatActivity implements GetCallback
         }
 
         // Pet Type
-        PetType type = null;
-        switch (rgType.getCheckedRadioButtonId()) {
-            case R.id.rbDog:
-                type = PetType.Dog;
-                break;
-            case R.id.rbCat:
-                type = PetType.Cat;
-                break;
-        }
-        pet.setType(type);
+        mPet.setType(PetType.valueOf(spType.getSelectedItem().toString()));
+//        PetType type = null;
+//        switch (rgType.getCheckedRadioButtonId()) {
+//            case R.id.rbDog:
+//                type = PetType.Dog;
+//                break;
+//            case R.id.rbCat:
+//                type = PetType.Cat;
+//                break;
+//        }
+//        pet.setType(type);
 
         // Remaining attributes
         pet.setName(etName.getText().toString());

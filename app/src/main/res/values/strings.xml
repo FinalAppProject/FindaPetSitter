@@ -52,6 +52,7 @@
     <string name="menu_save">Save</string>
 
     <!-- Pet Profile Activity -->
+    <string name="pet_profile_title">Edit Pet Profile"</string>
     <string name="name_text_view">Name</string>
     <string name="dog_radio_button">Dog</string>
     <string name="cat_radio_button">Cat</string>

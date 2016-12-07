@@ -50,7 +50,7 @@
             android:elevation="20dp"
             app:civ_border_color="@android:color/transparent"
             app:civ_border_width="1dp"
-            tools:src="@mipmap/ic_launcher" />
+            app:srcCompat="@drawable/ic_person" />
 
         <CheckBox
             android:id="@+id/cbPetSitter"

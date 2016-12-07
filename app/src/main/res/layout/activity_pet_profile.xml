@@ -1,95 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:diagonal="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_pet_profile"
+    android:id="@+id/activity_user_profile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="org.finalappproject.findapetsitter.activities.PetProfileActivity">
+    tools:context="org.finalappproject.findapetsitter.activities.UserProfileEditActivity">
 
-    <!-- ParseImage doesn't seem to use app:srcCompat for loading drawables -->
-    <ImageView
-        android:id="@+id/ivProfileImage"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="10dp"
-        app:srcCompat="@drawable/cat" />
+    <!-- Toolbar -->
+    <include layout="@layout/toolbar" />
 
-    <TextView
-        android:id="@+id/tvName"
+    <com.github.florent37.diagonallayout.DiagonalLayout
+        android:id="@+id/diagonalLayout"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/transparent"
+        android:elevation="5dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        diagonal:diagonal_angle="10"
+        diagonal:diagonal_gravity="left">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/cat_profile" />
+
+    </com.github.florent37.diagonallayout.DiagonalLayout>
+
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/name_text_view" />
+        android:layout_centerHorizontal="true"
+        android:elevation="20dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
 
-    <EditText
-        android:id="@+id/etName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="Tiny" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivProfileImage"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="150dp"
+            android:background="@drawable/circle"
+            android:elevation="20dp"
+            app:civ_border_color="@android:color/transparent"
+            app:civ_border_width="1dp"
+            app:srcCompat="@drawable/cat" />
 
-    <TextView
-        android:id="@+id/tvDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/description_text_view" />
-
-    <EditText
-        android:id="@+id/etDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="Tiny is very friendly and enjoys playing on the grass !" />
-
-    <RadioGroup
-        android:id="@+id/rgType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <RadioButton
-            android:id="@+id/rbDog"
+        <Spinner
+            android:id="@+id/spPetType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/dog_radio_button" />
+            android:spinnerMode="dropdown"
+            android:layout_toLeftOf="@id/ivProfileImage"
+            android:layout_toEndOf="@id/ivProfileImage"
+            android:layout_above="@+id/etName"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <RadioButton
-            android:id="@+id/rbCat"
+        <EditText
+            android:id="@+id/etName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/cat_radio_button" />
-    </RadioGroup>
+            android:layout_below="@+id/ivProfileImage"
+            android:hint="@string/name_text_view"
+            tools:text="Tiny" />
 
-    <TextView
-        android:id="@+id/tvBreed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/breed_text_view" />
+        <EditText
+            android:id="@+id/etDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/etName"
+            android:hint="A brief description about your pet"
+            tools:text="Tiny is very friendly and enjoys playing on the grass !" />
 
-    <EditText
-        android:id="@+id/etBreed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="Unknown" />
+        <EditText
+            android:id="@+id/etBreed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/breed_text_view"
+            android:layout_below="@+id/etDescription"
+            tools:text="Unknown" />
 
-    <TextView
-        android:id="@+id/tvSpecialNeeds"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/special_needs_text_view" />
+        <EditText
+            android:id="@+id/etSpecialNeeds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/etBreed"
+            android:hint="@string/special_needs_text_view"
+            tools:text="Allergic to milk" />
 
-    <EditText
-        android:id="@+id/etSpecialNeeds"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="Allergic to milk" />
-
-    <Button
-        android:text="@string/save_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btSave" />
-
-</LinearLayout>
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
