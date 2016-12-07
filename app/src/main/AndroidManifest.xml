@@ -9,7 +9,7 @@
         android:name=".application.FindaPetSitterApplication"
         android:allowBackup="true"
         android:icon="@mipmap/app_logo_circle"
-        android:label="@string/app_name"
+        android:label="Pettin\'"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.LoginActivity">
