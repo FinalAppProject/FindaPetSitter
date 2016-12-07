@@ -9,15 +9,14 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:src="@drawable/pettin_logo"
-        android:layout_marginTop="200dp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_above="@+id/ivSplashTitleLogo"
+        android:layout_centerInParent="true" />
 
     <ImageView
         android:id="@+id/ivSplashTitleLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ivSplashLogo"
         android:src="@drawable/app_title_logo"
-        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:tint="@color/white"/>
 </RelativeLayout>
