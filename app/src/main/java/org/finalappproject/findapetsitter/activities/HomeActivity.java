@@ -109,7 +109,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         // Note that this activity implements NavigationView.OnNavigationItemSelectedListener
         // which requires onNavigationItemSelected for handling the Drawer Menu Item selection
         nvDrawer.setNavigationItemSelectedListener(this);
-        setupNavigationDrawerHeader();
     }
 
     void setupNavigationDrawerHeader(){

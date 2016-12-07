@@ -327,8 +327,11 @@ public class NearbySittersFragment extends Fragment implements GoogleMap.OnMarke
                         @Override
                         public void done(Address userAddress, ParseException e) {
                             ParseGeoPoint point = userAddress.getGeoPoint();
+                            if (e != null || userAddress.getGeoPoint() == null) {
+                                // TODO try using the currend device location
+                                return;
+                            }
                             LatLng userAddressLatLng = new LatLng(point.getLatitude(), point.getLongitude());
-                            //
                             BitmapDescriptor defaultMarker = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
                             Marker marker = mMap.addMarker(new MarkerOptions().position(userAddressLatLng).title(currentUser.getFullName()).snippet(currentUser.getNickName()).icon(defaultMarker));
 
