@@ -26,7 +26,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static android.R.id.message;
 import static org.finalappproject.findapetsitter.application.AppConstants.REQUEST_ACCEPTED;
 import static org.finalappproject.findapetsitter.application.AppConstants.REQUEST_PENDING;
 import static org.finalappproject.findapetsitter.application.AppConstants.REQUEST_REJECTED;
@@ -55,8 +54,8 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         TextView tvRequestReceived;
         @BindView(R.id.rlRequestReceived)
         RelativeLayout rlRequestReceived;
-        @BindView(R.id.tvRequestStatus)
-        TextView tvRequestStatus;
+        @BindView(R.id.ivRequestStatus)
+        ImageView ivRequestStatus;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -102,11 +101,9 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
             });
 
             if (request.getStatus() != REQUEST_PENDING) {
-                viewHolder.tvRequestStatus.setText("Responded");
-                viewHolder.tvRequestStatus.setBackgroundResource(R.color.green);
+                viewHolder.ivRequestStatus.setImageResource(R.drawable.request_responded);
             } else {
-                viewHolder.tvRequestStatus.setText("Pending");
-                viewHolder.tvRequestStatus.setBackgroundResource(R.color.blue);
+                viewHolder.ivRequestStatus.setImageResource(R.drawable.request_pending);
             }
 
         } else {
@@ -129,14 +126,11 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
             });
 
             if (request.getStatus() == REQUEST_ACCEPTED) {
-                viewHolder.tvRequestStatus.setText("Accepted");
-                viewHolder.tvRequestStatus.setBackgroundResource(R.color.green);
+                viewHolder.ivRequestStatus.setImageResource(R.drawable.request_responded);
             } else if (request.getStatus() == REQUEST_REJECTED) {
-                viewHolder.tvRequestStatus.setText("Rejected");
-                viewHolder.tvRequestStatus.setBackgroundResource(R.color.gray);
+                viewHolder.ivRequestStatus.setImageResource(R.drawable.request_rejected);
             } else {
-                viewHolder.tvRequestStatus.setText("Pending");
-                viewHolder.tvRequestStatus.setBackgroundResource(R.color.blue);
+                viewHolder.ivRequestStatus.setImageResource(R.drawable.request_pending);
             }
         }
 
