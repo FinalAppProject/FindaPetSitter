@@ -7,8 +7,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -20,8 +18,6 @@ import org.finalappproject.findapetsitter.model.User;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static org.finalappproject.findapetsitter.R.id.btSave;
 
 /**
  * Sign-up activity
@@ -116,6 +112,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     /**
      * Vealidates that the profile attributes are not empty and that the password and repeat password are the same
+     *
      * @param email
      * @param password
      * @param repeatPassword
