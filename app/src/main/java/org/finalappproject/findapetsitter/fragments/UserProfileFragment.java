@@ -1,5 +1,6 @@
 package org.finalappproject.findapetsitter.fragments;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -17,6 +18,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -28,6 +31,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 
 import org.finalappproject.findapetsitter.R;
+import org.finalappproject.findapetsitter.activities.UserProfileEditActivity;
 import org.finalappproject.findapetsitter.adapters.PetsAdapter;
 import org.finalappproject.findapetsitter.adapters.ReviewsAboutAdapter;
 import org.finalappproject.findapetsitter.model.Address;
@@ -60,11 +64,17 @@ public class UserProfileFragment extends Fragment implements SwipeRefreshLayout.
     @BindView(R.id.tvUserNickname)
     TextView etUserNickname;
 
+    @BindView(R.id.tvUserAddress)
+    TextView tvUserAddress;
+
     @BindView(R.id.tvUserDescription)
     TextView etUserDescription;
 
     @BindView(R.id.rvPets)
     RecyclerView rvPets;
+
+    @BindView(R.id.btWriteReview)
+    Button btWriteReview;
 
     String mUserObjectId;
     User mUser;
@@ -127,6 +137,11 @@ public class UserProfileFragment extends Fragment implements SwipeRefreshLayout.
         setupReviewsSwipeRefresh();
 
         mUserObjectId = getArguments().getString("user_id");
+
+        if (!isCurrentUser()) {
+            setupWriteReviewButton();
+        }
+
 
         if (mUserObjectId != null && !mUserObjectId.isEmpty()) {
             queryUser(mUserObjectId, new GetCallback<User>() {
@@ -212,41 +227,9 @@ public class UserProfileFragment extends Fragment implements SwipeRefreshLayout.
         switch (item.getItemId()) {
             case R.id.miSendRequest:
                 onMenuSendRequestClick();
+                return true;
             case R.id.miEdit:
                 onMenuItemEditClick();
-
-
-//        btSendRequest.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Bundle bundle = new Bundle();
-//                bundle.putString("sitter_id", mUser.getObjectId());
-//
-//                RequestFragment requestFragmentDialog = new RequestFragment();
-//                requestFragmentDialog.setArguments(bundle);
-//
-//                FragmentManager fm = getSupportFragmentManager();
-//                requestFragmentDialog.show(fm, "request");
-//            }
-//        });
-//
-//        btWriteReview.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Bundle bundle = new Bundle();
-//                bundle.putString("sitter_id", mUser.getObjectId());
-//
-//                WriteReviewFragment reviewFragmentDialog = new WriteReviewFragment();
-//                reviewFragmentDialog.setArguments(bundle);
-//
-//                FragmentManager fm = getSupportFragmentManager();
-//                reviewFragmentDialog.show(fm, "write_review");
-//
-//            }
-//        });
-
-
-                // TODO enableEdit();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -254,6 +237,10 @@ public class UserProfileFragment extends Fragment implements SwipeRefreshLayout.
     }
 
     private void onMenuItemEditClick() {
+        Intent editProfileIntent = new Intent(getContext(), UserProfileEditActivity.class);
+        startActivity(editProfileIntent);
+
+        // TODO refresh user
     }
 
     private void onMenuSendRequestClick() {
@@ -265,6 +252,16 @@ public class UserProfileFragment extends Fragment implements SwipeRefreshLayout.
 
         FragmentManager fm = getFragmentManager();
         requestFragmentDialog.show(fm, "request");
+    }
+
+    private void setupWriteReviewButton() {
+        btWriteReview.setVisibility(View.VISIBLE);
+        btWriteReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onReviewClick();
+            }
+        });
     }
 
     private void onReviewClick() {
@@ -308,6 +305,16 @@ public class UserProfileFragment extends Fragment implements SwipeRefreshLayout.
         etUserName.setText(mUser.getFullName());
         etUserNickname.setText(mUser.getNickName());
         etUserDescription.setText(mUser.getDescription());
+
+        mUser.getAddress().fetchIfNeededInBackground(new GetCallback<Address>() {
+            @Override
+            public void done(Address address, ParseException e) {
+                if (e == null) {
+                    tvUserAddress.setText(getString(R.string.lives_in_content, address.getCity(), address.getState()));
+                }
+            }
+        });
+
 
 //        if (isOtherUser) {
 //            btSendRequest.setText("Send Request");
@@ -371,14 +378,6 @@ public class UserProfileFragment extends Fragment implements SwipeRefreshLayout.
 
         loadPetsData();
 
-//        btSendRequest.setText("Edit Profile");
-//        btSendRequest.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent userProfileIntent = new Intent(getContext(), UserProfileEditActivity.class);
-//                startActivity(userProfileIntent);
-//            }
-//        });
     }
 
     private void loadPetsData() {
@@ -400,67 +399,4 @@ public class UserProfileFragment extends Fragment implements SwipeRefreshLayout.
         loadData();
     }
 
-//    private final void focusOnView() {
-//        svProfileScroll.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                svProfileScroll.smoothScrollBy(0, flProfileReviewsContainer.getTop());
-//            }
-//        });
-//    }
-
-    void saveUser() {
-
-        // Profile Image
-        Drawable profileImageDrawable = ivUserProfileImage.getDrawable();
-
-        if (profileImageDrawable != null) {
-            if (profileImageDrawable instanceof BitmapDrawable) {
-                Bitmap profileBitmap = ((BitmapDrawable) profileImageDrawable).getBitmap();
-                ParseFile imageFile = ImageHelper.createParseFile(mUser.getObjectId(), profileBitmap);
-                mUser.setProfileImage(imageFile);
-            }
-            // TODO handle failure to retrieve profile image from drawable
-        }
-
-        //TODO
-        //mUser.setPetSitter(cbPetSitter.isChecked());
-        mUser.setFullName(etUserName.getText().toString());
-        mUser.setNickName(etUserNickname.getText().toString());
-        mUser.setDescription(etUserDescription.getText().toString());
-//        mUser.setPhone(etUserPhoneNumber.getText().toString());
-
-        // User address
-        Address userAddress = mUser.getAddress();
-
-        //make EditText boxes separated TODO
-//        String address = etUserAddress.getText().toString();
-//        String city = etUserAddress.getText().toString();
-//        String state = etUserAddress.getText().toString();
-//        String zipCode = etUserAddress.getText().toString();
-
-        //userAddress.setAddress(address);
-        //userAddress.setZipCode(zipCode);
-//        userAddress.setCity(city);
-//        userAddress.setState(state);
-//
-//        // Retrieve the address geolocation and save the user
-//        String formattedAddress = String.format("%s, %s, %s, %s", address, city, state, zipCode);
-//        GeoApiContext context = new GeoApiContext().setApiKey(getString(R.string.api_key_google_maps));
-//        try {
-//            // TODO await/synchronous, is this a bad practice ?
-//            GeocodingResult[] results = GeocodingApi.geocode(context, formattedAddress).await();
-//
-//            if (results != null) {
-//                ParseGeoPoint geoPoint = new ParseGeoPoint();
-//                geoPoint.setLatitude(results[0].geometry.location.lat);
-//                geoPoint.setLongitude(results[0].geometry.location.lng);
-//                userAddress.setGeoPoint(geoPoint);
-//            }
-//        } catch (Exception e) {
-//            //Log.e(LOG_TAG, "Failed to retrieve user's address geo location", e);
-//        }
-
-        mUser.saveInBackground();
-    }
 }

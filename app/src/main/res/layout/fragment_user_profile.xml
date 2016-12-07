@@ -31,7 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:elevation="20dp"
-        android:paddingLeft="20dp">
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivUserProfileImage"
@@ -68,17 +69,39 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvUserName"
-            android:textSize="15sp"
+            android:textSize="22sp"
             tools:text="This is description of the user or tagline. Use can introduce themselves in short sentences."
             android:paddingTop="0dp" />
+
+        <TextView
+            android:id="@+id/tvLivesInTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvUserDescription"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:text="@string/lives_in_title"
+            />
+
+        <TextView
+            android:id="@+id/tvUserAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tvLivesInTitle"
+            android:layout_toEndOf="@+id/tvLivesInTitle"
+            android:layout_alignBaseline="@+id/tvLivesInTitle"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            tools:text="Santa Clara, CA"
+            />
 
         <TextView
             android:id="@+id/tvUserPets"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvUserDescription"
-            android:text="Pets:"
-            android:paddingLeft="3dp"
+            android:layout_below="@id/tvLivesInTitle"
+            android:text="@string/pets_list"
+            android:layout_marginTop="5dp"
             android:textSize="20sp"
             android:layout_alignParentStart="true" />
 
@@ -95,8 +118,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/rvPets"
-            android:text="Reviews:"
-            android:paddingLeft="3dp"
+            android:text="@string/reviews_list"
             android:textSize="20sp"
             android:layout_alignParentStart="true" />
 
@@ -109,7 +131,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignBottom="@id/tvReviews"
             android:visibility="invisible"
-            android:text="Write Review" />
+            android:text="@string/write_review_button" />
 
         <android.support.v4.widget.SwipeRefreshLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
