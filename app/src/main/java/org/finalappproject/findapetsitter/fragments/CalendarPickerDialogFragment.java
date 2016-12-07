@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.squareup.timessquare.CalendarPickerView;
 
@@ -54,8 +53,6 @@ public class CalendarPickerDialogFragment extends DialogFragment {
     void onNextClicked(){
         ArrayList<Date> selectedDates = (ArrayList<Date>)calendar
                 .getSelectedDates();
-        Toast.makeText(getActivity(), selectedDates.toString(),
-                Toast.LENGTH_LONG).show();
         onDatesSelectedListener.onDatesSelected(selectedDates);
         dismiss();
     }
