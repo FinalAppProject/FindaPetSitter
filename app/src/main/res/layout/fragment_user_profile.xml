@@ -6,11 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Toolbar -->
-    <!--
-    <include layout="@layout/toolbar" />
-    -->
-
     <com.github.florent37.diagonallayout.DiagonalLayout
         android:id="@+id/diagonalLayout"
         android:layout_width="match_parent"
@@ -31,7 +26,6 @@
 
     </com.github.florent37.diagonallayout.DiagonalLayout>
 
-
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -51,178 +45,87 @@
             app:civ_border_width="1dp"
             tools:src="@mipmap/ic_launcher" />
 
-        <!--
+        <TextView
+            android:id="@+id/tvUserNickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/ivUserProfileImage"
+            android:layout_toEndOf="@+id/ivUserProfileImage"
+            android:layout_alignBottom="@id/ivUserProfileImage"
+            android:textSize="24sp"
+            tools:text="(Kat)" />
+
         <TextView
             android:id="@+id/tvUserName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ivUserProfileImage"
-            android:layout_marginTop="20dp"
-            android:textSize="40sp"
-            tools:text="Katy Smith" />
-            -->
-
-        <ScrollView
-            android:id="@+id/svProfileScroll"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_below="@+id/tvUserName"
-            >
-
-            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/tvUserDescription"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginBottom="0dp"
-                    android:textSize="15sp"
-                    tools:text="This is description of the user or tagline. Use can introduce themselves in short sentences."
-                    android:paddingTop="0dp" />
-
-                <TextView
-                    android:id="@+id/tvContact"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Contact:"
-                    android:paddingLeft="3dp"
-                    android:textSize="18sp"
-                    android:layout_below="@+id/tvUserDescription"
-                    android:layout_alignStart="@+id/tvUserDescription" />
-
-                <EditText
-                    android:id="@+id/tvUserPhoneNumber"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:layout_alignStart="@+id/tvContact"
-                    android:layout_below="@+id/tvContact"
-                    tools:text="Phone Number: 123-456-7890" />
-
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rvPets"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvUserPets"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginRight="30dp" />
-
-
-                <RelativeLayout
-                    android:id="@+id/rl_action_buttons"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/rvPets"
-                    android:layout_centerHorizontal="true">
-
-                    <Button
-                        android:id="@+id/btSendRequest"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="11dp"
-                        android:visibility="gone"
-                        tools:text="Send Request" />
-
-                    <LinearLayout
-                        android:id="@+id/ll_review_btns"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/btSendRequest"
-                        android:layout_centerHorizontal="true"
-                        android:paddingBottom="20dp">
-
-                        <Button
-                            android:id="@+id/btWriteReview"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="11dp"
-                            android:visibility="gone"
-                            tools:text="Write Review" />
-
-                        <Button
-                            android:id="@+id/btViewReview"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="11dp"
-                            android:visibility="gone"
-                            tools:text="View Reviews" />
-                    </LinearLayout>
-
-                </RelativeLayout>
-
-                <FrameLayout
-                    android:id="@+id/flReviewsContainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_below="@+id/rl_action_buttons"
-                    android:visibility="gone"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-                <EditText
-                    android:id="@+id/tvUserAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    tools:text="Lives in: Santa Clara, CA"
-                    android:layout_below="@+id/tvContact"
-                    android:layout_toEndOf="@+id/flReviewsContainer"
-                    android:layout_marginTop="26dp" />
-
-                <TextView
-                    android:id="@+id/tvUserPets"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Pet:"
-                    android:paddingLeft="3dp"
-                    android:textSize="20sp"
-                    android:layout_below="@+id/tvUserAddress"
-                    android:layout_alignParentStart="true" />
-
-            </RelativeLayout>
-
-        </ScrollView>
-
-
-        <EditText
-            android:id="@+id/tvUserName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/ivUserProfileImage"
-            android:layout_below="@+id/ivUserProfileImage"
-            android:layout_marginTop="0dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="0dp"
-            android:paddingLeft="0dp"
             android:textSize="30sp"
-            tools:text="Katy Smith"
-            android:paddingBottom="2dp"
+            tools:text="Katy Smith" />
+
+        <TextView
+            android:id="@+id/tvUserDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvUserName"
+            android:textSize="15sp"
+            tools:text="This is description of the user or tagline. Use can introduce themselves in short sentences."
             android:paddingTop="0dp" />
 
-        <EditText
-            android:id="@+id/tvUserNickname"
+        <TextView
+            android:id="@+id/tvUserPets"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
-            tools:text="(Kat)"
-            android:paddingTop="0dp"
-            android:layout_alignBottom="@+id/tvUserName"
-            android:layout_toEndOf="@+id/tvUserName"
-            android:layout_marginStart="20dp"
-            android:paddingBottom="2dp" />
+            android:layout_below="@id/tvUserDescription"
+            android:text="Pets:"
+            android:paddingLeft="3dp"
+            android:textSize="20sp"
+            android:layout_alignParentStart="true" />
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvPets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvUserPets"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp" />
 
+        <TextView
+            android:id="@+id/tvReviews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rvPets"
+            android:text="Reviews:"
+            android:paddingLeft="3dp"
+            android:textSize="20sp"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:id="@+id/btWriteReview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/tvReviews"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBottom="@id/tvReviews"
+            android:visibility="invisible"
+            android:text="Write Review" />
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/swipeContainerReviewsAbout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/tvReviews">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvReviewsAbout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"/>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
 
     </RelativeLayout>
-
 
 </android.support.design.widget.CoordinatorLayout>

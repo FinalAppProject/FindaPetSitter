@@ -75,18 +75,26 @@ public class Review extends ParseObject {
 
     public static void queryReviews(String requestId, GetCallback<org.finalappproject.findapetsitter.model.Review> findCallback) {
         // TODO verify/validate cache policy
-        ParseQuery<org.finalappproject.findapetsitter.model.Review> reviewQuery = ParseQuery.getQuery(org.finalappproject.findapetsitter.model.Review.class);
+        ParseQuery<Review> reviewQuery = ParseQuery.getQuery(Review.class)
+                .include(KEY_REVIEWER)
+                .include(KEY_REVIEW_RECEIVER);
         reviewQuery.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
         reviewQuery.getInBackground(requestId, findCallback);
     }
 
     public static void queryByReviewReceiver(ParseUser user, FindCallback<org.finalappproject.findapetsitter.model.Review> findCallback) {
-        ParseQuery<org.finalappproject.findapetsitter.model.Review> reviewQuery = ParseQuery.getQuery(org.finalappproject.findapetsitter.model.Review.class).whereEqualTo(KEY_REVIEW_RECEIVER, user);
+        ParseQuery<Review> reviewQuery = ParseQuery.getQuery(Review.class)
+                .include(KEY_REVIEWER)
+                .include(KEY_REVIEW_RECEIVER)
+                .whereEqualTo(KEY_REVIEW_RECEIVER, user);
         reviewQuery.findInBackground(findCallback);
     }
 
     public static void queryBySender(ParseUser user, FindCallback<org.finalappproject.findapetsitter.model.Review> findCallback) {
-        ParseQuery<org.finalappproject.findapetsitter.model.Review> reviewQuery = ParseQuery.getQuery(org.finalappproject.findapetsitter.model.Review.class).whereEqualTo(KEY_REVIEWER, user);
+        ParseQuery<Review> reviewQuery = ParseQuery.getQuery(Review.class)
+                .include(KEY_REVIEWER)
+                .include(KEY_REVIEW_RECEIVER)
+                .whereEqualTo(KEY_REVIEWER, user);
         reviewQuery.findInBackground(findCallback);
     }
 }
