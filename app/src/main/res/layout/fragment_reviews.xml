@@ -16,6 +16,9 @@
             android:id="@+id/tabsReviews"
             app:pstsShouldExpand="true"
             app:pstsTextAllCaps="true"
+            android:background="@color/colorPrimary"
+            app:pstsDividerColor="@android:color/transparent"
+            app:pstsIndicatorColor="@color/colorAccent"
             android:layout_width="match_parent"
             android:layout_height="48dp" />
 

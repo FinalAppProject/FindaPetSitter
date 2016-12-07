@@ -39,9 +39,6 @@ import butterknife.OnTouch;
 
 public class WriteReviewFragment extends DialogFragment implements GetCallback<User>, SaveCallback {
 
-    @BindView(R.id.spReviewPetType)
-    Spinner spinnerPetType;
-
     @BindView(R.id.btnReviewSave)
     Button saveButton;
 
@@ -100,16 +97,13 @@ public class WriteReviewFragment extends DialogFragment implements GetCallback<U
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.pet_type_array, android.R.layout.simple_spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerPetType.setAdapter(spinnerAdapter);
-        spinnerPetType.setSelection(0, true);
 
         reviewRatingRatingBar.setRating(0.00f);
         reviewRatingRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             public void onRatingChanged(RatingBar ratingBar, float rating,
                                         boolean fromUser) {
-                Log.d(LOG_TAG, "MMMM "+ratingBar.getRating() + " rating " + rating + " boolean "+ fromUser );
+                Log.d(LOG_TAG, ratingBar.getRating() + " rating " + rating + " boolean "+ fromUser );
                 newReview.setRating(reviewRatingRatingBar.getRating());
-                Toast.makeText(getActivity(),"Your Selected Ratings  : " + String.valueOf(rating),Toast.LENGTH_LONG).show();
             }
         });
 
@@ -144,7 +138,6 @@ public class WriteReviewFragment extends DialogFragment implements GetCallback<U
 
     void getReviewFromView() {
         newReview.setReview(reviewEditText.getText().toString());
-        newReview.setType(PetType.valueOf(spinnerPetType.getSelectedItem().toString()));
         setUserNames();
     }
 

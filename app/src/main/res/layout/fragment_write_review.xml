@@ -33,36 +33,12 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:layout_marginTop="50dp"
-        android:id="@+id/linear_layout_review_pet_type"
-        android:layout_below="@+id/linear_layout_review_title">
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="Pet type"
-            android:textStyle="bold"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/tvReviewPetType"/>
-
-        <Spinner
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/spReviewPetType"
-            android:spinnerMode="dropdown"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:layout_marginTop="30dp"
-        android:layout_below="@id/linear_layout_review_pet_type"
+        android:layout_marginTop="50dp"
+        android:layout_below="@+id/linear_layout_review_title"
         android:id="@+id/linear_layout_review">
         <TextView
             android:layout_width="match_parent"
