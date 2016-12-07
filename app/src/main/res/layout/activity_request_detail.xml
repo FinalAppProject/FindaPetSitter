@@ -202,16 +202,18 @@
 
     </LinearLayout>
 
-    <ImageView
+    <ImageButton
         android:id="@+id/ivStartChat"
         android:clickable="true"
         android:layout_above="@+id/llRequestStatusDetail"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="15dp"
         android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
+        android:elevation="20dp"
         android:visibility="gone"
+        android:background="@color/colorPrimary"
         app:srcCompat="@drawable/start_texting"
-        android:tint="@color/colorPrimary" />
+        android:tint="@color/white" />
 
 </RelativeLayout>

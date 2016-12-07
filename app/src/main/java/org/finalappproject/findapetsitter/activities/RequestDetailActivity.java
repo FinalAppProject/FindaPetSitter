@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,7 +55,7 @@ public class RequestDetailActivity extends AppCompatActivity implements GetCallb
     @BindView(R.id.ivRequestStatusIcon)
     ImageView ivRequestStatusIcon;
     @BindView(R.id.ivStartChat)
-    ImageView ivStartChat;
+    ImageButton ivStartChat;
 
 
     private static final String LOG_TAG = "RequestDetailActivity";
