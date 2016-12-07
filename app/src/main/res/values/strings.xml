@@ -41,6 +41,13 @@
     <string name="city_text_view">City</string>
     <string name="state_text_view">State</string>
     <string name="add_pet_button">Add Pet</string>
+    <string name="lives_in_title"></string>
+    <string name="lives_in_content">Lives in %1$s, %2$s</string>
+    <string name="pets_list">Pets:</string>
+    <string name="reviews_list">Reviews:</string>
+    <string name="write_review_button">Write Review</string>
+    <string name="menu_edit_profile">Edit Profile</string>
+    <string name="menu_send_request">Send Request</string>
 
     <!-- Pet Profile Activity -->
     <string name="name_text_view">Name</string>
