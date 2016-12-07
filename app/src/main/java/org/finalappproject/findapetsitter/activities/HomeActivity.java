@@ -34,6 +34,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static java.security.AccessController.getContext;
 import static org.finalappproject.findapetsitter.application.AppConstants.PREFERENCE_CURRENT_USERNAME;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -80,6 +81,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         if (savedInstanceState == null) {
             nvDrawer.getMenu().performIdentifierAction(R.id.nav_home_fragment, 0);
         }
+
+        User user = (User) User.getCurrentUser();
+        // Start the edit profile if it's the 1st login
+        if (user.getProfileImage() == null && user.getParseObject("address") == null) {
+            Intent editProfileIntent = new Intent(this, UserProfileEditActivity.class);
+            startActivity(editProfileIntent);
+        }
+
     }
 
     void setupNavigationDrawer() {
@@ -124,10 +133,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         tvNavHeaderUserName = (TextView) headerLayout.findViewById(R.id.tvNavHeaderUserName);
     }
 
-    private void loadData(User mUser) {
-        tvNavHeaderName.setText(mUser.getFullName());
-        tvNavHeaderUserName.setText(mUser.getUsername());
-        ImageHelper.loadImage(this, mUser.getProfileImage(), R.drawable.account_plus, ivProfilePic);
+    private void loadData(User user) {
+        tvNavHeaderName.setText(user.getFullName());
+        tvNavHeaderUserName.setText(user.getUsername());
+        ImageHelper.loadImage(this, user.getProfileImage(), R.drawable.account_plus, ivProfilePic);
     }
 
         @Override
