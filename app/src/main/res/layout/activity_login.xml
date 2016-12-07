@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@mipmap/login_background" />
+        android:src="@drawable/login_background" />
 
     <ImageView
         android:layout_width="80dp"
@@ -21,36 +21,21 @@
         android:layout_marginBottom="5dp"
         android:layout_marginTop="20dp"
         android:adjustViewBounds="true"
-        android:src="@mipmap/pettin_logo" />
+        android:src="@drawable/pettin_logo" />
 
-    <View
-        android:id="@+id/viewSeparator"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_above="@+id/layoutSignUp" />
-
-    <RelativeLayout
-        android:id="@+id/layoutSignUp"
+    <TextView
+        android:id="@+id/tvSignUp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimary">
-
-        <TextView
-            android:id="@+id/tvSignUp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_centerInParent="true"
-            android:textAlignment="center"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:text="@string/sign_up_text_view"
-            android:textColor="@color/white"
-            android:clickable="true" />
-    </RelativeLayout>
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:background="@color/colorPrimary"
+        android:text="@string/sign_up_text_view"
+        android:textColor="@color/white"
+        android:clickable="true" />
 
     <RelativeLayout
         android:id="@+id/rlLoginBox"
