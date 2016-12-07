@@ -102,7 +102,7 @@ public class PetProfileActivity extends AppCompatActivity implements GetCallback
         // Bind views
         ButterKnife.bind(this);
         // Set support toolbar
-        toolbar.setTitle(R.string.edit_profile_title);
+        toolbar.setTitle(R.string.pet_profile_title);
         setSupportActionBar(toolbar);
         // Retrieve extra
         retrievePetExtra();
