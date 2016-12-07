@@ -43,7 +43,7 @@ public class PetOwnerHomeFragment extends Fragment {
     public class PetOwnerPageAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
         final int PAGE_COUNT = 2;
 
-        private int tabIcons[] = {R.drawable.sitter_listview, R.drawable.sitter_mapview};
+        private int tabIcons[] = {R.drawable.tab_listview, R.drawable.tab_mapview};
 
         public PetOwnerPageAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);

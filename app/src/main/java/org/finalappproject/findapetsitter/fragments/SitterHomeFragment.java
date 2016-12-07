@@ -64,7 +64,7 @@ public class SitterHomeFragment extends Fragment {
 
     public static class SitterHomeFragmentPagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
         private final static int PAGE_COUNT = 2;
-        private int tabIcons[] = {R.drawable.request_received, R.drawable.request_sent};
+        private int tabIcons[] = {R.drawable.tab_request_in, R.drawable.tab_request_out};
 
         public SitterHomeFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
