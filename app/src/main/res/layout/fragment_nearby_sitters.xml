@@ -26,7 +26,7 @@
         android:layout_gravity="top|right"
         app:srcCompat="@drawable/ic_pan_tool"
         android:background="@drawable/mapbutton_background"
-        android:tint="#666666"
+        android:tint="@color/colorAccent"
         />
 
     <!--

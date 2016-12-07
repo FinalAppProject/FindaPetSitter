@@ -3,19 +3,20 @@ package org.finalappproject.findapetsitter.fragments;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.BounceInterpolator;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -298,14 +299,15 @@ public class NearbySittersFragment extends Fragment implements GoogleMap.OnMarke
                                         profileImageView.setImageBitmap(bitmap);
                                         iconGenerator.setContentView(profileImageView);
                                         BitmapDescriptor profileMarker = BitmapDescriptorFactory.fromBitmap(iconGenerator.makeIcon());
-                                        Marker marker = mMap.addMarker(new MarkerOptions().position(petSitterLocation).title(sitter.getNickName()).snippet("snippet").icon(profileMarker));
+                                        Marker marker = mMap.addMarker(new MarkerOptions().position(petSitterLocation).title(sitter.getNickName()).icon(profileMarker));
                                         mNearbyPetSitterMarkers.put(marker, sitter);
                                     }
                                 });
+
                     } else {
                         Glide.with(getContext()).load(data).centerCrop().placeholder(R.drawable.cat).dontAnimate().into(profileImageView);
                         BitmapDescriptor profileMarker = BitmapDescriptorFactory.fromBitmap(iconGenerator.makeIcon());
-                        Marker marker = mMap.addMarker(new MarkerOptions().position(petSitterLocation).title(sitter.getNickName()).snippet("snippet").icon(profileMarker));
+                        Marker marker = mMap.addMarker(new MarkerOptions().position(petSitterLocation).title(sitter.getNickName()).icon(profileMarker));
                         mNearbyPetSitterMarkers.put(marker, sitter);
                     }
                 }
@@ -317,6 +319,7 @@ public class NearbySittersFragment extends Fragment implements GoogleMap.OnMarke
         }
 
     }
+
 
     void zoomCamera() {
 
@@ -338,7 +341,6 @@ public class NearbySittersFragment extends Fragment implements GoogleMap.OnMarke
                             LatLng userAddressLatLng = new LatLng(point.getLatitude(), point.getLongitude());
                             BitmapDescriptor defaultMarker = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
                             Marker marker = mMap.addMarker(new MarkerOptions().position(userAddressLatLng).title(currentUser.getFullName()).snippet(currentUser.getNickName()).icon(defaultMarker));
-
                             if (mCameraSavedState != null) {
                                 // Restore camera state
                                 mMap.animateCamera(CameraUpdateFactory.newCameraPosition(mCameraSavedState));
