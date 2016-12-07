@@ -44,6 +44,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="20dp"
+            android:elevation="0dp"
             android:orientation="vertical">
 
             <de.hdodenhof.circleimageview.CircleImageView
@@ -53,7 +54,7 @@
                 android:layout_above="@+id/tvNavHeaderName"
                 android:layout_alignParentStart="true"
                 android:background="@drawable/circle"
-                android:elevation="25dp"
+                android:elevation="20dp"
                 app:civ_border_color="@color/white"
                 app:civ_border_width="1dp"
                 app:srcCompat="@drawable/cat"
@@ -67,6 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:textColor="@color/white"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textStyle="bold" />
 
