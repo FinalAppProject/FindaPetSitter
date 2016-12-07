@@ -1,46 +1,40 @@
 package org.finalappproject.findapetsitter.fragments;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.maps.GeoApiContext;
-import com.google.maps.GeocodingApi;
-import com.google.maps.model.GeocodingResult;
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseGeoPoint;
 
 import org.finalappproject.findapetsitter.R;
-import org.finalappproject.findapetsitter.activities.UserProfileEditActivity;
 import org.finalappproject.findapetsitter.adapters.PetsAdapter;
+import org.finalappproject.findapetsitter.adapters.ReviewsAboutAdapter;
 import org.finalappproject.findapetsitter.model.Address;
 import org.finalappproject.findapetsitter.model.Pet;
+import org.finalappproject.findapetsitter.model.Review;
 import org.finalappproject.findapetsitter.model.User;
 import org.finalappproject.findapetsitter.util.ImageHelper;
-import org.finalappproject.findapetsitter.util.recyclerview.ItemClickSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,59 +42,43 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static org.finalappproject.findapetsitter.R.id.tvUserAddress;
-import static org.finalappproject.findapetsitter.R.id.tvUserDescription;
-import static org.finalappproject.findapetsitter.R.id.tvUserName;
-import static org.finalappproject.findapetsitter.R.id.tvUserNickname;
-import static org.finalappproject.findapetsitter.R.id.tvUserPhoneNumber;
 import static org.finalappproject.findapetsitter.model.User.queryUser;
 
 /**
- * Created by Aoi on 11/15/2016.
+ * User Profile fragment, used to display the user profile of current user and pet sitters
  */
+public class UserProfileFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, FindCallback<Review> {
 
-public class UserProfileFragment extends Fragment {
+    private static final String LOG_TAG = "UserProfileFragment";
 
     @BindView(R.id.ivUserProfileImage)
     ImageView ivUserProfileImage;
 
-    @BindView(tvUserName)
-    EditText etUserName;
+    @BindView(R.id.tvUserName)
+    TextView etUserName;
 
-    @BindView(tvUserNickname)
-    EditText etUserNickname;
+    @BindView(R.id.tvUserNickname)
+    TextView etUserNickname;
 
-    @BindView(tvUserDescription)
-    EditText etUserDescription;
-
-    @BindView(tvUserPhoneNumber)
-    EditText etUserPhoneNumber;
-
-    @BindView(tvUserAddress)
-    EditText etUserAddress;
+    @BindView(R.id.tvUserDescription)
+    TextView etUserDescription;
 
     @BindView(R.id.rvPets)
     RecyclerView rvPets;
 
-    @BindView(R.id.btSendRequest)
-    Button btSendRequest;
-
-    @BindView(R.id.btWriteReview)
-    Button btWriteReview;
-
-    @BindView(R.id.btViewReview)
-    Button btViewReviews;
-
-    @BindView(R.id.flReviewsContainer)
-    FrameLayout flProfileReviewsContainer;
-
-    @BindView(R.id.svProfileScroll)
-    ScrollView svProfileScroll;
-
+    String mUserObjectId;
     User mUser;
     List<Pet> mPets;
     PetsAdapter mPetsAdapter;
-    private Boolean isOtherUser;
+
+    private ArrayList<Review> mReviewsAbout;
+    private ReviewsAboutAdapter mReviewsAboutAdapter;
+
+    @BindView(R.id.rvReviewsAbout)
+    RecyclerView rvReviewsAbout;
+    @BindView(R.id.swipeContainerReviewsAbout)
+    SwipeRefreshLayout mReviewsAboutSwipeRefreshLayout;
+
 
     /**
      * Required empty public constructor,
@@ -133,6 +111,9 @@ public class UserProfileFragment extends Fragment {
         mPets = new ArrayList<>();
         mPetsAdapter = new PetsAdapter(getContext(), mPets);
 
+        mReviewsAbout = new ArrayList<>();
+        mReviewsAboutAdapter = new ReviewsAboutAdapter(getContext(), mReviewsAbout);
+
         setHasOptionsMenu(true);
     }
 
@@ -142,15 +123,16 @@ public class UserProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
         ButterKnife.bind(this, view);
         setupPetsRecyclerView();
+        setupReviewsRecyclerView();
+        setupReviewsSwipeRefresh();
 
-        String userObjectId = getArguments().getString("user_id");
+        mUserObjectId = getArguments().getString("user_id");
 
-        if (userObjectId != null && !userObjectId.isEmpty()) {
-            queryUser(userObjectId, new GetCallback<User>() {
+        if (mUserObjectId != null && !mUserObjectId.isEmpty()) {
+            queryUser(mUserObjectId, new GetCallback<User>() {
                 @Override
                 public void done(User user, ParseException e) {
                     if (e == null) {
-                        isOtherUser = false;
                         mUser = user;
                         loadData();
                     } else {
@@ -159,17 +141,68 @@ public class UserProfileFragment extends Fragment {
                 }
             });
         } else {
-            isOtherUser = true;
             mUser = (User) User.getCurrentUser();
             loadData();
+            fetchReviews();
         }
 
         return view;
     }
 
+    private boolean isCurrentUser() {
+        // mUserObjectId will be null if the fragment hasn't received a user_id as parameter, we will use the current user then
+        return (mUserObjectId == null);
+    }
+
+    ;
+
+
+    @Override
+    public void onRefresh() {
+        fetchReviews();
+    }
+
+    private void fetchReviews() {
+        Review.queryByReviewReceiver(mUser, this);
+    }
+
+    @Override
+    public void done(List<Review> objects, ParseException e) {
+
+        if (e == null) {
+            int oldReviewsCount = mReviewsAbout.size();
+            mReviewsAbout.clear();
+            mReviewsAbout.addAll(objects);
+            int newReviewsCount = mReviewsAbout.size();
+
+            if (newReviewsCount == oldReviewsCount) {
+                mReviewsAboutAdapter.notifyItemRangeChanged(0, newReviewsCount);
+            } else if (newReviewsCount > oldReviewsCount) {
+                mReviewsAboutAdapter.notifyItemRangeChanged(0, oldReviewsCount);
+                mReviewsAboutAdapter.notifyItemRangeInserted(oldReviewsCount, (newReviewsCount - oldReviewsCount));
+            } else {
+                if (newReviewsCount != 0) {
+                    mReviewsAboutAdapter.notifyItemRangeChanged(0, newReviewsCount);
+                }
+                mReviewsAboutAdapter.notifyItemRangeRemoved(newReviewsCount, (oldReviewsCount - newReviewsCount));
+            }
+
+            mReviewsAboutSwipeRefreshLayout.setRefreshing(false);
+        } else {
+            Log.e(LOG_TAG, "Failed to fetch request", e);
+            Toast.makeText(getContext(), "Failed to fetch requests", Toast.LENGTH_LONG).show();
+        }
+    }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_profile, menu);
+
+        if (isCurrentUser()) {
+            inflater.inflate(R.menu.menu_profile, menu);
+        } else {
+            inflater.inflate(R.menu.menu_sitter, menu);
+        }
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -177,20 +210,72 @@ public class UserProfileFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         // handle item selection
         switch (item.getItemId()) {
+            case R.id.miSendRequest:
+                onMenuSendRequestClick();
             case R.id.miEdit:
-                enableEdit();
+                onMenuItemEditClick();
+
+
+//        btSendRequest.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Bundle bundle = new Bundle();
+//                bundle.putString("sitter_id", mUser.getObjectId());
+//
+//                RequestFragment requestFragmentDialog = new RequestFragment();
+//                requestFragmentDialog.setArguments(bundle);
+//
+//                FragmentManager fm = getSupportFragmentManager();
+//                requestFragmentDialog.show(fm, "request");
+//            }
+//        });
+//
+//        btWriteReview.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Bundle bundle = new Bundle();
+//                bundle.putString("sitter_id", mUser.getObjectId());
+//
+//                WriteReviewFragment reviewFragmentDialog = new WriteReviewFragment();
+//                reviewFragmentDialog.setArguments(bundle);
+//
+//                FragmentManager fm = getSupportFragmentManager();
+//                reviewFragmentDialog.show(fm, "write_review");
+//
+//            }
+//        });
+
+
+                // TODO enableEdit();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private void enableEdit() {
-        etUserName.setFocusable(true);
-        etUserNickname.setFocusable(true);
-        etUserDescription.setFocusable(true);
-        etUserPhoneNumber.setFocusable(true);
-        etUserAddress.setFocusable(true);
+    private void onMenuItemEditClick() {
+    }
+
+    private void onMenuSendRequestClick() {
+        Bundle bundle = new Bundle();
+        bundle.putString("sitter_id", mUser.getObjectId());
+
+        RequestFragment requestFragmentDialog = new RequestFragment();
+        requestFragmentDialog.setArguments(bundle);
+
+        FragmentManager fm = getFragmentManager();
+        requestFragmentDialog.show(fm, "request");
+    }
+
+    private void onReviewClick() {
+        Bundle bundle = new Bundle();
+        bundle.putString("sitter_id", mUser.getObjectId());
+
+        WriteReviewFragment reviewFragmentDialog = new WriteReviewFragment();
+        reviewFragmentDialog.setArguments(bundle);
+
+        FragmentManager fm = getFragmentManager();
+        reviewFragmentDialog.show(fm, "write_review");
     }
 
     private void setupPetsRecyclerView() {
@@ -198,122 +283,102 @@ public class UserProfileFragment extends Fragment {
         LinearLayoutManager linerLayoutManager = new LinearLayoutManager(getContext());
         linerLayoutManager.setOrientation(LinearLayout.HORIZONTAL);
         rvPets.setLayoutManager(linerLayoutManager);
-
-        ItemClickSupport.addTo(rvPets).setOnItemClickListener(
-                new ItemClickSupport.OnItemClickListener() {
-                    @Override
-                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                        // TODO startPetProfileActivity(position);
-                    }
-                }
-        );
     }
 
+    void setupReviewsRecyclerView() {
+        rvReviewsAbout.setAdapter(mReviewsAboutAdapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        linearLayoutManager.scrollToPosition(0);
+        rvReviewsAbout.setLayoutManager(linearLayoutManager);
+    }
+
+    void setupReviewsSwipeRefresh() {
+        mReviewsAboutSwipeRefreshLayout.setOnRefreshListener(this);
+    }
 
     private void loadData() {
+        // TODO check, this seems to be a hack, because onResume is calling loadData
         if (mUser == null) {
             return;
         }
-        String a = mUser.getFullName();
+
+        fetchReviews();
+
         etUserName.setText(mUser.getFullName());
-        etUserName.setFocusable(false);
-        etUserName.setBackgroundColor(Color.TRANSPARENT);
-
         etUserNickname.setText(mUser.getNickName());
-        etUserNickname.setFocusable(false);
-        etUserNickname.setBackgroundColor(Color.TRANSPARENT);
-
         etUserDescription.setText(mUser.getDescription());
-        etUserDescription.setFocusable(false);
-        etUserDescription.setBackgroundColor(Color.TRANSPARENT);
 
-        etUserPhoneNumber.setText(String.format("Phone number: %s", mUser.getPhone()));
-        etUserPhoneNumber.setFocusable(false);
-        etUserPhoneNumber.setBackgroundColor(Color.TRANSPARENT);
-
-        //tvUserAddress.setText(String.format("Live in: %s, %s", mUser.getAddress().getCity(), mUser.getAddress().getState()));
-
-        try {
-            Address userAddress = mUser.getAddress().fetchIfNeeded();
-            if (userAddress != null) {
-                etUserAddress.setText(String.format("Live in: %s, %s", mUser.getAddress().getCity(), mUser.getAddress().getState()));
-                etUserAddress.setFocusable(false);
-                etUserAddress.setBackgroundColor(Color.TRANSPARENT);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        if (isOtherUser) {
-            btSendRequest.setText("Send Request");
-            btSendRequest.setVisibility(View.VISIBLE);
-            btWriteReview.setText("Write Review");
-            btWriteReview.setVisibility(View.VISIBLE);
-            btViewReviews.setText("View Reviews");
-            btViewReviews.setVisibility(View.VISIBLE);
-        } else {
-            btSendRequest.setVisibility(View.GONE);
-            btWriteReview.setVisibility(View.GONE);
-            btViewReviews.setVisibility(View.GONE);
-        }
-
-        btSendRequest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putString("sitter_id", mUser.getObjectId());
-
-                RequestFragment requestFragmentDialog = new RequestFragment();
-                requestFragmentDialog.setArguments(bundle);
-
-                FragmentManager fm = getFragmentManager();
-                requestFragmentDialog.show(fm, "request");
-            }
-        });
-
-        btWriteReview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putString("sitter_id", mUser.getObjectId());
-
-                WriteReviewFragment reviewFragmentDialog = new WriteReviewFragment();
-                reviewFragmentDialog.setArguments(bundle);
-
-                FragmentManager fm = getFragmentManager();
-                reviewFragmentDialog.show(fm, "write_review");
-
-            }
-        });
-
-        btViewReviews.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                flProfileReviewsContainer.setVisibility(View.VISIBLE);
-                FragmentManager fm = getFragmentManager();
-                ReviewsAboutFragment reviewsAboutFragment = ReviewsAboutFragment.newInstance(mUser.getObjectId());
-                fm.beginTransaction()
-                        .add(R.id.flReviewsContainer, reviewsAboutFragment, "review_about_user")
-                        .commit();
-                fm.beginTransaction().show(reviewsAboutFragment).commit();
-                focusOnView();
-                //flProfileReviewsContainer.getParent().requestChildFocus(targetView,targetView);
-            }
-        });
+//        if (isOtherUser) {
+//            btSendRequest.setText("Send Request");
+//            btSendRequest.setVisibility(View.VISIBLE);
+//            btWriteReview.setText("Write Review");
+//            btWriteReview.setVisibility(View.VISIBLE);
+//            btViewReviews.setText("View Reviews");
+//            btViewReviews.setVisibility(View.VISIBLE);
+//        } else {
+//            btSendRequest.setVisibility(View.GONE);
+//            btWriteReview.setVisibility(View.GONE);
+//            btViewReviews.setVisibility(View.GONE);
+//        }
+//
+//        btSendRequest.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Bundle bundle = new Bundle();
+//                bundle.putString("sitter_id", mUser.getObjectId());
+//
+//                RequestFragment requestFragmentDialog = new RequestFragment();
+//                requestFragmentDialog.setArguments(bundle);
+//
+//                FragmentManager fm = getFragmentManager();
+//                requestFragmentDialog.show(fm, "request");
+//            }
+//        });
+//
+//        btWriteReview.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Bundle bundle = new Bundle();
+//                bundle.putString("sitter_id", mUser.getObjectId());
+//
+//                WriteReviewFragment reviewFragmentDialog = new WriteReviewFragment();
+//                reviewFragmentDialog.setArguments(bundle);
+//
+//                FragmentManager fm = getFragmentManager();
+//                reviewFragmentDialog.show(fm, "write_review");
+//
+//            }
+//        });
+//
+//        btViewReviews.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                flProfileReviewsContainer.setVisibility(View.VISIBLE);
+//                FragmentManager fm = getFragmentManager();
+//                ReviewsAboutFragment reviewsAboutFragment = ReviewsAboutFragment.newInstance(mUser.getObjectId());
+//                fm.beginTransaction()
+//                        .add(R.id.flReviewsContainer, reviewsAboutFragment, "review_about_user")
+//                        .commit();
+//                fm.beginTransaction().show(reviewsAboutFragment).commit();
+//                focusOnView();
+//                //flProfileReviewsContainer.getParent().requestChildFocus(targetView,targetView);
+//            }
+//        });
 
         // Show user profile image
-        ImageHelper.loadImage(getContext(), mUser.getProfileImage(), R.drawable.account_plus, ivUserProfileImage);
-        
+        ImageHelper.loadImage(getContext(), mUser.getProfileImage(), R.drawable.ic_person, ivUserProfileImage);
+
         loadPetsData();
 
-        btSendRequest.setText("Edit Profile");
-        btSendRequest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent userProfileIntent = new Intent(getContext(), UserProfileEditActivity.class);
-                startActivity(userProfileIntent);
-            }
-        });
+//        btSendRequest.setText("Edit Profile");
+//        btSendRequest.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent userProfileIntent = new Intent(getContext(), UserProfileEditActivity.class);
+//                startActivity(userProfileIntent);
+//            }
+//        });
     }
 
     private void loadPetsData() {
@@ -335,14 +400,14 @@ public class UserProfileFragment extends Fragment {
         loadData();
     }
 
-    private final void focusOnView() {
-        svProfileScroll.post(new Runnable() {
-            @Override
-            public void run() {
-                svProfileScroll.smoothScrollBy(0, flProfileReviewsContainer.getTop());
-            }
-        });
-    }
+//    private final void focusOnView() {
+//        svProfileScroll.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                svProfileScroll.smoothScrollBy(0, flProfileReviewsContainer.getTop());
+//            }
+//        });
+//    }
 
     void saveUser() {
 
@@ -363,38 +428,38 @@ public class UserProfileFragment extends Fragment {
         mUser.setFullName(etUserName.getText().toString());
         mUser.setNickName(etUserNickname.getText().toString());
         mUser.setDescription(etUserDescription.getText().toString());
-        mUser.setPhone(etUserPhoneNumber.getText().toString());
+//        mUser.setPhone(etUserPhoneNumber.getText().toString());
 
         // User address
         Address userAddress = mUser.getAddress();
 
         //make EditText boxes separated TODO
-        String address = etUserAddress.getText().toString();
-        String city = etUserAddress.getText().toString();
-        String state = etUserAddress.getText().toString();
-        String zipCode = etUserAddress.getText().toString();
+//        String address = etUserAddress.getText().toString();
+//        String city = etUserAddress.getText().toString();
+//        String state = etUserAddress.getText().toString();
+//        String zipCode = etUserAddress.getText().toString();
 
         //userAddress.setAddress(address);
         //userAddress.setZipCode(zipCode);
-        userAddress.setCity(city);
-        userAddress.setState(state);
-
-        // Retrieve the address geolocation and save the user
-        String formattedAddress = String.format("%s, %s, %s, %s", address, city, state, zipCode);
-        GeoApiContext context = new GeoApiContext().setApiKey(getString(R.string.api_key_google_maps));
-        try {
-            // TODO await/synchronous, is this a bad practice ?
-            GeocodingResult[] results = GeocodingApi.geocode(context, formattedAddress).await();
-
-            if (results != null) {
-                ParseGeoPoint geoPoint = new ParseGeoPoint();
-                geoPoint.setLatitude(results[0].geometry.location.lat);
-                geoPoint.setLongitude(results[0].geometry.location.lng);
-                userAddress.setGeoPoint(geoPoint);
-            }
-        } catch (Exception e) {
-            //Log.e(LOG_TAG, "Failed to retrieve user's address geo location", e);
-        }
+//        userAddress.setCity(city);
+//        userAddress.setState(state);
+//
+//        // Retrieve the address geolocation and save the user
+//        String formattedAddress = String.format("%s, %s, %s, %s", address, city, state, zipCode);
+//        GeoApiContext context = new GeoApiContext().setApiKey(getString(R.string.api_key_google_maps));
+//        try {
+//            // TODO await/synchronous, is this a bad practice ?
+//            GeocodingResult[] results = GeocodingApi.geocode(context, formattedAddress).await();
+//
+//            if (results != null) {
+//                ParseGeoPoint geoPoint = new ParseGeoPoint();
+//                geoPoint.setLatitude(results[0].geometry.location.lat);
+//                geoPoint.setLongitude(results[0].geometry.location.lng);
+//                userAddress.setGeoPoint(geoPoint);
+//            }
+//        } catch (Exception e) {
+//            //Log.e(LOG_TAG, "Failed to retrieve user's address geo location", e);
+//        }
 
         mUser.saveInBackground();
     }
