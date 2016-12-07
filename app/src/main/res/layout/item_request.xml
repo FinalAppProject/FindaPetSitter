@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="5dp"
-            android:textSize="12dp"
+            android:textSize="14sp"
             android:layout_toEndOf="@id/cvCircleBehindRequest"
             android:layout_toStartOf="@+id/ivRequestStatus"
             android:textColor="@color/darker_grey"
@@ -58,8 +58,8 @@
 
         <ImageView
             android:id="@+id/ivRequestStatus"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_alignParentEnd="true"
             android:layout_margin="5dp"
             tools:tint="@color/colorPrimary"

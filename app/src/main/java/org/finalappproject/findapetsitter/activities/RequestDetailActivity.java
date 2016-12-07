@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,11 +46,15 @@ public class RequestDetailActivity extends AppCompatActivity implements GetCallb
     @BindView(R.id.tvReceivedRequestMessage)
     TextView tvMessage;
     @BindView(R.id.btRespondAccept)
-    Button btAccept;
+    ImageView btAccept;
     @BindView(R.id.btRespondReject)
-    Button btReject;
+    ImageView btReject;
     @BindView(R.id.tvRequestDetailStatus)
     TextView tvRequestStatus;
+    @BindView(R.id.ivRequestStatusIcon)
+    ImageView ivRequestStatusIcon;
+    @BindView(R.id.ivStartChat)
+    ImageView ivStartChat;
 
 
     private static final String LOG_TAG = "RequestDetailActivity";
@@ -67,6 +70,7 @@ public class RequestDetailActivity extends AppCompatActivity implements GetCallb
         String request_id = getIntent().getStringExtra("request_id");
         mIsReceivedRequest = getIntent().getExtras().getBoolean("request_type");
         Request.queryRequest(request_id, this);
+
     }
 
     private void loadData() {
@@ -99,47 +103,38 @@ public class RequestDetailActivity extends AppCompatActivity implements GetCallb
         }
 
         if (mIsReceivedRequest) {
-            btAccept.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mRequest.setStatus(REQUEST_ACCEPTED);
-                    mRequest.saveInBackground(RequestDetailActivity.this);
-                    disableButton();
+            if (mRequest.getStatus() != REQUEST_PENDING) {
+                btAccept.setVisibility(View.GONE);
+                btReject.setVisibility(View.GONE);
+                tvRequestStatus.setVisibility(View.VISIBLE);
+                if (mRequest.getStatus() == REQUEST_ACCEPTED) {
+                    tvRequestStatus.setText("You accepted the request!");
+                    tvRequestStatus.setTextColor(getResources().getColor(R.color.colorPrimary));
+                } else {
+                    tvRequestStatus.setText("You rejected the request.");
+                    tvRequestStatus.setTextColor(getResources().getColor(R.color.gray));
                 }
-            });
-
-            btReject.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mRequest.setStatus(REQUEST_REJECTED);
-                    mRequest.saveInBackground(RequestDetailActivity.this);
-                    disableButton();
-                }
-            });
+            }
         } else {
             switch (mRequest.getStatus()) {
                 case REQUEST_ACCEPTED:
-                    tvRequestStatus.setText("Your request was accepted!");
-                    tvRequestStatus.setBackgroundColor(getResources().getColor(R.color.green));
-                    tvRequestStatus.setTextColor(getResources().getColor(R.color.white));
-                    tvRequestStatus.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Intent intent = new Intent(Intent.ACTION_VIEW);
-                            intent.setData(Uri.fromParts("sms", mRequest.getReceiver().getPhone(), null));
-                            startActivity(intent);
-                        }
-                    });
+                    tvRequestStatus.setText("Request Accepted!");
+                    tvRequestStatus.setTextColor(getResources().getColor(R.color.colorPrimary));
+                    tvRequestStatus.setTextSize(16);
+                    ivRequestStatusIcon.setImageResource(R.drawable.request_responded);
+                    ivStartChat.setVisibility(View.VISIBLE);
                     break;
                 case REQUEST_PENDING:
-                    tvRequestStatus.setText("Your request is pending...");
-                    tvRequestStatus.setBackgroundColor(getResources().getColor(R.color.twitterBlue));
-                    tvRequestStatus.setTextColor(getResources().getColor(R.color.white));
+                    tvRequestStatus.setText("Request Pending...");
+                    tvRequestStatus.setTextSize(16);
+                    tvRequestStatus.setTextColor(getResources().getColor(R.color.twitterBlue));
+                    ivRequestStatusIcon.setImageResource(R.drawable.request_pending);
                     break;
                 case REQUEST_REJECTED:
-                    tvRequestStatus.setText("Your request was rejected. Let's try finding available sitters!");
-                    tvRequestStatus.setBackgroundColor(getResources().getColor(R.color.gray));
-                    tvRequestStatus.setTextColor(getResources().getColor(R.color.white));
+                    tvRequestStatus.setText("Request Rejected.");
+                    tvRequestStatus.setTextSize(16);
+                    tvRequestStatus.setTextColor(getResources().getColor(R.color.dark_grey));
+                    ivRequestStatusIcon.setImageResource(R.drawable.request_rejected);
                     break;
                 default:
                     tvRequestStatus.setEnabled(false);
@@ -165,6 +160,40 @@ public class RequestDetailActivity extends AppCompatActivity implements GetCallb
         if (e == null) {
             mRequest = request;
             loadData();
+            btAccept.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mRequest.setStatus(REQUEST_ACCEPTED);
+                    mRequest.saveInBackground(RequestDetailActivity.this);
+                    btAccept.setVisibility(View.GONE);
+                    btReject.setVisibility(View.GONE);
+                    tvRequestStatus.setVisibility(View.VISIBLE);
+                    tvRequestStatus.setText("You accepted the request!");
+                    tvRequestStatus.setTextColor(getResources().getColor(R.color.colorPrimary));
+                }
+            });
+
+            btReject.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mRequest.setStatus(REQUEST_REJECTED);
+                    mRequest.saveInBackground(RequestDetailActivity.this);
+                    btAccept.setVisibility(View.GONE);
+                    btReject.setVisibility(View.GONE);
+                    tvRequestStatus.setVisibility(View.VISIBLE);
+                    tvRequestStatus.setText("You rejected the request!");
+                    tvRequestStatus.setTextColor(getResources().getColor(R.color.gray));
+                }
+            });
+
+            ivStartChat.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.fromParts("sms", mRequest.getReceiver().getPhone(), null));
+                    startActivity(intent);
+                }
+            });
         } else {
             Log.e(LOG_TAG, "Failed to fetch received request", e);
             Toast.makeText(this, "Failed to fetch user", Toast.LENGTH_LONG).show();

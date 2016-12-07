@@ -136,6 +136,7 @@ public class RequestsFragment extends Fragment implements SwipeRefreshLayout.OnR
         } else {
             Request.queryBySender(mUser, this);
         }
+        mRequestsAdapter.notifyDataSetChanged();
     }
 
     @Override

@@ -141,6 +141,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 intent.putExtra("request_id", request.getObjectId());
                 intent.putExtra("request_type", mIsPetSitterFlow);
                 getContext().startActivity(intent);
+                notifyDataSetChanged();
             }
         });
     }
