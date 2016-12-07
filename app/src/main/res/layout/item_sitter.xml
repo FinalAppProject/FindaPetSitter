@@ -4,7 +4,7 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="90dp"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="2dp"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
@@ -48,6 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/ivItemProfileImage"
         android:layout_marginLeft="1dp"
+        android:textSize="16dp"
         android:layout_toRightOf="@+id/cvCircleBehindProfile"
         android:text="FullName" />
 
@@ -61,7 +62,7 @@
         android:layout_toRightOf="@+id/cvCircleBehindProfile"
         android:ellipsize="end"
         android:maxLines="3"
-        android:textSize="12sp"
+        android:textSize="14sp"
         tools:text="Tagline" />
 
     <TextView
@@ -71,7 +72,7 @@
         android:layout_alignBottom="@+id/tvItemName"
         android:layout_alignParentEnd="true"
         android:textColor="@color/gray"
-        android:textSize="10sp"
+        android:textSize="12sp"
         tools:text="Distance" />
 
 </RelativeLayout>

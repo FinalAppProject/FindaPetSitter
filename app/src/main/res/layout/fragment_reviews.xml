@@ -19,6 +19,7 @@
             android:background="@color/colorPrimary"
             app:pstsDividerColor="@android:color/transparent"
             app:pstsIndicatorColor="@color/colorAccent"
+            app:pstsIndicatorHeight="5dp"
             android:layout_width="match_parent"
             android:layout_height="48dp" />
 

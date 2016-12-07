@@ -143,10 +143,14 @@
                 <Button
                     android:id="@+id/btAddPet"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:layout_above="@+id/rvPets"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
+                    android:background="@color/colorPrimary"
+                    android:textColor="@color/white"
                     android:text="@string/add_pet_button" />
 
                 <android.support.v7.widget.RecyclerView

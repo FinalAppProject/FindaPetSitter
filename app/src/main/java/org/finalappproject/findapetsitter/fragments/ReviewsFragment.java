@@ -47,9 +47,9 @@ public class ReviewsFragment extends Fragment {
         return view;
     }
 
-    public static class SitterHomeFragmentPagerAdapter extends FragmentPagerAdapter {
+    public static class SitterHomeFragmentPagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
         private final static int PAGE_COUNT = 2;
-        private String tabTitles[] = new String[]{"Reviews About You", "Reviews By You"};
+        private int tabIcons[] = new int[]{R.drawable.review_of_me, R.drawable.review_of_others};
 
         public SitterHomeFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -68,13 +68,13 @@ public class ReviewsFragment extends Fragment {
         }
 
         @Override
-        public CharSequence getPageTitle(int position) {
-            return tabTitles[position];
+        public int getPageIconResId(int position) {
+            return tabIcons[position];
         }
 
         @Override
         public int getCount() {
-            return tabTitles.length;
+            return tabIcons.length;
         }
     }
 }
