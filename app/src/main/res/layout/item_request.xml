@@ -4,27 +4,42 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginTop="2dp"
+    android:layout_height="90dp"
     android:layout_marginBottom="2dp"
-    card_view:cardUseCompatPadding="true"
-    card_view:contentPadding="5dp">
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="2dp"
+    app:cardBackgroundColor="@color/white"
+    card_view:cardPreventCornerOverlap="false"
+    card_view:cardUseCompatPadding="true">
 
     <RelativeLayout
-        android:background="@drawable/card_background_1"
         android:id="@+id/rlRequestReceived"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:orientation="vertical"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp">
 
-        <ImageView
-            android:id="@+id/ivRequestProfile"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/cvCircleBehindRequest"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
             android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/circle"
+            android:tint="@color/colorPrimary" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivRequestProfile"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="5dp"
             tools:src="@mipmap/ic_launcher" />
 
         <TextView
@@ -33,24 +48,24 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="5dp"
-            android:layout_toEndOf="@id/ivRequestProfile"
-            android:layout_toStartOf="@+id/tvRequestStatus"
+            android:textSize="12dp"
+            android:layout_toEndOf="@id/cvCircleBehindRequest"
+            android:layout_toStartOf="@+id/ivRequestStatus"
             android:textColor="@color/darker_grey"
             android:textAppearance="?android:attr/textAppearanceLarge"
 
             tools:text="You've got a request from Katie!" />
 
-        <TextView
-            android:id="@+id/tvRequestStatus"
-            android:layout_width="90dp"
-            android:layout_height="40dp"
+        <ImageView
+            android:id="@+id/ivRequestStatus"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_alignParentEnd="true"
             android:layout_margin="5dp"
-            tools:background="@color/green"
+            tools:tint="@color/colorPrimary"
             android:gravity="center"
-            android:layout_centerVertical="true"
-            android:textColor="@color/white"
-            tools:text="Accepted" />
+            tools:src="@drawable/request_responded"
+            android:layout_centerVertical="true" />
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>

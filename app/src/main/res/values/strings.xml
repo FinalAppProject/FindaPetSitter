@@ -28,7 +28,7 @@
     <string name="page_requests_sent">Requests Sent</string>
 
     <!-- Requests Fragment -->
-    <string name="request_message_pet_sitter">You got a request from %s</string>
+    <string name="request_message_pet_sitter">You got a request from...\n%s</string>
     <string name="request_message_pet_owner">Request sent to %s</string>
 
     <!-- User Profile Activity -->
