@@ -81,12 +81,11 @@ public class FirebaseMessagingHandlerService extends FirebaseMessagingService {
         // TODO set custom icon, intent, etc
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.mipmap.ic_launcher).setContentTitle(title)
+                .setSmallIcon(R.mipmap.push_notification_logo).setContentTitle(title)
                 .setContentText(body);
 
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(MESSAGE_NOTIFICATION_ID, mBuilder.build());
 
     }
-
 }
