@@ -51,16 +51,29 @@
         android:layout_alignTop="@+id/ivItemProfileImage"
         android:layout_toRightOf="@+id/cvCircleBehindProfile" />
 
-<!-- For future
-    <TextView
-        android:id="@+id/tvItemAmountCharged"
-        android:text="$20"
-        android:layout_marginLeft="5dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_toRightOf="@id/tvItemLastName" />
--->
+        <TextView
+            android:id="@+id/tvItemTagline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvItemName"
+            android:layout_toEndOf="@+id/ivItemProfileImage"
+            android:layout_toRightOf="@+id/ivItemProfileImage"
+            android:ellipsize="end"
+            android:maxLines="3"
+            tools:text="Tagline"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/darker_grey"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+e
+        <TextView
+            android:id="@+id/tvDistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/darker_grey"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            tools:text="Distance" />
 
     <TextView
         tools:text="Tagline"
