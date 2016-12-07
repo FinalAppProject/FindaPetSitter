@@ -85,10 +85,30 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     void setupNavigationDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close);
         mDrawer.addDrawerListener(mDrawerToggle);
+        mDrawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                setupNavigationDrawerHeader();
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
         // Note that this activity implements NavigationView.OnNavigationItemSelectedListener
         // which requires onNavigationItemSelected for handling the Drawer Menu Item selection
         nvDrawer.setNavigationItemSelectedListener(this);
-        setupNavigationDrawerHeader();
     }
 
     void setupNavigationDrawerHeader(){
