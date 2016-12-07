@@ -1,147 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:diagonal="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_user_profile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="org.finalappproject.findapetsitter.activities.UserProfileEditActivity">
 
-    <LinearLayout
+    <!-- Toolbar -->
+    <include layout="@layout/toolbar" />
+
+    <com.github.florent37.diagonallayout.DiagonalLayout
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:id="@+id/diagonalLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="150dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/transparent"
+        android:elevation="5dp"
+        diagonal:diagonal_angle="10"
+        diagonal:diagonal_gravity="left">
 
         <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/cat_profile" />
+
+    </com.github.florent37.diagonallayout.DiagonalLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:elevation="20dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivProfileImage"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="10dp" />
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="150dp"
+            android:background="@drawable/circle"
+            android:elevation="20dp"
+            app:civ_border_color="@android:color/transparent"
+            app:civ_border_width="1dp"
+            tools:src="@mipmap/ic_launcher" />
 
         <CheckBox
             android:id="@+id/cbPetSitter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_above="@+id/etNickName"
             android:text="@string/can_host_pet_checkbox" />
-
-        <TextView
-            android:id="@+id/tvFullName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/full_name_text_view" />
-
-        <EditText
-            android:id="@+id/etFullName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            tools:text="John Doe" />
-
-        <TextView
-            android:id="@+id/tvNickName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/nick_name_text_view" />
 
         <EditText
             android:id="@+id/etNickName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/ivProfileImage"
+            android:hint="@string/nick_name_text_view"
             tools:text="jdoe" />
 
-        <TextView
-            android:id="@+id/tvDescription"
+        <EditText
+            android:id="@+id/etFullName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/description_text_view" />
+            android:layout_below="@id/etNickName"
+            android:hint="@string/full_name_text_view"
+            android:inputType="textPersonName"
+            tools:text="John Doe" />
 
         <EditText
             android:id="@+id/etDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/etFullName"
+            android:hint="Provide a brief description."
             tools:text="I love pets, I have 5 dogs and 12 cats\nthey are my family !" />
-
-        <TextView
-            android:id="@+id/tvPhoneNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/phone_number_text_view" />
 
         <EditText
             android:id="@+id/etPhoneNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/etDescription"
+            android:hint="(999) 999-9999"
             android:inputType="phone"
             tools:text="(999) 999-9999" />
-
-        <TextView
-            android:id="@+id/tvAddress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/address_text_view" />
 
         <EditText
             android:id="@+id/etAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/etPhoneNumber"
+            android:hint="@string/address_text_view"
             tools:text="9999 Nowhere Pl W\napt  123" />
-
-        <TextView
-            android:id="@+id/tvZipCode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/zip_code_text_view" />
-
-        <EditText
-            android:id="@+id/etZipCode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="999999" />
-
-        <TextView
-            android:id="@+id/tvCity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/city_text_view" />
 
         <EditText
             android:id="@+id/etCity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/etAddress"
+            android:hint="@string/city_text_view"
             tools:text="Some City" />
-
-        <TextView
-            android:id="@+id/tvState"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/state_text_view" />
 
         <EditText
             android:id="@+id/etState"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/etAddress"
+            android:layout_toEndOf="@id/etAddress"
+            android:layout_toRightOf="@id/etAddress"
+            android:hint="@string/state_text_view"
             tools:text="CA" />
+
+        <EditText
+            android:id="@+id/etZipCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/etState"
+            android:layout_toEndOf="@id/etState"
+            android:layout_toRightOf="@id/etState"
+            android:hint="@string/zip_code_text_view"
+            tools:text="999999" />
 
         <Button
             android:id="@+id/btAddPet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_above="@+id/rvPets"
             android:text="@string/add_pet_button" />
-
-        <Button
-            android:id="@+id/btSave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/save_button" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvPets"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etCity" />
 
-    </LinearLayout>
-</ScrollView>
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
