@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/cat_profile" />
+            android:src="@drawable/dog_bw_wait" />
 
     </com.github.florent37.diagonallayout.DiagonalLayout>
 

@@ -19,6 +19,7 @@
         diagonal:diagonal_gravity="left">
 
         <ImageView
+            android:id="@+id/ivDiagonalProfile"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"

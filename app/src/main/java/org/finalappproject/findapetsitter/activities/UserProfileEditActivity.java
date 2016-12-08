@@ -337,7 +337,6 @@ public class UserProfileEditActivity extends AppCompatActivity implements SaveCa
     }
 
     void saveUser() {
-
         // Profile Image
         Drawable profileImageDrawable = ivProfileImage.getDrawable();
 

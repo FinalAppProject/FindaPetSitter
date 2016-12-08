@@ -1,9 +1,6 @@
 package org.finalappproject.findapetsitter.fragments;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,16 +16,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 
 import org.finalappproject.findapetsitter.R;
 import org.finalappproject.findapetsitter.activities.UserProfileEditActivity;
@@ -75,6 +71,9 @@ public class UserProfileFragment extends Fragment implements SwipeRefreshLayout.
 
     @BindView(R.id.btWriteReview)
     Button btWriteReview;
+
+    @BindView(R.id.ivDiagonalProfile)
+    ImageView ivDiagonalProfile;
 
     String mUserObjectId;
     User mUser;
@@ -142,7 +141,6 @@ public class UserProfileFragment extends Fragment implements SwipeRefreshLayout.
             setupWriteReviewButton();
         }
 
-
         if (mUserObjectId != null && !mUserObjectId.isEmpty()) {
             queryUser(mUserObjectId, new GetCallback<User>() {
                 @Override
@@ -168,8 +166,6 @@ public class UserProfileFragment extends Fragment implements SwipeRefreshLayout.
         // mUserObjectId will be null if the fragment hasn't received a user_id as parameter, we will use the current user then
         return (mUserObjectId == null);
     }
-
-    ;
 
 
     @Override
@@ -299,13 +295,10 @@ public class UserProfileFragment extends Fragment implements SwipeRefreshLayout.
         if (mUser == null) {
             return;
         }
-
         fetchReviews();
-
         etUserName.setText(mUser.getFullName());
         etUserNickname.setText(mUser.getNickName());
         etUserDescription.setText(mUser.getDescription());
-
         mUser.getAddress().fetchIfNeededInBackground(new GetCallback<Address>() {
             @Override
             public void done(Address address, ParseException e) {
@@ -315,67 +308,9 @@ public class UserProfileFragment extends Fragment implements SwipeRefreshLayout.
             }
         });
 
-
-//        if (isOtherUser) {
-//            btSendRequest.setText("Send Request");
-//            btSendRequest.setVisibility(View.VISIBLE);
-//            btWriteReview.setText("Write Review");
-//            btWriteReview.setVisibility(View.VISIBLE);
-//            btViewReviews.setText("View Reviews");
-//            btViewReviews.setVisibility(View.VISIBLE);
-//        } else {
-//            btSendRequest.setVisibility(View.GONE);
-//            btWriteReview.setVisibility(View.GONE);
-//            btViewReviews.setVisibility(View.GONE);
-//        }
-//
-//        btSendRequest.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Bundle bundle = new Bundle();
-//                bundle.putString("sitter_id", mUser.getObjectId());
-//
-//                RequestFragment requestFragmentDialog = new RequestFragment();
-//                requestFragmentDialog.setArguments(bundle);
-//
-//                FragmentManager fm = getFragmentManager();
-//                requestFragmentDialog.show(fm, "request");
-//            }
-//        });
-//
-//        btWriteReview.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Bundle bundle = new Bundle();
-//                bundle.putString("sitter_id", mUser.getObjectId());
-//
-//                WriteReviewFragment reviewFragmentDialog = new WriteReviewFragment();
-//                reviewFragmentDialog.setArguments(bundle);
-//
-//                FragmentManager fm = getFragmentManager();
-//                reviewFragmentDialog.show(fm, "write_review");
-//
-//            }
-//        });
-//
-//        btViewReviews.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                flProfileReviewsContainer.setVisibility(View.VISIBLE);
-//                FragmentManager fm = getFragmentManager();
-//                ReviewsAboutFragment reviewsAboutFragment = ReviewsAboutFragment.newInstance(mUser.getObjectId());
-//                fm.beginTransaction()
-//                        .add(R.id.flReviewsContainer, reviewsAboutFragment, "review_about_user")
-//                        .commit();
-//                fm.beginTransaction().show(reviewsAboutFragment).commit();
-//                focusOnView();
-//                //flProfileReviewsContainer.getParent().requestChildFocus(targetView,targetView);
-//            }
-//        });
-
         // Show user profile image
         ImageHelper.loadImage(getContext(), mUser.getProfileImage(), R.drawable.ic_person, ivUserProfileImage);
-
+        Glide.with(getActivity()).load(R.drawable.cat_and_dog_profile_bg).into(ivDiagonalProfile);
         loadPetsData();
 
     }
